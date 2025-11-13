@@ -1,3 +1,37 @@
+# 🚗 BookCar Projesi – Asp.Net Core 8.0 Onion Architecture
+
+Bu proje, Udemy üzerinde **Murat Yücedağ** tarafından yayımlanan  
+🎓 *“Asp.Net Core 8.0 Onion Architecture ile BookCar Projesi”* eğitimi kapsamında geliştirilmiştir.  
+Eğitimi başarıyla tamamlayarak hem **mimari yapı** hem de **modern yazılım geliştirme pratikleri** üzerine verimli bir deneyim elde ettim.
+
+---
+
+## 🧠 Mimari ve Tasarım Desenleri
+- 🧅 **Onion Architecture**
+- ⚙️ **CQRS (Command Query Responsibility Segregation)**
+- 🧩 **Mediator Design Pattern**
+- 📦 **Repository Design Pattern**
+
+---
+
+## 🛠️ Kullanılan Teknolojiler
+- 💻 **ASP.NET Core 8.0 (Web API & MVC)**
+- 📡 **SignalR** – Gerçek zamanlı veri iletişimi
+- 🔐 **Json Web Token (JWT)** – Kimlik doğrulama
+- ✅ **FluentValidation** – Veri doğrulama
+- 📬 **Postman** – API test aracı
+
+---
+
+## 📁 Proje Bağlantısı
+🔗 [GitHub Repository’sini İncele](#)
+
+---
+
+> 📚 **Eğitim:** [Murat Yücedağ - Asp.Net Core 8.0 Onion Architecture ile BookCar Projesi](https://www.udemy.com/)
+>  
+> 💬 Bu proje, profesyonel mimariler üzerine pratik bir bakış kazandırmayı amaçlamaktadır.
+
 <img width="1876" height="1031" alt="car8" src="https://github.com/user-attachments/assets/1eacfb5f-7d94-44f0-807a-b80fd21a8926" />
 <img width="1878" height="1032" alt="car1" src="https://github.com/user-attachments/assets/374ab09a-c438-41c8-91fd-c4fb81cd976a" />
 <img width="1854" height="1023" alt="car2" src="https://github.com/user-attachments/assets/19ad3814-dba4-40d7-8d7a-d19833bcd9bf" />
