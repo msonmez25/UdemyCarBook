@@ -6,7 +6,6 @@
 <img width="1825" height="1027" alt="car4" src="https://github.com/user-attachments/assets/ff809ce9-c2e9-4d07-9034-12a520d3f99a" />
 <img width="1840" height="1025" alt="car3" src="https://github.com/user-attachments/assets/445ed36a-408b-4e70-b808-047bef9da8e5" />
 <img width="1793" height="1025" alt="car7" src="https://github.com/user-attachments/assets/58703644-b46c-4218-ab34-e399c15615fb" />
-<img width="1875" height="1033" alt="car11" src="https://github.com/user-attachments/assets/48d3c858-0d53-42c7-a3d5-01e70734cbb3" />
 <img width="1890" height="1014" alt="car12" src="https://github.com/user-attachments/assets/da6c8c5b-eddb-40ba-8f0c-3103151abb9a" />
 <img width="1896" height="1018" alt="car13" src="https://github.com/user-attachments/assets/7d9a3bfc-c089-48a3-87c9-54b621f166cd" />
 <img width="1905" height="1026" alt="car10" src="https://github.com/user-attachments/assets/d82ad08b-9a09-4273-8e56-1e5021161a93" />
