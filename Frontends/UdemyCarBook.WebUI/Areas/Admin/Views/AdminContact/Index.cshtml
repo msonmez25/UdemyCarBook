@@ -1,0 +1,94 @@
+﻿@model List<ResultContactDto>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+    int sayac = 0;
+}
+
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title font-size-18">İletişim Alanı Gelen Mesajlar</h4>
+                        <p class="card-subtitle mb-4">
+                            Ana sayfada iletişim bölümünden kullanıcıların gönderdiği mesajların listelendiği sayfadır. Detaylardan mesajın içeriğini görebilirsiniz.
+                        </p>
+                        <br />
+                        <table id="tbl1" class="table  nowrap">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Ad Soyad</th>
+                                    <th>Konu</th>
+                                    <th>Tarih</th>
+                                    <th>Detaylar</th>
+                                </tr>
+                            </thead>
+
+
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    sayac++;
+                                    <tr>
+                                        <td>@sayac</td>
+                                        <td>@item.Name</td>
+                                        <td>@item.Subject</td>
+                                        <td>@(((DateTime)item.SendDate).ToString("dd.MMMMMMM.yyyy HH:MM"))</td>
+
+                                        <td>
+                                            <a href="/Admin/AdminContact/DetailContact/@item.ContactID" class="btn btn-secondary waves-effect waves-light"> Mesajı Gör </a>
+                                        </td>
+
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+
+                    </div> <!-- end card body-->
+                </div> <!-- end card -->
+            </div><!-- end col-->
+        </div>
+
+    </div> <!-- container-fluid -->
+</div>
+
+
+<script src="~/Admin/vertical/assets/js/jquery.min.js"></script>
+<script src="~/Admin/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="~/Admin/plugins/datatables/dataTables.bootstrap4.js"></script>
+<script src="~/Admin/plugins/datatables/dataTables.responsive.min.js"></script>
+<script src="~/Admin/plugins/datatables/responsive.bootstrap4.min.js"></script>
+<script src="~/Admin/plugins/datatables/dataTables.buttons.min.js"></script>
+<script src="~/Admin/plugins/datatables/buttons.bootstrap4.min.js"></script>
+<script src="~/Admin/plugins/datatables/buttons.html5.min.js"></script>
+<script src="~/Admin/plugins/datatables/buttons.flash.min.js"></script>
+<script src="~/Admin/plugins/datatables/buttons.print.min.js"></script>
+<script src="~/Admin/plugins/datatables/dataTables.keyTable.min.js"></script>
+<script src="~/Admin/plugins/datatables/dataTables.select.min.js"></script>
+<script src="~/Admin/plugins/datatables/pdfmake.min.js"></script>
+<script src="~/Admin/plugins/datatables/vfs_fonts.js"></script>
+<!-- third party js ends -->
+<!-- Datatables init -->
+<script src="~/Admin/vertical/assets/pages/datatables-demo.js"></script>
+
+
+<script>
+    $('#tbl1').DataTable(
+        {
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.20/i18n/Turkish.json"
+            }
+        }
+    );
+</script>
+
+
+
+
+

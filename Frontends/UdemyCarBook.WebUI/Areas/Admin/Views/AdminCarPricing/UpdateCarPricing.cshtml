@@ -1,0 +1,45 @@
+﻿@model UpdateCarPricingDto
+@{
+    ViewData["Title"] = "UpdateCarPricing";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+
+
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <h4 class="card-title font-size-18">Fiyat Güncelleme Sayfası</h4>
+                        <p class="card-subtitle mb-4">Kiralama türüne göre fiyat güncelleme sayfasıdır. Boş bırakmayız.</p>                    
+                        <form method="post">
+                            <input type="hidden" asp-for="@Model.CarPricingID" />
+                            <input type="hidden" asp-for="@Model.CarID" />
+                            <div class="form-group">
+                                <label>Araç Marka Model</label>                               
+                                <input type="text" class="form-control" placeholder="@ViewBag.CarModelBrand" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Kirama Türü</label>
+                                <input type="hidden" asp-for="@Model.PricingID" />
+                                <input type="text" class="form-control" placeholder="@ViewBag.PricingName" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Kirama Fiyatı</label>
+                                <input type="text" class="form-control" asp-for="@Model.Amount">
+                            </div>
+
+                            <button type="submit" class="btn btn-success waves-effect waves-light">Fiyatı Güncelle</button>
+                            <a href="/Admin/AdminCarPricing/GetCarPricingByCarIdToPricingName/@Model.CarID" class="btn btn-danger waves-effect waves-light"> Araç Kiralama Fiyat Listesine Dön </a>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

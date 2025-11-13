@@ -1,0 +1,53 @@
+﻿@model CreateTestimonialDto
+@{
+    ViewData["Title"] = "CreateTestimonial";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <h4 class="card-title font-size-18">Yeni Müşteri Memnuniyet Girişi</h4>
+                        <p class="card-subtitle mb-4">Ana sayfa Müşteri Memnuniyeti bölümüne yeni bir kayıt ekleme işlemleri bu sayfa üzerinden gerçekleştirebilirsiniz.  İlgili alanları eksiksiz  doldurmanız önemlidir. Veri girişlerinden sonra kaydet butonuna tıklayarak işlemi tamamlayabilirsiniz.</p>
+                        <br />
+                        <form method="post">
+
+                            <div class="form-group">
+                                <label>Referans Ad Soyad</label>
+                                <input type="text" class="form-control" asp-for="@Model.Name">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Unvan</label>
+                                <input type="text" class="form-control" asp-for="@Model.Title">
+                            </div>
+
+
+                            <div class="form-group">
+                                <label>Görsel Link</label>
+                                <input type="text" class="form-control" asp-for="@Model.ImageUrl">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Yorum</label>
+                                <textarea rows="5" class="form-control" asp-for="@Model.Comment"></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary waves-effect waves-light">Müşteri Memnuniyetini Kaydet</button>
+                            <a href="/Admin/AdminTestimonial" class="btn btn-danger waves-effect waves-light"> Müşteri Memnuniyet Listesine Dön </a>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

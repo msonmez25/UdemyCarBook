@@ -1,0 +1,42 @@
+﻿@model CreateCarPricingDto
+@{
+    ViewData["Title"] = "CreateCarPricing";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <h4 class="card-title font-size-18">Fiyat Ekleme Sayfası</h4>
+                        <p class="card-subtitle mb-4">Kiralama türüne göre fiyat ekleme sayfasıdır. Lütfen her kiralama türünden sadece bir tane ekleyiniz.</p>                        
+                        <form method="post">
+                            <div class="form-group">
+                                <label>Araç Marka Model</label>
+                                <input type="hidden" class="form-control" value="@ViewBag.AracID" asp-for="@Model.CarID" placeholder="@ViewBag.CarModelBrand" >
+                                <input type="text" class="form-control"placeholder="@ViewBag.CarModelBrand" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Kirama Türü</label>
+                                @Html.DropDownListFor(x => x.PricingID, (List<SelectListItem>)ViewBag.pricingValues, new { @class = "form-control" })
+                            </div>
+                           
+                            <div class="form-group">
+                                <label>Kirama Fiyatı</label>
+                                <input type="text" class="form-control" asp-for="@Model.Amount">
+                            </div>
+
+                            <button type="submit" class="btn btn-success waves-effect waves-light">Kiralama Fiyatını Ekle</button>
+                            <a href="/Admin/AdminCarPricing/GetCarPricingByCarIdToPricingName" class="btn btn-danger waves-effect waves-light"> Araç Kiralama Fiyat Listesine Dön </a>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

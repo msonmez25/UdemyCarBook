@@ -1,0 +1,69 @@
+﻿@model CreateReservationDto
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/UILayout/Index.cshtml";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-7 text-center heading-section ftco-animate">       
+        <h3 class="text-primary mb-2 mt-2">Rezervasyon Kayıt Formu</h3>
+    </div>
+</div>
+<div class="col-md-12 block-9 mb-md-5">
+    <form class="bg-light p-5 contact-form" method="post">
+
+        <div class="row">
+
+            <input type="hidden" class="form-control" value="@ViewBag.carID" asp-for="CarID" placeholder="Araç Seçiniz" readonly>
+
+            <div class="mb-3 col-md-6">              
+                <input type="text" class="form-control" placeholder="Adınız" asp-for="Name" required>
+            </div>
+            <div class="mb-3 col-md-6">
+                <input type="text" class="form-control" placeholder="Soyadınız" asp-for="Surname" required>
+            </div>
+            <div class="mb-3 col-md-6">
+                <input type="text" class="form-control" placeholder="Yaşınız" asp-for="Age" required>
+            </div>
+            <div class="mb-3 col-md-6">
+                <input type="text" class="form-control" placeholder="Kaç Yıldır Ehliyetiniz Var" asp-for="DriverLicenseYear" required>
+            </div>
+            <div class="mb-3 col-md-6">
+                <input type="email" class="form-control" placeholder="Email Adresiniz" asp-for="Email" required>
+            </div>
+
+            <div class="mb-3 col-md-6">
+                <input type="text" class="form-control" placeholder="Telefon Numaranız" asp-for="Phone" required>
+            </div>
+
+            <div class="mb-3 col-md-6">
+                @* <label> Teslim Alınacak Lokasyon </label>
+                @Html.DropDownListFor(x => x.PickUpLocationID, (List<SelectListItem>)ViewBag.ReservationlocationValues, new { @class = "form-control" }) *@
+                <select class="form-control" asp-for="PickUpLocationID" asp-items="@ViewBag.ReservationlocationValues">
+                    <option disabled selected> Teslim Alınacak Lokasyon Seçiniz </option>
+                </select>
+            </div>
+
+            <div class="mb-3 col-md-6">
+                @* <label> İade Edilecek Lokasyon </label>
+                @Html.DropDownListFor(x => x.DropOffLocationID, (List<SelectListItem>)ViewBag.ReservationlocationValues, new { @class = "form-control" }) *@
+                <select class="form-control" asp-for="DropOffLocationID" asp-items="@ViewBag.ReservationlocationValues">
+                    <option disabled selected> İade Edilecek Lokasyon Seçiniz </option>
+                    </select>                
+            </div>
+
+            <div class="mb-3 col-md-12">
+                <textarea cols="30" rows="3" class="form-control" placeholder="Varsa Eklemek İstedikleriniz" asp-for="Description" required></textarea>
+            </div>
+            <div class="mb-3 col-md-6">
+                <input type="submit" value="Rezervasyonu Tamamla" class="btn btn-primary py-3 px-5">
+            </div>
+
+        </div>
+        
+    </form>
+
+</div>
+
+
+

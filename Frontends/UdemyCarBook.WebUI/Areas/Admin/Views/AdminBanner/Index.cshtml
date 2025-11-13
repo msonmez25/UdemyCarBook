@@ -1,0 +1,104 @@
+﻿@model List<ResultBannerDto>
+    @{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+    int sayac = 0;
+}
+
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title font-size-18">Ana Sayfa Banner Alanı</h4>
+                        <p class="card-subtitle mb-4">
+                            Ana sayfanın banner alanında bulunan bilgileri aşağıdan düzenleyebilirsiniz. Tema bütünlüğünün bozulmaması için <b>Sadece Bir Tane Veri</b> olması gerekmektedir.
+                        </p>
+                        <br />
+                        <table id="tbl1" class="table  nowrap">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Başlık</th>
+                                    <th>Açıklama</th>
+                                    <th>Sil</th>
+                                    <th>Güncelle</th>
+                                    <th>Videoyu Youtube' da Aç</th>
+                                </tr>
+                            </thead>
+
+
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    sayac++;
+                                    <tr>
+                                        <td>@sayac</td>
+                                        <td>@item.Title</td>
+                                        <td>@item.Description</td>
+
+                                        <td>
+                                            <a href="/Admin/AdminBanner/RemoveBanner/@item.BannerID" class="btn btn-danger waves-effect waves-light"> Sil </a>
+                                        </td>
+
+                                        <td>
+                                            <a href="/Admin/AdminBanner/UpdateBanner/@item.BannerID" class="btn btn-success waves-effect waves-light"> Güncelle </a>
+                                        </td>
+
+                                        <td>
+                                            <a href="@item.VideoUrl" target="_blank" class="btn btn-secondary waves-effect waves-light"> Youtube </a>
+                                        </td>                                    
+
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                        <br />
+                        <a href="/Admin/AdminBanner/CreateBanner/" class="btn btn-primary waves-effect waves-light"> Yeni Banner Girişi </a>
+                       
+
+                    </div> <!-- end card body-->
+                </div> <!-- end card -->
+            </div><!-- end col-->
+        </div>
+
+    </div> <!-- container-fluid -->
+</div>
+
+
+<script src="~/Admin/vertical/assets/js/jquery.min.js"></script>
+<script src="~/Admin/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="~/Admin/plugins/datatables/dataTables.bootstrap4.js"></script>
+<script src="~/Admin/plugins/datatables/dataTables.responsive.min.js"></script>
+<script src="~/Admin/plugins/datatables/responsive.bootstrap4.min.js"></script>
+<script src="~/Admin/plugins/datatables/dataTables.buttons.min.js"></script>
+<script src="~/Admin/plugins/datatables/buttons.bootstrap4.min.js"></script>
+<script src="~/Admin/plugins/datatables/buttons.html5.min.js"></script>
+<script src="~/Admin/plugins/datatables/buttons.flash.min.js"></script>
+<script src="~/Admin/plugins/datatables/buttons.print.min.js"></script>
+<script src="~/Admin/plugins/datatables/dataTables.keyTable.min.js"></script>
+<script src="~/Admin/plugins/datatables/dataTables.select.min.js"></script>
+<script src="~/Admin/plugins/datatables/pdfmake.min.js"></script>
+<script src="~/Admin/plugins/datatables/vfs_fonts.js"></script>
+<!-- third party js ends -->
+<!-- Datatables init -->
+<script src="~/Admin/vertical/assets/pages/datatables-demo.js"></script>
+
+
+<script>
+    $('#tbl1').DataTable(
+        {
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.20/i18n/Turkish.json"
+            }
+        }
+    );
+</script>
+
+
+
+

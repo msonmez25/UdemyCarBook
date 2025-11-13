@@ -1,0 +1,47 @@
+﻿@model List<ResultReviewByCarIdDto>
+
+
+@if (Model.Count > 0)
+{
+    <div class="tab-pane fade" id="pills-review" role="tabpanel" aria-labelledby="pills-review-tab">
+        <div class="row">
+            <div class="col-md-7">
+                <h3 class="head">@ViewBag.reviewCount Değerlendirme</h3>
+                @foreach (var item in Model)
+                {
+                    <div class="review d-flex">
+                        <div class="user-img" style="background-image: url(@item.CustomerImage)"></div>
+                        <div class="desc">
+                            <h4>
+                                <span class="text-left">@item.CustomerName</span>
+                                <span class="text-right">@(((DateTime)item.ReviewDate).ToString("dd.MMMMMMM.yyyy HH:mm"))</span>
+                            </h4>
+                            <p class="star">
+                                <span>
+                                    @for (int i = 1; i <= item.RaytingValue; i++)
+                                    {
+                                        <i class="ion-ios-star"></i>
+                                    }
+                                </span>
+                            </p>
+                            <p>@item.Comment</p>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="tab-pane fade" id="pills-review" role="tabpanel" aria-labelledby="pills-review-tab">
+        <div class="row">
+            <div class="col-md-7">
+
+                <p>İlgili aracın henüz bir değerlendirmesi bulunumamaktadır.</p>
+
+            </div>
+        </div>
+    </div>
+}

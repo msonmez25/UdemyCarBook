@@ -1,0 +1,140 @@
+﻿
+
+
+<div class="row">
+    <div class="col-md-6 col-xl-3">
+        <div class="card bg-primary border-primary">
+            <div class="card-body">
+                <div class="mb-4">
+                    <span class="text-white float-right"><i class="fas fa-car"></i>  </span>
+                    <h5 class="card-title mb-0 text-white">Toplam Araç Sayısı</h5>
+                </div>
+                <div class="row d-flex align-items-center mb-4">
+                    <div class="col-8">
+                        <h2 class="d-flex align-items-center mb-0 text-white">
+                            @ViewBag.carCount
+                        </h2>
+                    </div>
+                    <div class="col-4 text-right">
+                        @if (ViewBag.deger > 50)
+                        {
+                            <span class="text-white">@ViewBag.deger % <i class="mdi mdi-arrow-up"></i></span>
+                        }
+                        @if (ViewBag.deger < 50)
+                        {
+                            <span class="text-white">@ViewBag.deger % <i class="mdi mdi-arrow-down"></i></span>
+                        }
+
+                    </div>
+                </div>
+
+                <div class="progress badge-soft-dark shadow-sm" style="height: 7px;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width: @ViewBag.deger%;"></div>
+                </div>
+            </div>
+        </div>
+    </div> <!--1 mor Araç Sayısı -->
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card bg-success border-success">
+            <div class="card-body">
+                <div class="mb-4">
+                    <span class="text-white float-right"><i class="fas fa-bookmark"></i>  </span>
+                    <h5 class="card-title mb-0 text-white">Toplam Marka Sayısı</h5>
+                </div>
+                <div class="row d-flex align-items-center mb-4">
+                    <div class="col-8">
+                        <h2 class="d-flex align-items-center text-white mb-0">
+                            @ViewBag.brandCount
+                        </h2>
+                    </div>
+                    <div class="col-4 text-right">
+                        @if (ViewBag.deger2 > 50)
+                        {
+                            <span class="text-white">@ViewBag.deger2 % <i class="mdi mdi-arrow-up"></i></span>
+                        }
+                        @if (ViewBag.deger2 < 50)
+                        {
+                            <span class="text-white">@ViewBag.deger2 % <i class="mdi mdi-arrow-down"></i></span>
+                        }
+
+                    </div>
+                </div>
+
+                <div class="progress badge-soft-light shadow-sm" style="height: 7px;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated  bg-primary" role="progressbar" style="width:  @ViewBag.deger2%;"></div>
+                </div>
+
+            </div>
+        </div>
+    </div> <!--2 yeşil Marka Sayısı-->
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card bg-warning border-warning">
+            <div class="card-body">
+                <div class="mb-4">
+                    <span class="text-white float-right"><i class="fas fa-location-arrow"></i>  </span>
+                    <h5 class="card-title mb-0 text-white">Lokasyon Sayısı</h5>
+                </div>
+                <div class="row d-flex align-items-center mb-4">
+                    <div class="col-8">
+                        <h2 class="d-flex align-items-center text-white mb-0">
+                            @ViewBag.locationCount
+                        </h2>
+                    </div>
+                    <div class="col-4 text-right">
+                        @if (ViewBag.deger13 > 50)
+                        {
+                            <span class="text-white">@ViewBag.deger13 % <i class="mdi mdi-arrow-up"></i></span>
+                        }
+                        @if (ViewBag.dege13 < 50)
+                        {
+                            <span class="text-white">@ViewBag.deger13 % <i class="mdi mdi-arrow-down"></i></span>
+                        }
+
+                    </div>
+                </div>
+
+                <div class="progress badge-soft-light shadow-sm" style="height: 7px;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width:  @ViewBag.deger13%;"></div>
+                </div>
+
+            </div>
+        </div>
+    </div> <!--13 yeşil Lokasyon Sayısı-->
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card bg-info border-info">
+            <div class="card-body">
+                <div class="mb-4">
+                    <span class="text-white float-right"> Ortalama Fiyat  </span>
+                    <h5 class="card-title mb-0 text-white">Günlük Kiralama</h5>
+                </div>
+                <div class="row d-flex align-items-center mb-4">
+                    <div class="col-8">
+                        <h2 class="d-flex align-items-center text-white mb-0">
+                            @ViewBag.avgRentPriceForDaily ₺
+                        </h2>
+                    </div>
+                    <div class="col-4 text-right">
+                        @if (ViewBag.deger9 > 50)
+                        {
+                            <span class="text-white">@ViewBag.deger9 % <i class="mdi mdi-arrow-up"></i></span>
+                        }
+                        @if (ViewBag.deger9 < 50)
+                        {
+                            <span class="text-white">@ViewBag.deger9 % <i class="mdi mdi-arrow-down"></i></span>
+                        }
+
+                    </div>
+                </div>
+
+                <div class="progress badge-soft-light shadow-sm" style="height: 7px;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" style="width:  @ViewBag.deger9%;"></div>
+                </div>
+
+            </div>
+        </div>
+    </div> <!--9 turuncu Günlük Araç Kira Ortlama Fiyat-->
+    
+</div>

@@ -1,0 +1,117 @@
+﻿@model List<ResultCommentsByBlogCategoryNameDto>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+    int sayac = 0;
+}
+
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title font-size-18">Yorum Listesi</h4>
+                        <p class="card-subtitle mb-4">
+                            Bloglar ile ilgili yapılmış yorumları bu sayfa üzerinden görebilirsiniz. İlgili yorumları kaldırabilir ya da tekrardan aktif hale getirebilirsiniz. 
+                        </p>
+                        <br />
+                        <table id="tbl1" class="table  nowrap">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Yorum Yapan Ad Soyad</th>                                    
+                                    <th>Durum</th>
+                                    <th>BLog Kategorisi</th>
+                                    <th>Tarih</th>
+                                    <th>Bloğu GÖr</th>
+                                    <th>Detaylar</th>
+                                    
+                                </tr>
+                            </thead>
+
+
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    sayac++;
+                                    <tr>
+                                        <td>@sayac</td>
+                                        <td>@item.Name</td>
+
+                                        @if (@item.Status == true)
+                                        {
+                                            <td>
+                                                <span class="btn btn-success">Yorum Aktif </span>
+                                            </td>
+                                        }
+                                        @if (@item.Status == false)
+                                        {
+                                            <td>
+                                                <span class="btn btn-danger">Yorum Kapalı</span>
+                                            </td>
+                                        }
+
+                                        <td>@item.BlogCategoryName</td>                                        
+                                        <td>@(((DateTime)item.CreatedDate).ToString("dd.MMMMMMM.yyyy"))</td>
+                                        <td>
+                                            <a href="/Blog/BlogDetail/@item.BlogID" class="btn btn-warning waves-effect waves-light" target="_blank"> Blogu Gör </a>
+                                        </td>
+
+                                        <td>
+                                            <a href="/Admin/AdminComment/DetailComment/@item.CommentID" class="btn btn-secondary waves-effect waves-light"> Detaylar </a>
+                                        </td>
+                                      
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+
+
+                    </div> <!-- end card body-->
+                </div> <!-- end card -->
+            </div><!-- end col-->
+        </div>
+
+    </div> <!-- container-fluid -->
+</div>
+
+
+<script src="~/Admin/vertical/assets/js/jquery.min.js"></script>
+<script src="~/Admin/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="~/Admin/plugins/datatables/dataTables.bootstrap4.js"></script>
+<script src="~/Admin/plugins/datatables/dataTables.responsive.min.js"></script>
+<script src="~/Admin/plugins/datatables/responsive.bootstrap4.min.js"></script>
+<script src="~/Admin/plugins/datatables/dataTables.buttons.min.js"></script>
+<script src="~/Admin/plugins/datatables/buttons.bootstrap4.min.js"></script>
+<script src="~/Admin/plugins/datatables/buttons.html5.min.js"></script>
+<script src="~/Admin/plugins/datatables/buttons.flash.min.js"></script>
+<script src="~/Admin/plugins/datatables/buttons.print.min.js"></script>
+<script src="~/Admin/plugins/datatables/dataTables.keyTable.min.js"></script>
+<script src="~/Admin/plugins/datatables/dataTables.select.min.js"></script>
+<script src="~/Admin/plugins/datatables/pdfmake.min.js"></script>
+<script src="~/Admin/plugins/datatables/vfs_fonts.js"></script>
+<!-- third party js ends -->
+<!-- Datatables init -->
+<script src="~/Admin/vertical/assets/pages/datatables-demo.js"></script>
+
+
+<script>
+    $('#tbl1').DataTable(
+        {
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.20/i18n/Turkish.json"
+            }
+        }
+    );
+</script>
+
+
+
+
+
+
+

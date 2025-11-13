@@ -1,0 +1,53 @@
+﻿@model UpdateBannerDto
+
+@{
+    ViewData["Title"] = "UpdateBanner";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <h4 class="card-title font-size-18">Banner Güncelleme Sayfası</h4>
+                        <p class="card-subtitle mb-4">Ana sayfada bulunan Banner bölümünündeki bir kayıdın güncelleme işlemlerini bu sayfa üzerinden gerçekleştirebilirsiniz.  İlgili alanları eksiksiz  doldurmanız önemlidir.  Veri girişlerinden sonra kaydet butonuna tıklayarak işlemi tamamlayabilirsiniz.</p>
+                        <br />
+                        <form method="post">
+                            <input type="hidden" asp-for="@Model.BannerID"/>
+                            <div class="form-group">
+                                <label>Başlık</label>
+                                <input type="text" class="form-control" asp-for="@Model.Title">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Açıklama</label>
+                                <textarea rows="5" class="form-control" asp-for="@Model.Description"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Video Açıklaması</label>
+                                <input type="text" class="form-control" asp-for="@Model.VideoDescription">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Youtube Embed Url</label>
+                                <input type="text" class="form-control" asp-for="@Model.VideoUrl">
+                            </div>
+
+                            <button type="submit" class="btn btn-success waves-effect waves-light">Bannerı Güncelle</button>
+                            <a href="/Admin/AdminBanner" class="btn btn-danger waves-effect waves-light"> Banner Listesine Dön </a>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

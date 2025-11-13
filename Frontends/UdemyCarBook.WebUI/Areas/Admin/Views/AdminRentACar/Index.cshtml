@@ -1,0 +1,127 @@
+﻿@model List<GetRentACarByCarNameLocationNameDto>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+    int sayac = 0;
+}
+
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title font-size-18">Loksayonlara Göre Uygun Araç Listesi</h4>
+                        <p class="card-subtitle mb-4">
+                            Loksayonara tanımlanan kiralık araçların listesinin gösterildiği sayfadır.
+                        </p>
+                        <br />
+                        <table id="tbl1" class="table  nowrap">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Loksayon</th>
+                                    <th>Araç Marka Model</th>
+                                    <th>Müsaitlik Durumu</th>
+                                    <th>Durumu Değiştir</th>
+                                    <th>Sil</th>
+                                    <th>Güncelle</th>
+                                </tr>
+                            </thead>
+
+
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    sayac++;
+                                    <tr>
+                                        <td>@sayac</td>
+                                        <td>@item.LocationName</td>
+                                        <td>@item.CarName</td>
+
+                                        @if (@item.Avaible == true)
+                                        {
+                                            <td>
+                                                <span class="btn btn-success"> Müsait </span>
+                                            </td>
+                                        }
+                                        @if (@item.Avaible == false)
+                                        {
+                                            <td>
+                                                <span class="btn btn-danger"> Müsait Değil </span>
+                                            </td>
+                                        }
+
+                                        @if (@item.Avaible == true)
+                                        {
+                                            <td>
+                                                <a href="/Admin/AdminRentACar/ChangeRentACarAvaibleToFalse/@item.RentACarID" class="btn btn-danger waves-effect waves-light"> Müsait Değil Yap </a>
+                                            </td>
+                                        }
+                                        @if (@item.Avaible == false)
+                                        {                                          
+
+                                            <td>
+                                                <a href="/Admin/AdminRentACar/ChangeRentACarAvaibleToTrue/@item.RentACarID" class="btn btn-success waves-effect waves-light"> Müsait Yap </a>
+                                            </td>
+                                        }
+                                       
+
+                                        <td>
+                                            <a href="/Admin/AdminRentACar/RemoveRentACar/@item.RentACarID" class="btn btn-danger waves-effect waves-light"> Sil </a>
+                                        </td>
+
+                                        <td>
+                                            <a href="/Admin/AdminRentACar/UpdateRentACar/@item.RentACarID" class="btn btn-success waves-effect waves-light"> Güncelle </a>
+                                        </td>
+
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                        <br />
+                        <a href="/Admin/AdminRentACar/CreateRentACar/" class="btn btn-primary waves-effect waves-light"> Yeni Müsait Araç Girişi </a>
+
+
+                    </div> <!-- end card body-->
+                </div> <!-- end card -->
+            </div><!-- end col-->
+        </div>
+
+    </div> <!-- container-fluid -->
+</div>
+
+
+<script src="~/Admin/vertical/assets/js/jquery.min.js"></script>
+<script src="~/Admin/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="~/Admin/plugins/datatables/dataTables.bootstrap4.js"></script>
+<script src="~/Admin/plugins/datatables/dataTables.responsive.min.js"></script>
+<script src="~/Admin/plugins/datatables/responsive.bootstrap4.min.js"></script>
+<script src="~/Admin/plugins/datatables/dataTables.buttons.min.js"></script>
+<script src="~/Admin/plugins/datatables/buttons.bootstrap4.min.js"></script>
+<script src="~/Admin/plugins/datatables/buttons.html5.min.js"></script>
+<script src="~/Admin/plugins/datatables/buttons.flash.min.js"></script>
+<script src="~/Admin/plugins/datatables/buttons.print.min.js"></script>
+<script src="~/Admin/plugins/datatables/dataTables.keyTable.min.js"></script>
+<script src="~/Admin/plugins/datatables/dataTables.select.min.js"></script>
+<script src="~/Admin/plugins/datatables/pdfmake.min.js"></script>
+<script src="~/Admin/plugins/datatables/vfs_fonts.js"></script>
+<!-- third party js ends -->
+<!-- Datatables init -->
+<script src="~/Admin/vertical/assets/pages/datatables-demo.js"></script>
+
+
+<script>
+    $('#tbl1').DataTable(
+        {
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.20/i18n/Turkish.json"
+            }
+        }
+    );
+</script>
+
+

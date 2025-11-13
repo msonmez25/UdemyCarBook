@@ -1,0 +1,44 @@
+﻿@model CreatePricingDto
+@{
+    ViewData["Title"] = "CreatePricing";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <h4 class="card-title font-size-18">Yeni Kiralama Tipi Girişi</h4>
+                        <p class="card-subtitle mb-4">Kiralama seçenekleri bölümüne yeni bir kayıt ekleme işlemleri bu sayfa üzerinden gerçekleştirebilirsiniz.  İlgili alanları eksiksiz  doldurmanız önemlidir. Veri girişlerinden sonra kaydet butonuna tıklayarak işlemi tamamlayabilirsiniz.</p>
+                        <br />
+                        <form method="post">
+
+                            <div class="form-group">
+                                <label>Başlık</label>
+                                <input type="text" class="form-control" asp-for="@Model.Name">
+                            </div>
+
+                           
+                            
+
+                            <button type="submit" class="btn btn-primary waves-effect waves-light">Kiralama Tipini Kaydet</button>
+                            <a href="/Admin/AdminPricing" class="btn btn-danger waves-effect waves-light"> Kiralama Tipi Listesine Dön </a>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+

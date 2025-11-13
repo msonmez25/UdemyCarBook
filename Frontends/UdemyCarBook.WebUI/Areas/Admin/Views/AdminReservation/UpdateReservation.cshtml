@@ -1,0 +1,119 @@
+﻿@model UpdateReservationDto
+@{
+    ViewData["Title"] = "UpdateReservation";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <h4 class="card-title font-size-18">Rezervasyon Bilgisi Güncelleme</h4>
+                        <p class="card-subtitle mb-4"> Araç rezervasyon kayıt formundan yapılan rezervasyonların bilgilerini güncellerken ilgili alanları eksiksiz  doldurmanız önemlidir. Veri girişlerinden sonra bilgileri güncelle butonuna tıklayarak güncelleme işlemini tamamlayabilirsiniz. Ayrıca rezervasyon durumunu ilgili butonlardan değiştirebilirsiniz.</p>
+
+                        <form method="post">
+                            <input type="hidden" asp-for="ReservationID" />
+
+                            <div class="row">
+
+
+                                <div class="mb-3 col-md-6">
+                                    <label>Ad</label>
+                                    <input type="text" class="form-control" asp-for="@Model.Name">
+                                </div>
+
+                                <div class="mb-3 col-md-6">
+                                    <label>Soyad</label>
+                                    <input type="text" class="form-control" asp-for="@Model.Surname">
+                                </div>
+
+                                <div class="mb-3 col-md-6">
+                                    <label>Yaş</label>
+                                    <input type="text" class="form-control" asp-for="@Model.Age">
+                                </div>
+
+                                <div class="mb-3 col-md-6">
+                                    <label>Kaç Yıldır Ehliyetiz Var? </label>
+                                    <input type="text" class="form-control" asp-for="@Model.DriverLicenseYear">
+                                </div>
+
+                                <div class="mb-3 col-md-6">
+                                    <label>Mail</label>
+                                    <input type="text" class="form-control" asp-for="@Model.Email">
+                                </div>
+
+                                <div class="mb-3 col-md-6">
+                                    <label>Telefon</label>
+                                    <input type="text" class="form-control" asp-for="@Model.Phone">                                   
+                                </div>
+
+                                <div class="mb-3 col-md-12">
+                                    <label>Müşteri Ek Açıklamalar</label>
+                                    <textarea cols="30" rows="3" class="form-control" asp-for="@Model.Description"></textarea>
+                                </div>
+
+
+                                <div class="mb-3 col-md-6">
+                                    <label>Alış Lokasyon</label>
+                                    @Html.DropDownListFor(x => x.PickUpLocationID, (List<SelectListItem>)ViewBag.ReservationlocationValues, new { @class = "form-control" })
+                                </div>
+
+                                <div class="mb-3 col-md-6">
+                                    <label>Bırakılan Lokasyon</label>
+                                    @Html.DropDownListFor(x => x.DropOffLocationID, (List<SelectListItem>)ViewBag.ReservationlocationValues, new { @class = "form-control" })
+                                </div>
+
+                                <div class="mb-3 col-md-6">
+                                    <label>Araç Marka Model</label>
+                                    @Html.DropDownListFor(x => x.CarID, (List<SelectListItem>)ViewBag.BrandValues, new { @class = "form-control" })
+                                </div>
+
+                                <div class="mb-3 col-md-6">
+                                    <label>Rezervasyon Durumu</label>
+                                    <input type="text" class="form-control" asp-for="@Model.Status" readonly>
+                                </div>
+
+                            </div>
+
+
+
+                            <button type="submit" class="btn btn-primary waves-effect waves-light">Bilgileri Güncelle</button>
+                            <a href="/Admin/AdminReservation" class="btn btn-dark waves-effect waves-light"> Rezervasyon Listesine Dön </a>
+
+
+                            @if (@Model.Status == "Rezervasyon Alındı")
+                            {
+                                <a href="/Admin/AdminReservation/ChangeReservationStatusToApproved/@Model.ReservationID" class="btn btn-success waves-effect waves-light"> Rezervasyonu Onayla </a>
+                                <a href="/Admin/AdminReservation/ChangeReservationStatusToCancaled/@Model.ReservationID" class="btn btn-danger waves-effect waves-light"> Rezervasyonu İptal Et </a>
+                            }
+                            @if (Model.Status == "Onaylandı")
+                            {
+                                <a href="/Admin/AdminReservation/ChangeReservationStatusToCancaled/@Model.ReservationID" class="btn btn-danger waves-effect waves-light"> Rezervasyonu İptal Et </a>
+                                <a href="/Admin/AdminReservation/ChangeReservationStatusToReservationReceipt/@Model.ReservationID" class="btn btn-warning waves-effect waves-light"> Rezervasyon Alındı </a>
+                            }
+                            @if (Model.Status == "İptal Edildi")
+                            {
+                                <a href="/Admin/AdminReservation/ChangeReservationStatusToApproved/@Model.ReservationID" class="btn btn-success waves-effect waves-light"> Rezervasyonu Onayla </a>
+                                <a href="/Admin/AdminReservation/ChangeReservationStatusToReservationReceipt/@Model.ReservationID" class="btn btn-warning waves-effect waves-light"> Rezervasyon Alındı </a>
+                            }
+
+                            
+
+                            
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

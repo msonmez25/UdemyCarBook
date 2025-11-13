@@ -1,0 +1,38 @@
+﻿@model CreateVitesDto
+@{
+    ViewData["Title"] = "CreateVites";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <h4 class="card-title font-size-18">Yeni Vites Türü Girişi</h4>
+                        <p class="card-subtitle mb-4">Araçlara ait yeni bir vites türünü bu sayfadan ekleyebilirsiniz. İlgili alanları eksiksiz  doldurmanız önemlidir. Veri girişlerinden sonra kaydet butonuna tıklayarak işlemi tamamlayabilirsiniz.</p>
+                        <br />
+                        <form method="post">
+
+                            <div class="form-group">
+                                <label>Vites Türü</label>
+                                <input type="text" class="form-control" asp-for="@Model.Name">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary waves-effect waves-light">Vites Türünü Kaydet</button>
+                            <a href="/Admin/AdminVites" class="btn btn-danger waves-effect waves-light"> Vites Türü Listesine Dön </a>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
