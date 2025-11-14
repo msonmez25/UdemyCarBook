@@ -28,7 +28,7 @@ Eğitimi başarıyla tamamlayarak hem **mimari yapı** hem de **modern yazılım
 
 ---
 
-> 📚 **Eğitim:** [Murat Yücedağ - Asp.Net Core 8.0 Onion Architecture ile BookCar Projesi](https://www.udemy.com/)
+> 📚 **Eğitim:** [Murat Yücedağ - Asp.Net Core 8.0 Onion Architecture ile BookCar Projesi](https://www.udemy.com/course/aspnet-core-api-8-onion-architecture-ile-bookcar-projesi/)
 >  
 > 💬 Bu proje, profesyonel mimariler üzerine pratik bir bakış kazandırmayı amaçlamaktadır.
 
