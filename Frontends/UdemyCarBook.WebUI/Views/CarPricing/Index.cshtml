@@ -5,6 +5,106 @@
 }
 
 
+<style>
+    /* TABLO KART GÖRÜNÜMÜ */
+    .car-list table {
+        border-radius: 16px;
+        overflow: hidden;
+        background: #ffffff;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.18);
+    }
+
+    /* BAŞLIK RENKLERİ — CANLI NEON GRADIENTLER */
+    .bg-primary.heading {
+        background: linear-gradient(135deg, #ff9800, #ff5722) !important; /* Turuncu -> Kırmızı */
+        color: #fff !important;
+        font-weight: bold;
+    }
+
+    .bg-dark.heading {
+        background: linear-gradient(135deg, #673ab7, #512da8) !important; /* Mor */
+        color: #fff !important;
+        font-weight: bold;
+    }
+
+    .bg-black.heading {
+        background: linear-gradient(135deg, #2196f3, #1976d2) !important; /* Canlı Mavi */
+        color: #fff !important;
+        font-weight: bold;
+    }
+
+    /* ARAÇ FOTOĞRAFI */
+    .car-image .img {
+        border-radius: 14px;
+        background-size: cover;
+        background-position: center;
+        width: 190px;
+        height: 120px;
+        box-shadow: 0 6px 15px rgba(0,0,0,.20);
+        border: 2px solid #ff9800;
+    }
+
+    /* SATIR HOVER — CANLI IŞIK ETKİSİ */
+    .car-list table tbody tr {
+        transition: .25s;
+    }
+
+        .car-list table tbody tr:hover {
+            background: #fff6e8;
+            transform: scale(1.015);
+            box-shadow: inset 0 0 12px rgba(255,152,0,.45);
+        }
+
+    /* KİRALAMA BUTONU — TURUNCU-PINK CANLI GRADIENT */
+    .btn-custom a {
+        background: linear-gradient(135deg, #ff9800, #ff006a);
+        color: #fff !important;
+        padding: 10px 16px;
+        border-radius: 12px;
+        display: inline-block;
+        font-weight: 700;
+        letter-spacing: .4px;
+        transition: .3s;
+        box-shadow: 0 3px 10px rgba(255,0,102,0.3);
+    }
+
+        .btn-custom a:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 18px rgba(255,0,102,0.45);
+        }
+
+    /* FİYATLAR — PARLAK ETKİ */
+    .price-rate .num {
+        font-size: 26px;
+        font-weight: 800;
+        color: #e65100; /* Parlak Turuncu */
+        text-shadow: 0 0 2px rgba(255,136,0,0.45);
+    }
+
+    .price-rate .currency {
+        font-size: 16px;
+        color: #ff6f00;
+        font-weight: bold;
+    }
+
+    .price-rate .per {
+        font-size: 14px;
+        color: #424242;
+        font-weight: 500;
+    }
+
+    /* PUAN YILDIZLARI – ALTIN RENK */
+    .rated span {
+        color: #ffb300;
+        font-size: 20px;
+        text-shadow: 0 0 4px rgba(255,179,0,0.5);
+    }
+</style>
+
+
+
+
+
 <section class="ftco-section ftco-cart">
 	<div class="container">
 		<div class="row">
