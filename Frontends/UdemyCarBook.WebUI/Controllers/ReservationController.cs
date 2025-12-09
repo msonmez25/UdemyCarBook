@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using System.Text;
+using UdemyCarBook.Dto.CarDtos;
 using UdemyCarBook.Dto.CarPricingDtos;
 using UdemyCarBook.Dto.LocationDtos;
 using UdemyCarBook.Dto.ReservationDtos;
+using UdemyCarBook.Dto.YakitTuruDtos;
 
 namespace UdemyCarBook.WebUI.Controllers
 {
@@ -25,7 +27,15 @@ namespace UdemyCarBook.WebUI.Controllers
             ViewBag.menu1 = "REZERVASYON";
             ViewBag.menu2 = "Rezervasyon Bilgileri";
             ViewBag.carID = id;
-            
+
+            //Araç görseli
+            var client1 = _httpClientFactory.CreateClient();
+            var responseMessage1 = await client1.GetAsync($"https://localhost:7042/api/Cars/{id}");
+            var jsonData1 = await responseMessage1.Content.ReadAsStringAsync();
+            var values1 = JsonConvert.DeserializeObject<ResultCarWitBrandsDto>(jsonData1);
+            ViewBag.ImageUrl = values1.CoverImageUrl;
+
+
 
             //Lokasyon
             var client = _httpClientFactory.CreateClient();

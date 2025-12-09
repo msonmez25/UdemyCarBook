@@ -4,66 +4,168 @@
     Layout = "~/Views/UILayout/Index.cshtml";
 }
 
-<div class="row justify-content-center">
-    <div class="col-md-7 text-center heading-section ftco-animate">       
-        <h3 class="text-primary mb-2 mt-2">Rezervasyon Kayıt Formu</h3>
+<style>
+    .reservation-header-image {
+        position: relative;
+        width: 100%;
+        height: 320px;
+        background-size: contain !important;
+        background-repeat: no-repeat !important;
+        background-position: center !important;
+        background-color: #fff;
+        border-radius: 18px;
+        margin-top: 60px;
+        margin-bottom: 40px;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+        /* Blur sağ ve sol efektleri */
+        .reservation-header-image::before,
+        .reservation-header-image::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 30%; /* flu genişliği */
+            height: 100%;
+            background-image: inherit;
+            background-size: cover;
+            background-position: center;
+            filter: blur(25px); /* flu seviyesi */
+            z-index: -1;
+        }
+
+        /* Sol flu */
+        .reservation-header-image::before {
+            left: -10%;
+        }
+
+        /* Sağ flu */
+        .reservation-header-image::after {
+            right: -10%;
+        }
+
+    .reservation-card {
+        background: #fff;
+        padding: 35px;
+        border-radius: 20px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.10);
+        position: relative;
+        z-index: 5;
+        margin-bottom: 60px;
+    }
+
+    .reservation-title {
+        font-size: 26px;
+        font-weight: 700;
+        color: #3bb54a; /* Yeşil premium renk */
+    }
+
+    .contact-form input,
+    .contact-form select,
+    .contact-form textarea {
+        border-radius: 10px !important;
+        border: 1px solid #ddd !important;
+        padding: 12px 15px !important;
+        transition: 0.2s;
+    }
+
+        .contact-form input:focus,
+        .contact-form select:focus,
+        .contact-form textarea:focus {
+            border-color: #3bb54a !important;
+            box-shadow: 0 0 0 0.2rem rgba(59,181,74,0.25);
+        }
+
+    /* YEŞİL PREMIUM BUTON */
+    .btn-reservation {
+        background: linear-gradient(90deg, #2ecc71, #27ae60);
+        border: none;
+        color: #fff;
+        font-weight: 700;
+        font-size: 16px;
+        padding: 14px 30px;
+        border-radius: 50px;
+        transition: 0.3s;
+    }
+
+        .btn-reservation:hover {
+            filter: brightness(0.92);
+        }
+</style>
+
+
+<div class="container">
+
+    <!-- Araç Görseli Üstte -->
+    <div class="reservation-header-image"
+         style="background-image:url('@ViewBag.ImageUrl');">
     </div>
-</div>
-<div class="col-md-12 block-9 mb-md-5">
-    <form class="bg-light p-5 contact-form" method="post">
 
-        <div class="row">
+    <div class="reservation-card">
 
-            <input type="hidden" class="form-control" value="@ViewBag.carID" asp-for="CarID" placeholder="Araç Seçiniz" readonly>
-
-            <div class="mb-3 col-md-6">              
-                <input type="text" class="form-control" placeholder="Adınız" asp-for="Name" required>
+        <div class="row justify-content-center">
+            <div class="col-md-12 text-center">
+                <h3 class="reservation-title mb-4">Rezervasyon Kayıt Formu</h3>
             </div>
-            <div class="mb-3 col-md-6">
-                <input type="text" class="form-control" placeholder="Soyadınız" asp-for="Surname" required>
-            </div>
-            <div class="mb-3 col-md-6">
-                <input type="text" class="form-control" placeholder="Yaşınız" asp-for="Age" required>
-            </div>
-            <div class="mb-3 col-md-6">
-                <input type="text" class="form-control" placeholder="Kaç Yıldır Ehliyetiniz Var" asp-for="DriverLicenseYear" required>
-            </div>
-            <div class="mb-3 col-md-6">
-                <input type="email" class="form-control" placeholder="Email Adresiniz" asp-for="Email" required>
-            </div>
-
-            <div class="mb-3 col-md-6">
-                <input type="text" class="form-control" placeholder="Telefon Numaranız" asp-for="Phone" required>
-            </div>
-
-            <div class="mb-3 col-md-6">
-                @* <label> Teslim Alınacak Lokasyon </label>
-                @Html.DropDownListFor(x => x.PickUpLocationID, (List<SelectListItem>)ViewBag.ReservationlocationValues, new { @class = "form-control" }) *@
-                <select class="form-control" asp-for="PickUpLocationID" asp-items="@ViewBag.ReservationlocationValues">
-                    <option disabled selected> Teslim Alınacak Lokasyon Seçiniz </option>
-                </select>
-            </div>
-
-            <div class="mb-3 col-md-6">
-                @* <label> İade Edilecek Lokasyon </label>
-                @Html.DropDownListFor(x => x.DropOffLocationID, (List<SelectListItem>)ViewBag.ReservationlocationValues, new { @class = "form-control" }) *@
-                <select class="form-control" asp-for="DropOffLocationID" asp-items="@ViewBag.ReservationlocationValues">
-                    <option disabled selected> İade Edilecek Lokasyon Seçiniz </option>
-                    </select>                
-            </div>
-
-            <div class="mb-3 col-md-12">
-                <textarea cols="30" rows="3" class="form-control" placeholder="Varsa Eklemek İstedikleriniz" asp-for="Description" required></textarea>
-            </div>
-            <div class="mb-3 col-md-6">
-                <input type="submit" value="Rezervasyonu Tamamla" class="btn btn-primary py-3 px-5">
-            </div>
-
         </div>
-        
-    </form>
+
+        <form class="contact-form" method="post">
+            <div class="row">
+
+                <input type="hidden" asp-for="CarID" value="@ViewBag.carID" />
+
+                <div class="mb-3 col-md-6">
+                    <input type="text" class="form-control" placeholder="Adınız" asp-for="Name" required>
+                </div>
+
+                <div class="mb-3 col-md-6">
+                    <input type="text" class="form-control" placeholder="Soyadınız" asp-for="Surname" required>
+                </div>
+
+                <div class="mb-3 col-md-6">
+                    <input type="text" class="form-control" placeholder="Yaşınız" asp-for="Age" required>
+                </div>
+
+                <div class="mb-3 col-md-6">
+                    <input type="text" class="form-control" placeholder="Kaç Yıldır Ehliyetiniz Var?" asp-for="DriverLicenseYear" required>
+                </div>
+
+                <div class="mb-3 col-md-6">
+                    <input type="email" class="form-control" placeholder="Email Adresiniz" asp-for="Email" required>
+                </div>
+
+                <div class="mb-3 col-md-6">
+                    <input type="text" class="form-control" placeholder="Telefon Numaranız" asp-for="Phone" required>
+                </div>
+
+                <div class="mb-3 col-md-6">
+                    <select class="form-control" asp-for="PickUpLocationID" asp-items="@ViewBag.ReservationlocationValues">
+                        <option disabled selected> Teslim Alınacak Lokasyon </option>
+                    </select>
+                </div>
+
+                <div class="mb-3 col-md-6">
+                    <select class="form-control" asp-for="DropOffLocationID" asp-items="@ViewBag.ReservationlocationValues">
+                        <option disabled selected> İade Edilecek Lokasyon </option>
+                    </select>
+                </div>
+
+                <div class="mb-3 col-md-12">
+                    <textarea cols="30" rows="3" class="form-control" placeholder="Eklemek İstedikleriniz" asp-for="Description"></textarea>
+                </div>
+
+                <div class="mb-3 col-md-12 text-center">
+                    <button type="submit" class="btn-reservation">
+                        Rezervasyonu Tamamla
+                    </button>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
 
 </div>
-
 
 
