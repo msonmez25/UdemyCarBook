@@ -1,116 +1,310 @@
-﻿@model ResultLoginDto
+﻿
+@model ResultLoginDto
 @{
     Layout = null;
 }
-
 <!DOCTYPE html>
-<html lang="zxx">
+<html lang="tr">
 <head>
     <!-- Google Tag Manager -->
     <script>
         (function (w, d, s, l, i) {
             w[l] = w[l] || []; w[l].push({
-                'gtm.start':
-                    new Date().getTime(), event: 'gtm.js'
+                'gtm.start': new Date().getTime(), event: 'gtm.js'
             }); var f = d.getElementsByTagName(s)[0],
                 j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-TAGCODE');</script>
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-TAGCODE');
+    </script>
     <!-- End Google Tag Manager -->
-    <title>CarBook Giriş Sayfası</title>
+
+    <title>CarBook - Giriş Yap</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
-    <!-- External CSS libraries -->
-    <link type="text/css" rel="stylesheet" href="~/loginRegister/assets/css/bootstrap.min.css">
-    <link type="text/css" rel="stylesheet" href="~/loginRegister/assets/fonts/font-awesome/css/font-awesome.min.css">
-    <link type="text/css" rel="stylesheet" href="~/loginRegister/assets/fonts/flaticon/font/flaticon.css">
 
-    <!-- Favicon icon -->
+    <!-- Mevcut asset'ler korunuyor -->
+    <link type="text/css" rel="stylesheet" href="~/loginRegister/assets/css/bootstrap.min.css">
     <link rel="shortcut icon" href="~/Admin/vertical/assets/images/storyfire.ico" type="image/x-icon">
 
-    <!-- Google fonts -->
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800%7CPoppins:400,500,700,800,900%7CRoboto:100,300,400,400i,500,700">
+    <!-- Google Fonts + Bootstrap Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
-    <!-- Custom Stylesheet -->
-    <link type="text/css" rel="stylesheet" href="~/loginRegister/assets/css/style.css">
-    <link rel="stylesheet" type="text/css" id="style_sheet" href="~/loginRegister/assets/css/skins/default.css">
+    <style>
+        :root {
+            --green: #00d4aa; /* CarBook logosundaki canlı yeşil */
+            --orange: #ff6b35; /* Premium turuncu border */
+            --orange-light: #ff8c42;
+            --dark: #1a1a1a;
+            --light: #ffffff;
+            --gray: #94a3b8;
+        }
 
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1494905998402-395d579af36f?w=1920') center/cover no-repeat fixed;
+        }
+
+
+        a {
+            text-decoration: none !important;
+        }
+
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Daha dar ve premium kart */
+        .login-card {
+            max-width: 460px;
+            width: 100%;
+            background: var(--light);
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+            position: relative;
+            transition: all 0.45s cubic-bezier(0.25, 0.8, 0.25, 1); /* Yumuşak geçiş */
+            border: 3px solid transparent;
+        }
+
+        /* Normal hal: sade gölge */
+        .login-card {
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+        }
+
+            /* HOVER: Premium shadow patlaması */
+            .login-card:hover {
+                transform: translateY(-6px);
+                box-shadow: 0 12px 35px rgba(255,140,0,0.35);
+                border-color: #ff9800;
+            }
+
+                /* Ekstra: hover’da kartın kendisi de hafif parlasın */
+                .login-card:hover::after {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    border-radius: 28px;
+                    background: linear-gradient(135deg, rgba(0, 212, 170, 0.08) 0%, rgba(255, 107, 53, 0.08) 100%);
+                    pointer-events: none;
+                    opacity: 0;
+                    animation: shine 0.8s ease-out forwards;
+                }
+
+        @@keyframes shine {
+            0%
+
+        {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+
+        60% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0;
+            transform: scale(1.05);
+        }
+
+        }
+
+        /* Logo alanı - Yeşil CARBOOK */
+        .brand-header {
+            background: linear-gradient(135deg, #000000 0%, #111111 100%);
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+        }
+
+            .brand-header h1 {
+                font-size: 2.8rem;
+                font-weight: 800;
+                margin: 0;
+                background: linear-gradient(90deg, #00d4aa, #00e6b8);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            .brand-header p {
+                margin: 12px 0 0;
+                opacity: 0.9;
+                font-size: 1.05rem;
+            }
+
+        /* Form alanı */
+        .form-area {
+            padding: 50px 45px 45px;
+        }
+
+        .form-title {
+            text-align: center;
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 35px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 22px;
+        }
+
+        .input-text {
+            height: 60px;
+            border-radius: 16px;
+            border: 2px solid #e2e6f0;
+            padding: 0 20px 0 62px;
+            font-size: 1.05rem;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+            .input-text:focus {
+                border-color: var(--green);
+                box-shadow: 0 0 0 4px rgba(0, 212, 170, 0.15);
+                outline: none;
+            }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 22px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.4rem;
+            color: var(--green);
+        }
+
+        /* Yeşil buton */
+        .btn-login {
+            height: 60px;
+            border-radius: 16px;
+            background: var(--green);
+            color: white;
+            font-size: 1.15rem;
+            font-weight: 600;
+            border: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 212, 170, 0.3);
+        }
+
+            .btn-login:hover {
+                background: #00b894;
+                transform: translateY(-3px);
+                box-shadow: 0 15px 35px rgba(0, 212, 170, 0.4);
+            }
+
+        .extra-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 25px 0 10px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+            .extra-links a {
+                color: var(--green);
+                font-weight: 600;
+                text-decoration: none;
+            }
+
+                .extra-links a:hover {
+                    text-decoration: underline;
+                }
+
+        .register-text {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+
+            .register-text a {
+                color: var(--green);
+                font-weight: 600;
+            }
+
+        /* Mobil uyum */
+        @@media (max-width: 576px) {
+            .login-card
+
+        {
+            max-width: 380px;
+            border-radius: 24px;
+        }
+
+        .form-area {
+            padding: 40px 30px;
+        }
+
+        .brand-header h1 {
+            font-size: 2.4rem;
+        }
+
+        }
+    </style>
 </head>
-<body id="top">
+<body>
     <!-- Google Tag Manager (noscript) -->
     <noscript>
         <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TAGCODE"
                 height="0" width="0" style="display:none;visibility:hidden"></iframe>
     </noscript>
-    <!-- End Google Tag Manager (noscript) -->
-    <div class="page_loader"></div>
 
-    <!-- Login 8 start -->
-    <div class="login-8">
-        <div class="container">
-            <div class="row login-box">
-                <div class="col-lg-5 col-md-12 bg-img none-992 align-self-center">
-                    <div class="info">
-                        <div class="logo clearfix">
-                            <a href="/Default/Index">
-                                <h2 style="color:white">
-                                    CARBOOK
-                                </h2>
-                            </a>
-                        </div>
-                       
-                        <div class="btn-section clearfix">
-                            <a href="/Login/Index" class="link-btn btn-1 default-bg">Gİrİş Yap</a>
-                            <div class="clearfix"></div>
-                            <a href="/Register/CreateAppUser" class="link-btn active btn-1">Yenİ Kayıt</a>
-                        </div>
-                       
+    <div class="login-container">
+        <div class="login-card">
+            <!-- Üst Logo Alanı -->
+            <div class="brand-header">
+                <a href="/Default/Index/"><h1>CARBOOK</h1></a>               
+                <p>Hayalindeki Aracı Kirala</p>
+            </div>
+
+            <!-- Giriş Formu -->
+            <div class="form-area">
+                <h3 class="form-title">Giriş Sayfası</h3>
+
+                <form asp-action="Index" asp-controller="Login" method="post">
+                    <div class="input-wrapper">
+                        <i class="bi bi-person"></i>
+                        <input type="text" asp-for="Username" class="input-text" placeholder="Kullanıcı Adınız" required>
                     </div>
-                </div>
-                <div class="col-lg-7 col-md-12 bg-color-8 align-self-center">
-                    <div class="form-section">
-                        <div class="logo-2 clearfix">
-                            <a href="#">
-                                <img src="~/loginRegister/assets/img/logos/logo-2.png" alt="logo">
-                            </a>
-                        </div>
-                        <h3>Giriş Sayfası</h3>
-                        <div class="login-inner-form">
-                            <form action="#" method="post">
-                                <div class="form-group form-box">
-                                    <input type="text" class="input-text" placeholder="Kullanıcı Adınız" asp-for="Username" required>
-                                    <i class="flaticon-user"></i>
-                                </div>
-                                <div class="form-group form-box">
-                                    <input type="password" class="input-text" placeholder="Şifreniz" asp-for="Password" required>
-                                    <i class="flaticon-password"></i>
-                                </div>
-                                <div class="checkbox clearfix">
-                                    <div class="form-check checkbox-theme">
-                                        <input class="form-check-input" type="checkbox" value="" id="rememberMe">
-                                        <label class="form-check-label" for="rememberMe">
-                                            Beni Hatırla
-                                        </label>
-                                    </div>
-                                    <a href="/Register/CreateAppUser">Hesabın yok mu?</a>
-                                </div>
-                                <div class="form-group mb-0">
-                                    <button type="submit" class="btn-md btn-theme btn-block">Giriş Yap</button>
-                                </div>
-                                <p class="text">Bİr hesabın yok mu?<a href="/Register/CreateAppUser"> Hesap Oluştur</a></p>
-                            </form>
-                        </div>
+
+                    <div class="input-wrapper">
+                        <i class="bi bi-lock"></i>
+                        <input type="password" asp-for="Password" class="input-text" placeholder="Şifreniz" required>
                     </div>
-                </div>
+
+                    <div class="extra-links">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">Beni Hatırla</label>
+                        </div>                       
+                    </div>
+
+                    <button type="submit" class="btn btn-login w-100">Giriş Yap</button>
+
+                    <p class="register-text">
+                        Bir hesabın yok mu? <a href="/Register/CreateAppUser">Hesap Oluştur</a>
+                    </p>
+                </form>
             </div>
         </div>
     </div>
-    <!-- Login 8 end -->
-    <!-- External JS libraries -->
+
+    <!-- Mevcut JS'ler -->
     <script src="~/loginRegister/assets/js/jquery-2.2.0.min.js"></script>
     <script src="~/loginRegister/assets/js/popper.min.js"></script>
     <script src="~/loginRegister/assets/js/bootstrap.min.js"></script>
-    <!-- Custom JS Script -->
-
 </body>
 </html>

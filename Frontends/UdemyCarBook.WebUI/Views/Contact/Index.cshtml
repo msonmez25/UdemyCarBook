@@ -4,6 +4,128 @@
     Layout = "~/Views/UILayout/Index.cshtml";
 }
 
+<style>
+    /* Genel form container */
+    .contact-form {
+        border-radius: 18px;
+        background: #ffffff;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        border: 1px solid #f0f0f0;
+    }
+
+        /* Input & textarea modern stil */
+        .contact-form .form-control {
+            height: 52px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            padding-left: 16px;
+            font-size: 15px;
+            transition: .25s;
+        }
+
+            .contact-form .form-control:focus {
+                border-color: #61d16f;
+                box-shadow: 0 0 0 3px rgba(97, 209, 111, 0.25);
+            }
+
+        .contact-form textarea {
+            height: auto !important;
+            padding-top: 12px;
+            border-radius: 14px;
+        }
+
+    /* Premium gradient buton */
+    .btn-premium {
+        background: linear-gradient(135deg, #32c671, #1fa35d);
+        border: none;
+        color: #fff !important;
+        padding: 13px 35px;
+        font-size: 17px;
+        font-weight: 600;
+        border-radius: 12px;
+        transition: 0.25s;
+        box-shadow: 0 6px 16px rgba(50, 198, 113, 0.35);
+    }
+
+        .btn-premium:hover {
+            background: linear-gradient(135deg, #2ab467, #198d4e);
+            box-shadow: 0 8px 22px rgba(50, 198, 113, 0.45);
+            transform: translateY(-2px);
+        }
+
+    /* Karte ile harita arasında spacing */
+    .contact-map {
+        margin-top: 40px;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .contact-info .col-md-4,
+    .contact-info .col-md-8 {
+        display: flex;
+        align-items: stretch;
+    }
+
+    .contact-form {
+        border-radius: 12px;
+    }
+    
+    .address-item {
+        margin-bottom: 22px !important; /* Maddeler arasında boşluk */
+        padding-bottom: 8px;
+        border-bottom: 1px solid #f2f2f2; /* İsteğe bağlı çizgi */
+    }
+
+    /* Form kutusu premium turuncu hover efekti */
+    .contact-form {
+        border-radius: 18px;
+        background: #ffffff;
+        border: 1px solid #f0f0f0;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+        transition: 0.35s ease;
+    }
+
+        /* Hover efekti */
+        .contact-form:hover {
+            border-color: #ff8b3d;
+            box-shadow: 0 0 18px rgba(255, 136, 61, 0.45), 0 0 34px rgba(255, 106, 0, 0.3);
+            transform: translateY(-3px);
+        }
+
+        /* İçerideki elementler (input vs.) bozulmasın diye */
+        .contact-form * {
+            transition: 0.25s ease;
+        }
+
+        /* Form alanları – premium turuncu hover & focus */
+        .contact-form .form-control {
+            height: 52px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            padding-left: 16px;
+            font-size: 15px;
+            transition: 0.25s ease;
+            background: #ffffff;
+        }
+
+            .contact-form .form-control:hover {
+                border-color: #ff8b3d;
+                box-shadow: 0 0 0 3px rgba(255, 140, 60, 0.25);
+            }
+
+            .contact-form .form-control:focus {
+                border-color: #ff6a00;
+                box-shadow: 0 0 0 4px rgba(255, 106, 0, 0.35);
+            }
+
+        /* Textarea aynı stil */
+        .contact-form textarea {
+            padding-top: 12px;
+            border-radius: 14px;
+        }
+
+</style>
 
 
 <section class="ftco-section contact-section">
@@ -14,38 +136,39 @@
 
             <div class="col-md-8 block-9 mb-md-5">
 
-                <form class="bg-light p-5 contact-form" method="post">
-                    <div class="form-group">
+                <form class="p-5 contact-form" method="post">
+                    <div class="form-group mb-4">
                         <input type="text" class="form-control" placeholder="Adınız Soyadnız" asp-for="Name" required>
                     </div>
-                    <div class="form-group">
+
+                    <div class="form-group mb-4">
                         <input type="email" class="form-control" placeholder="Email Adresiniz" asp-for="Email" required>
                     </div>
-                    <div class="form-group">
+
+                    <div class="form-group mb-4">
                         <input type="text" class="form-control" placeholder="Konu" asp-for="Subject" required>
                     </div>
-                    <div class="form-group">
-                        <textarea cols="30" rows="7" class="form-control" placeholder="Mesajınız" asp-for="Message" required></textarea>
+
+                    <div class="form-group mb-4">
+                        <textarea cols="30" rows="4" class="form-control" placeholder="Mesajınız" asp-for="Message" required></textarea>
                     </div>
-                    <div class="form-group">
-                        <input type="submit" value="Mesajını Gönder" class="btn btn-primary py-3 px-5">
+
+                    <div class="form-group mt-4">
+                        <input type="submit" value="Mesajını Gönder" class="btn btn-premium">
                     </div>
                 </form>
 
             </div>
         </div>
-        <div class="col-md-12">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d34061.3226274735!2d28.962364954932877!3d41.01160167451076!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cab9b8afa5f833%3A0x15aa1943c3015300!2zVG9wa2FwxLEgU2FyYXnEsSBNw7x6ZXNp!5e0!3m2!1str!2str!4v1714395379374!5m2!1str!2str" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
-        @*  <div class="row justify-content-center">
-        <div class="col-md-12">
-        <div id="map" class="bg-white">
 
+        <div class="col-md-12 contact-map">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d34061.3226274735!2d28.962364954932877!3d41.01160167451076!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cab9b8afa5f833%3A0x15aa1943c3015300!2zVG9wa2FwxLEgU2FyYXnEsSBNw7x6ZXNp!5e0!3m2!1str!2str!4v1714395379374!5m2!1str!2str"
+                    width="100%" height="450" style="border:0;"
+                    allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
-        </div>
-        </div> *@
     </div>
 </section>
+
 
 
 
