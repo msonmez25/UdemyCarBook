@@ -1,539 +1,1067 @@
-﻿
-@{
-    ViewData["Title"] = "Index";
+﻿@{
+    ViewData["Title"] = "Dashboard";
     Layout = "~/Views/AdminLayout/Index.cshtml";
 }
 
 <style type="text/css">
+    :root {
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --primary-gradient-hover: linear-gradient(135deg, #5a6fd8 0%, #6a4191 100%);
+        --success-gradient: linear-gradient(135deg, #42e695 0%, #3bb2b8 100%);
+        --success-gradient-hover: linear-gradient(135deg, #3bd087 0%, #36a1a7 100%);
+        --warning-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --warning-gradient-hover: linear-gradient(135deg, #e085eb 0%, #e44e62 100%);
+        --info-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        --info-gradient-hover: linear-gradient(135deg, #469ee8 0%, #00dce8 100%);
+        --purple-gradient: linear-gradient(135deg, #9d50bb 0%, #6e48aa 100%);
+        --purple-gradient-hover: linear-gradient(135deg, #8d46a8 0%, #634099 100%);
+        --pink-gradient: linear-gradient(135deg, #ff6b6b 0%, #ffa8a8 100%);
+        --pink-gradient-hover: linear-gradient(135deg, #e86161 0%, #e89797 100%);
+        --teal-gradient: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);
+        --teal-gradient-hover: linear-gradient(135deg, #009e8a 0%, #88b537 100%);
+        --orange-gradient: linear-gradient(135deg, #ff9966 0%, #ff5e62 100%);
+        --orange-gradient-hover: linear-gradient(135deg, #e88a5c 0%, #e85458 100%);
+        --blue-gradient: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%);
+        --blue-gradient-hover: linear-gradient(135deg, #1e85a0 0%, #64c3d9 100%);
+    }
+
     body {
-        overflow-y: hidden;
+        overflow-y: auto;
+        background: linear-gradient(135deg, #f8f9fc 0%, #eef2f7 100%);
+        min-height: 100vh;
+    }
+
+    .stat-card {
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        overflow: hidden;
+        position: relative;
+        margin-bottom: 24px;
+        height: 100%;
+    }
+
+        .stat-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: inherit;
+            border-radius: 20px;
+            z-index: 1;
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
+            border-radius: 20px;
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .stat-card:hover::after {
+            opacity: 1;
+        }
+
+        .stat-card .card-body {
+            /* padding: 1.75rem; */
+            position: relative;
+            z-index: 3;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Primary Gradient Card */
+        .stat-card.gradient-primary {
+            background: var(--primary-gradient);
+        }
+
+            .stat-card.gradient-primary:hover {
+                background: var(--primary-gradient-hover);
+            }
+
+        /* Success Gradient Card */
+        .stat-card.gradient-success {
+            background: var(--success-gradient);
+        }
+
+            .stat-card.gradient-success:hover {
+                background: var(--success-gradient-hover);
+            }
+
+        /* Warning Gradient Card */
+        .stat-card.gradient-warning {
+            background: var(--warning-gradient);
+        }
+
+            .stat-card.gradient-warning:hover {
+                background: var(--warning-gradient-hover);
+            }
+
+        /* Info Gradient Card */
+        .stat-card.gradient-info {
+            background: var(--info-gradient);
+        }
+
+            .stat-card.gradient-info:hover {
+                background: var(--info-gradient-hover);
+            }
+
+        /* Purple Gradient Card */
+        .stat-card.gradient-purple {
+            background: var(--purple-gradient);
+        }
+
+            .stat-card.gradient-purple:hover {
+                background: var(--purple-gradient-hover);
+            }
+
+        /* Pink Gradient Card */
+        .stat-card.gradient-pink {
+            background: var(--pink-gradient);
+        }
+
+            .stat-card.gradient-pink:hover {
+                background: var(--pink-gradient-hover);
+            }
+
+        /* Teal Gradient Card */
+        .stat-card.gradient-teal {
+            background: var(--teal-gradient);
+        }
+
+            .stat-card.gradient-teal:hover {
+                background: var(--teal-gradient-hover);
+            }
+
+        /* Orange Gradient Card */
+        .stat-card.gradient-orange {
+            background: var(--orange-gradient);
+        }
+
+            .stat-card.gradient-orange:hover {
+                background: var(--orange-gradient-hover);
+            }
+
+        /* Blue Gradient Card */
+        .stat-card.gradient-blue {
+            background: var(--blue-gradient);
+        }
+
+            .stat-card.gradient-blue:hover {
+                background: var(--blue-gradient-hover);
+            }
+
+    .stat-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.25rem;
+        font-size: 26px;
+        background: rgba(255,255,255,0.25);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.2);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        position: relative;
+        overflow: hidden;
+    }
+
+        .stat-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 100%);
+            z-index: 1;
+        }
+
+        .stat-icon i {
+            position: relative;
+            z-index: 2;
+        }
+
+    .stat-value {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin: 0.5rem 0;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        letter-spacing: -0.5px;
+    }
+
+    .stat-title {
+        font-size: 0.85rem;
+        opacity: 0.95;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        margin-bottom: 0.75rem;
+        font-weight: 600;
+    }
+
+    .trend-indicator {
+        font-size: 0.8rem;
+        padding: 4px 12px;
+        border-radius: 20px;
+        background: rgba(255,255,255,0.25);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.2);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-weight: 600;
+    }
+
+    .progress-container {
+        height: 8px;
+        background: rgba(255,255,255,0.2);
+        border-radius: 4px;
+        margin-top: 1.5rem;
+        overflow: hidden;
+        position: relative;
+    }
+
+        .progress-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%);
+            animation: shimmer 2s infinite;
+        }
+
+    .progress-bar {
+        border-radius: 4px;
+        height: 100%;
+        position: relative;
+        z-index: 2;
+        transition: width 1.5s cubic-bezier(0.65, 0, 0.35, 1);
+    }
+
+    @@keyframes shimmer {
+        0%
+
+    {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+
+    }
+
+    .card-bg-pattern {
+        position: absolute;
+        right: -15px;
+        bottom: -15px;
+        opacity: 0.15;
+        font-size: 140px;
+        z-index: 1;
+        transform: rotate(-15deg);
+    }
+
+    .metric-label {
+        font-size: 0.85rem;
+        opacity: 0.9;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+
+    .metric-value {
+        font-weight: 700;
+        font-size: 2rem;
+    }
+
+    .row.gap-3 {
+        margin-left: -12px;
+        margin-right: -12px;
+    }
+
+        .row.gap-3 > [class*="col-"] {
+            padding-left: 12px;
+            padding-right: 12px;
+        }
+
+    /* Header Styling */
+    .dashboard-header {
+        margin-bottom: 40px;
+        padding: 30px 0 20px;
+        text-align: center;
+    }
+
+        .dashboard-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-header p {
+            color: #6b7280;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+    /* Section Styling */
+    .section-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #374151;
+        margin: 40px 0 25px;
+        padding-bottom: 12px;
+        border-bottom: 2px solid #e5e7eb;
+        position: relative;
+    }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        }
+
+    /* Animation for cards */
+    @@keyframes fadeInUp {
+        from
+
+    {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    }
+
+    .stat-card {
+        animation: fadeInUp 0.6s ease-out forwards;
+        opacity: 0;
+    }
+
+        .stat-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .stat-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .stat-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .stat-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+    @@media (max-width: 768px) {
+        .stat-value
+
+    {
+        font-size: 2rem;
+    }
+
+    .stat-card .card-body {
+        padding: 1.25rem;
+    }
+
+    .row.gap-3 {
+        margin-left: -8px;
+        margin-right: -8px;
+    }
+
+        .row.gap-3 > [class*="col-"] {
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+
+    .dashboard-header h1 {
+        font-size: 2rem;
+    }
+
+    .dashboard-header p {
+        font-size: 1rem;
+    }
+
+    }
+
+    /* Additional decorative elements */
+    .floating-shapes {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none;
+        z-index: -1;
+    }
+
+    .shape {
+        position: absolute;
+        border-radius: 50%;
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        animation: float 20s infinite linear;
+    }
+
+        .shape:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            right: 10%;
+            animation-delay: 5s;
+            background: linear-gradient(135deg, rgba(66, 230, 149, 0.1) 0%, rgba(59, 178, 184, 0.1) 100%);
+        }
+
+        .shape:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            bottom: 20%;
+            left: 15%;
+            animation-delay: 10s;
+            background: linear-gradient(135deg, rgba(240, 147, 251, 0.1) 0%, rgba(245, 87, 108, 0.1) 100%);
+        }
+
+    @@keyframes float {
+        0%, 100%
+
+    {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    25% {
+        transform: translateY(-20px) rotate(90deg);
+    }
+
+    50% {
+        transform: translateY(0) rotate(180deg);
+    }
+
+    75% {
+        transform: translateY(20px) rotate(270deg);
+    }
+
     }
 </style>
 
+<div class="floating-shapes">
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+</div>
+
 <div class="page-content">
     <div class="container-fluid">
+       
 
-        <br />
-        <br />
-        <div class="row">
+        <!-- 1. Satır - Araç İstatistikleri -->
+        <hr />
+        <div class="row gap-3">
             <div class="col-md-6 col-xl-3">
-                <div class="card bg-primary border-primary">
+                <div class="stat-card gradient-primary">
                     <div class="card-body">
-                        <div class="mb-4">
-                            <span class="text-white float-right"><i class="fas fa-car"></i>  </span>
-                            <h5 class="card-title mb-0 text-white">Toplam Araç Sayısı</h5>
-                        </div>
-                        <div class="row d-flex align-items-center mb-4">
-                            <div class="col-8">
-                                <h2 class="d-flex align-items-center mb-0 text-white">
-                                    @ViewBag.carCount
-                                </h2>
-                            </div>
-                            <div class="col-4 text-right">
-                                @if (ViewBag.deger > 50)
-                                {
-                                    <span class="text-white">@ViewBag.deger % <i class="mdi mdi-arrow-up"></i></span>
-                                }
-                                @if (ViewBag.deger < 50)
-                                {
-                                    <span class="text-white">@ViewBag.deger % <i class="mdi mdi-arrow-down"></i></span>
-                                }
-                                
-                            </div>
-                        </div>
-
-                        <div class="progress badge-soft-dark shadow-sm" style="height: 7px;">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width: @ViewBag.deger%;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div> <!--1 mor Araç Sayısı -->
-
-            <div class="col-md-6 col-xl-3">
-                <div class="card bg-success border-success">
-                    <div class="card-body">
-                        <div class="mb-4">
-                            <span class="text-white float-right"><i class="fas fa-bookmark"></i>  </span>
-                            <h5 class="card-title mb-0 text-white">Toplam Marka Sayısı</h5>
-                        </div>
-                        <div class="row d-flex align-items-center mb-4">
-                            <div class="col-8">
-                                <h2 class="d-flex align-items-center text-white mb-0">
-                                    @ViewBag.brandCount
-                                </h2>
-                            </div>
-                            <div class="col-4 text-right">
-                                @if (ViewBag.deger2 > 50)
-                                {
-                                    <span class="text-white">@ViewBag.deger2 % <i class="mdi mdi-arrow-up"></i></span>
-                                }
-                                @if (ViewBag.deger2 < 50)
-                                {
-                                    <span class="text-white">@ViewBag.deger2 % <i class="mdi mdi-arrow-down"></i></span>
-                                }
-
-                            </div>
-                        </div>
-
-                        <div class="progress badge-soft-light shadow-sm" style="height: 7px;">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar" style="width:  @ViewBag.deger2%;"></div>
-                        </div>
-                       
-                    </div>
-                </div>
-            </div> <!--2 yeşil Marka Sayısı-->
-
-            <div class="col-md-6 col-xl-3">
-                <div class="card bg-warning border-warning">
-                    <div class="card-body">
-                        <div class="mb-4">
-                            <span class="text-white float-right"><i class="fas fa-greater-than"></i>  </span>
-                            <h5 class="card-title mb-0 text-white">Otomatik Vites Araç Sayısı</h5>
-                        </div>
-                        <div class="row d-flex align-items-center mb-4">
-                            <div class="col-8">
-                                <h2 class="d-flex align-items-center text-white mb-0">
-                                    @ViewBag.carCountByTranmissionIsAutoCount
-                                </h2>
-                            </div>
-                            <div class="col-4 text-right">
-                                @if (ViewBag.deger3 > 50)
-                                {
-                                    <span class="text-white">@ViewBag.deger3 % <i class="mdi mdi-arrow-up"></i></span>
-                                }
-                                @if (ViewBag.deger3 < 50)
-                                {
-                                    <span class="text-white">@ViewBag.deger3 % <i class="mdi mdi-arrow-down"></i></span>
-                                }
-
-                            </div>
-                        </div>
-
-                        <div class="progress badge-soft-light shadow-sm" style="height: 7px;">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width:  @ViewBag.deger3%;"></div>
-                        </div>
-
-                    </div>
-                </div>
-            </div> <!--3 turuncu Otomatik Araç Sayısı-->
-
-            <div class="col-md-6 col-xl-3">
-                <div class="card bg-info border-info">
-                    <div class="card-body">
-                        <div class="mb-4">
-                            <span class="text-white float-right"><i class="fas fa-greater-than-equal"></i>  </span>
-                            <h5 class="card-title mb-0 text-white">Manuel Vites Araç Sayısı</h5>
-                        </div>
-                        <div class="row d-flex align-items-center mb-4">
-                            <div class="col-8">
-                                <h2 class="d-flex align-items-center text-white mb-0">
-                                    @ViewBag.carCountByTranmissionIsManuelCount
-                                </h2>
-                            </div>
-                            <div class="col-4 text-right">
-                                @if (ViewBag.deger4 > 50)
-                                {
-                                    <span class="text-white">@ViewBag.deger4 % <i class="mdi mdi-arrow-up"></i></span>
-                                }
-                                @if (ViewBag.deger4 < 50)
-                                {
-                                    <span class="text-white">@ViewBag.deger4 % <i class="mdi mdi-arrow-down"></i></span>
-                                }
-
-                            </div>
-                        </div>
-
-                        <div class="progress badge-soft-light shadow-sm" style="height: 7px;">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" style="width:  @ViewBag.deger4%;"></div>
-                        </div>
-
-                    </div>
-                </div>
-            </div> <!--4 mavi Manuel Araç Sayısı-->
-        </div>
-        <!-- 1. satır istatistik son -->
-
-        <div class="row">
-            
-            <div class="col-md-6 col-xl-3">
-                <div class="card bg-info border-info">
-                    <div class="card-body">
-                        <div class="mb-4">
-                            <span class="text-white float-right"><i class="fas fa-charging-station"></i>  </span>
-                            <h5 class="card-title mb-0 text-white">Elektrikli Araç Sayısı</h5>
-                        </div>
-                        <div class="row d-flex align-items-center mb-4">
-                            <div class="col-8">
-                                <h2 class="d-flex align-items-center text-white mb-0">
-                                    @ViewBag.carCountByFuelElectric
-                                </h2>
-                            </div>
-                            <div class="col-4 text-right">
-                                @if (ViewBag.deger5 > 50)
-                                {
-                                    <span class="text-white">@ViewBag.deger5 % <i class="mdi mdi-arrow-up"></i></span>
-                                }
-                                @if (ViewBag.deger5 < 50)
-                                {
-                                    <span class="text-white">@ViewBag.deger5 % <i class="mdi mdi-arrow-down"></i></span>
-                                }
-
-                            </div>
-                        </div>
-
-                        <div class="progress badge-soft-light shadow-sm" style="height: 7px;">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" style="width:  @ViewBag.deger5%;"></div>
-                        </div>
-
-                    </div>
-                </div>
-            </div> <!--5 mavi Elektirkli Araç Sayısı-->
-
-            <div class="col-md-6 col-xl-3">
-                    <div class="card bg-primary border-primary">
-                        <div class="card-body">
-                            <div class="mb-4">
-                                <span class="text-white float-right"><i class="fas fa-gas-pump"></i>  </span>
-                                <h5 class="card-title mb-0 text-white">Dizel veya Benzinli Araç Sayısı</h5>
-                            </div>
-                            <div class="row d-flex align-items-center mb-4">
-                                <div class="col-8">
-                                    <h2 class="d-flex align-items-center mb-0 text-white">
-                                        @ViewBag.CarCountByFuelGasolineOrDisel
-                                    </h2>
-                                </div>
-                                <div class="col-4 text-right">
-                                    @if (ViewBag.deger6 > 50)
-                                    {
-                                        <span class="text-white">@ViewBag.deger6 % <i class="mdi mdi-arrow-up"></i></span>
-                                    }
-                                    @if (ViewBag.deger6 < 50)
-                                    {
-                                        <span class="text-white">@ViewBag.deger6 % <i class="mdi mdi-arrow-down"></i></span>
-                                    }
-
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-title text-white">TOPLAM ARAÇ</div>
+                                <div class="stat-value text-white">@ViewBag.carCount</div>
+                                <div class="d-flex align-items-center mt-2">
+                                    <span class="trend-indicator text-white">
+                                        @ViewBag.deger%
+                                        @if (ViewBag.deger > 50)
+                                        {
+                                            <i class="fas fa-arrow-up"></i>
+                                        }
+                                        @if (ViewBag.deger < 50)
+                                        {
+                                            <i class="fas fa-arrow-down"></i>
+                                        }
+                                    </span>
                                 </div>
                             </div>
-
-                            <div class="progress badge-soft-dark shadow-sm" style="height: 7px;">
-                                <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width: @ViewBag.deger6%;"></div>
+                            <div class="stat-icon">
+                                <i class="fas fa-car"></i>
                             </div>
                         </div>
-                    </div>               
-            </div> <!--6 mor Dizel&Benzinli Araç Sayısı-->
-
-            <div class="col-md-6 col-xl-3">
-                <div class="card bg-success border-success">
-                    <div class="card-body">
-                        <div class="mb-4">
-                            <span class="text-white float-right"> Günlük Kiralama </span>
-                            <h5 class="card-title mb-0 text-white">En Ucuz Araç</h5>
+                        <div class="progress-container">
+                            <div class="progress-bar bg-white" style="width: @ViewBag.deger%"></div>
                         </div>
-                        <div class="row d-flex align-items-center mb-4">
-                            <div class="col-12">
-                                <h2 class="d-flex align-items-center text-white mb-0">
-                                    @ViewBag.carBrandAndModelByRentPriceDailyMin
-                                </h2>
-                            </div>                           
+                        <div class="card-bg-pattern text-white">
+                            <i class="fas fa-car"></i>
                         </div>
-
-                        <div class="progress badge-soft-light shadow-sm" style="height: 7px;">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated " role="progressbar" style="width:  @ViewBag.deger7%;"></div>
-                        </div>
-
                     </div>
                 </div>
-            </div> <!--7 yeşil  Günlük Araç Kira En Düşük Fiyat-->
+            </div>
 
             <div class="col-md-6 col-xl-3">
-                <div class="card bg-warning border-warning">
+                <div class="stat-card gradient-success">
                     <div class="card-body">
-                        <div class="mb-4">
-                            <span class="text-white float-right"> Günlük Kiralama </span>
-                            <h5 class="card-title mb-0 text-white">En Pahalı Araç</h5>
-                        </div>
-                        <div class="row d-flex align-items-center mb-4">
-                            <div class="col-8">
-                                <h2 class="d-flex align-items-center text-white mb-0">
-                                    @ViewBag.carBrandAndModelByRentPriceDailyMax
-                                </h2>
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-title text-white">TOPLAM MARKA</div>
+                                <div class="stat-value text-white">@ViewBag.brandCount</div>
+                                <div class="d-flex align-items-center mt-2">
+                                    <span class="trend-indicator text-white">
+                                        @ViewBag.deger2%
+                                        @if (ViewBag.deger2 > 50)
+                                        {
+                                            <i class="fas fa-arrow-up"></i>
+                                        }
+                                        @if (ViewBag.deger2 < 50)
+                                        {
+                                            <i class="fas fa-arrow-down"></i>
+                                        }
+                                    </span>
+                                </div>
                             </div>
-                           
+                            <div class="stat-icon">
+                                <i class="fas fa-bookmark"></i>
+                            </div>
                         </div>
-
-                        <div class="progress badge-soft-light shadow-sm" style="height: 7px;">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width:  @ViewBag.deger8%;"></div>
+                        <div class="progress-container">
+                            <div class="progress-bar bg-white" style="width: @ViewBag.deger2%"></div>
                         </div>
-
+                        <div class="card-bg-pattern text-white">
+                            <i class="fas fa-bookmark"></i>
+                        </div>
                     </div>
                 </div>
-            </div> <!--8 turuncu  Günlük Araç Kira En Yüksek Fiyat -->
+            </div>
 
+            <div class="col-md-6 col-xl-3">
+                <div class="stat-card gradient-warning">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-title text-white">OTOMATİK VİTES</div>
+                                <div class="stat-value text-white">@ViewBag.carCountByTranmissionIsAutoCount</div>
+                                <div class="d-flex align-items-center mt-2">
+                                    <span class="trend-indicator text-white">
+                                        @ViewBag.deger3%
+                                        @if (ViewBag.deger3 > 50)
+                                        {
+                                            <i class="fas fa-arrow-up"></i>
+                                        }
+                                        @if (ViewBag.deger3 < 50)
+                                        {
+                                            <i class="fas fa-arrow-down"></i>
+                                        }
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="stat-icon">
+                                <i class="fas fa-cogs"></i>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar bg-white" style="width: @ViewBag.deger3%"></div>
+                        </div>
+                        <div class="card-bg-pattern text-white">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-3">
+                <div class="stat-card gradient-info">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-title text-white">MANUEL VİTES</div>
+                                <div class="stat-value text-white">@ViewBag.carCountByTranmissionIsManuelCount</div>
+                                <div class="d-flex align-items-center mt-2">
+                                    <span class="trend-indicator text-white">
+                                        @ViewBag.deger4%
+                                        @if (ViewBag.deger4 > 50)
+                                        {
+                                            <i class="fas fa-arrow-up"></i>
+                                        }
+                                        @if (ViewBag.deger4 < 50)
+                                        {
+                                            <i class="fas fa-arrow-down"></i>
+                                        }
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="stat-icon">
+                                <i class="fas fa-cog"></i>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar bg-white" style="width: @ViewBag.deger4%"></div>
+                        </div>
+                        <div class="card-bg-pattern text-white">
+                            <i class="fas fa-cog"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- 2. satır istatistik son -->
-
-        <div class="row">
-         
+        <!-- 1. Satır Sonu -->
+        <!-- 2. Satır - Yakıt ve Fiyat İstatistikleri -->
+        <hr />
+        <div class="row gap-3">
             <div class="col-md-6 col-xl-3">
-                <div class="card bg-warning border-warning">
+                <div class="stat-card gradient-purple">
                     <div class="card-body">
-                        <div class="mb-4">
-                            <span class="text-white float-right"> Ortalama Fiyat  </span>
-                            <h5 class="card-title mb-0 text-white">Günlük Kiralama</h5>
-                        </div>
-                        <div class="row d-flex align-items-center mb-4">
-                            <div class="col-8">
-                                <h2 class="d-flex align-items-center text-white mb-0">
-                                    @ViewBag.avgRentPriceForDaily ₺
-                                </h2>
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-title text-white">ELEKTRİKLİ ARAÇ</div>
+                                <div class="stat-value text-white">@ViewBag.carCountByFuelElectric</div>
+                                <div class="d-flex align-items-center mt-2">
+                                    <span class="trend-indicator text-white">
+                                        @ViewBag.deger5%
+                                        @if (ViewBag.deger5 > 50)
+                                        {
+                                            <i class="fas fa-arrow-up"></i>
+                                        }
+                                        @if (ViewBag.deger5 < 50)
+                                        {
+                                            <i class="fas fa-arrow-down"></i>
+                                        }
+                                    </span>
+                                </div>
                             </div>
-                            <div class="col-4 text-right">
-                                @if (ViewBag.deger9 > 50)
-                                {
-                                    <span class="text-white">@ViewBag.deger9 % <i class="mdi mdi-arrow-up"></i></span>
-                                }
-                                @if (ViewBag.deger9 < 50)
-                                {
-                                    <span class="text-white">@ViewBag.deger9 % <i class="mdi mdi-arrow-down"></i></span>
-                                }
-
+                            <div class="stat-icon">
+                                <i class="fas fa-charging-station"></i>
                             </div>
                         </div>
-
-                        <div class="progress badge-soft-light shadow-sm" style="height: 7px;">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width:  @ViewBag.deger9%;"></div>
+                        <div class="progress-container">
+                            <div class="progress-bar bg-white" style="width: @ViewBag.deger5%"></div>
                         </div>
-
+                        <div class="card-bg-pattern text-white">
+                            <i class="fas fa-bolt"></i>
+                        </div>
                     </div>
                 </div>
-            </div> <!--9 turuncu Günlük Araç Kira Ortlama Fiyat-->
+            </div>
 
             <div class="col-md-6 col-xl-3">
-                <div class="card bg-info border-info">
+                <div class="stat-card gradient-orange">
                     <div class="card-body">
-                        <div class="mb-4">
-                            <span class="text-white float-right"> Ortalama Fiyat  </span>
-                            <h5 class="card-title mb-0 text-white">Haftalık Kiralama</h5>
-                        </div>
-                        <div class="row d-flex align-items-center mb-4">
-                            <div class="col-8">
-                                <h2 class="d-flex align-items-center text-white mb-0">
-                                    @ViewBag.avgRentPriceForWeekly ₺
-                                </h2>
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-title text-white">DİZEL/BENZİNLİ</div>
+                                <div class="stat-value text-white">@ViewBag.CarCountByFuelGasolineOrDisel</div>
+                                <div class="d-flex align-items-center mt-2">
+                                    <span class="trend-indicator text-white">
+                                        @ViewBag.deger6%
+                                        @if (ViewBag.deger6 > 50)
+                                        {
+                                            <i class="fas fa-arrow-up"></i>
+                                        }
+                                        @if (ViewBag.deger6 < 50)
+                                        {
+                                            <i class="fas fa-arrow-down"></i>
+                                        }
+                                    </span>
+                                </div>
                             </div>
-                            <div class="col-4 text-right">
-                                @if (ViewBag.deger10 > 50)
-                                {
-                                    <span class="text-white">@ViewBag.deger10 % <i class="mdi mdi-arrow-up"></i></span>
-                                }
-                                @if (ViewBag.deger10 < 50)
-                                {
-                                    <span class="text-white">@ViewBag.deger10 % <i class="mdi mdi-arrow-down"></i></span>
-                                }
-
+                            <div class="stat-icon">
+                                <i class="fas fa-gas-pump"></i>
                             </div>
                         </div>
-
-                        <div class="progress badge-soft-light shadow-sm" style="height: 7px;">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" style="width:  @ViewBag.deger10%;"></div>
+                        <div class="progress-container">
+                            <div class="progress-bar bg-white" style="width: @ViewBag.deger6%"></div>
                         </div>
-
+                        <div class="card-bg-pattern text-white">
+                            <i class="fas fa-fire"></i>
+                        </div>
                     </div>
                 </div>
-            </div> <!--10 mavi Haftalık Araç Kira Ortlama Fiyat-->
+            </div>
 
             <div class="col-md-6 col-xl-3">
-                <div class="card bg-primary border-primary">
+                <div class="stat-card gradient-teal">
                     <div class="card-body">
-                        <div class="mb-4">
-                            <span class="text-white float-right"> Ortalama Fiyat  </span>
-                            <h5 class="card-title mb-0 text-white">Aylık Kiralama</h5>
-                        </div>
-                        <div class="row d-flex align-items-center mb-4">
-                            <div class="col-8">
-                                <h2 class="d-flex align-items-center text-white mb-0">
-                                    @ViewBag.avgRentPriceForMonthly ₺
-                                </h2>
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-title text-white">EN UCUZ ARAÇ</div>
+                                <div class="stat-value text-white" style="font-size: 1.8rem;">@ViewBag.carBrandAndModelByRentPriceDailyMin</div>
+                                <div class="metric-label text-white">Günlük Kiralama</div>
                             </div>
-                            <div class="col-4 text-right">
-                                @if (ViewBag.deger11 > 50)
-                                {
-                                    <span class="text-white">@ViewBag.deger11 % <i class="mdi mdi-arrow-up"></i></span>
-                                }
-                                @if (ViewBag.deger11 < 50)
-                                {
-                                    <span class="text-white">@ViewBag.deger11 % <i class="mdi mdi-arrow-down"></i></span>
-                                }
-
+                            <div class="stat-icon">
+                                <i class="fas fa-tag"></i>
                             </div>
                         </div>
-
-                        <div class="progress badge-soft-light shadow-sm" style="height: 7px;">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width:  @ViewBag.deger11%;"></div>
+                        <div class="progress-container">
+                            <div class="progress-bar bg-white" style="width: @ViewBag.deger7%"></div>
                         </div>
-
+                        <div class="card-bg-pattern text-white">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
                     </div>
                 </div>
-            </div> <!--11 mor Aylık Araç Kira Ortlama Fiyat-->
+            </div>
 
             <div class="col-md-6 col-xl-3">
-                <div class="card bg-success border-success">
+                <div class="stat-card gradient-pink">
                     <div class="card-body">
-                        <div class="mb-4">
-                            <span class="text-white float-right"> En Fazla Sayıda </span>
-                            <h5 class="card-title mb-0 text-white">Marka Adı</h5>
-                        </div>
-                        <div class="row d-flex align-items-center mb-4">
-                            <div class="col-8">
-                                <h2 class="d-flex align-items-center text-white mb-0">
-                                    @ViewBag.brandNameByMaxCar
-                                </h2>
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-title text-white">EN PAHALI ARAÇ</div>
+                                <div class="stat-value text-white" style="font-size: 1.8rem;">@ViewBag.carBrandAndModelByRentPriceDailyMax</div>
+                                <div class="metric-label text-white">Günlük Kiralama</div>
                             </div>
-                           
+                            <div class="stat-icon">
+                                <i class="fas fa-tags"></i>
+                            </div>
                         </div>
-
-                        <div class="progress badge-soft-light shadow-sm" style="height: 7px;">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated " role="progressbar" style="width:  @ViewBag.deger12%;"></div>
+                        <div class="progress-container">
+                            <div class="progress-bar bg-white" style="width: @ViewBag.deger8%"></div>
                         </div>
-
+                        <div class="card-bg-pattern text-white">
+                            <i class="fas fa-gem"></i>
+                        </div>
                     </div>
                 </div>
-            </div> <!--12 yeşil Sayısı En Fazla Olan Araç Markası-->
-
-
+            </div>
         </div>
-        <!-- 3. satır istatistik son -->
-
-        <div class="row">
-          
+        <!-- 2. Satır Sonu -->
+        <!-- 3. Satır - Kiralama İstatistikleri -->
+        <hr />
+        <div class="row gap-3">
             <div class="col-md-6 col-xl-3">
-                <div class="card bg-success border-success">
+                <div class="stat-card gradient-blue">
                     <div class="card-body">
-                        <div class="mb-4">
-                            <span class="text-white float-right"><i class="fas fa-location-arrow"></i>  </span>
-                            <h5 class="card-title mb-0 text-white">Lokasyon Sayısı</h5>
-                        </div>
-                        <div class="row d-flex align-items-center mb-4">
-                            <div class="col-8">
-                                <h2 class="d-flex align-items-center text-white mb-0">
-                                    @ViewBag.locationCount
-                                </h2>
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-title text-white">GÜNLÜK ORTALAMA</div>
+                                <div class="stat-value text-white">@ViewBag.avgRentPriceForDaily ₺</div>
+                                <div class="d-flex align-items-center mt-2">
+                                    <span class="trend-indicator text-white">
+                                        @ViewBag.deger9%
+                                        @if (ViewBag.deger9 > 50)
+                                        {
+                                            <i class="fas fa-arrow-up"></i>
+                                        }
+                                        @if (ViewBag.deger9 < 50)
+                                        {
+                                            <i class="fas fa-arrow-down"></i>
+                                        }
+                                    </span>
+                                </div>
                             </div>
-                            <div class="col-4 text-right">
-                                @if (ViewBag.deger13 > 50)
-                                {
-                                    <span class="text-white">@ViewBag.deger13 % <i class="mdi mdi-arrow-up"></i></span>
-                                }
-                                @if (ViewBag.dege13 < 50)
-                                {
-                                    <span class="text-white">@ViewBag.deger13 % <i class="mdi mdi-arrow-down"></i></span>
-                                }
-
+                            <div class="stat-icon">
+                                <i class="fas fa-calendar-day"></i>
                             </div>
                         </div>
-
-                        <div class="progress badge-soft-light shadow-sm" style="height: 7px;">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated " role="progressbar" style="width:  @ViewBag.deger13%;"></div>
+                        <div class="progress-container">
+                            <div class="progress-bar bg-white" style="width: @ViewBag.deger9%"></div>
                         </div>
-
+                        <div class="card-bg-pattern text-white">
+                            <i class="fas fa-sun"></i>
+                        </div>
                     </div>
                 </div>
-            </div> <!--13 yeşil Lokasyon Sayısı-->
+            </div>
 
             <div class="col-md-6 col-xl-3">
-                <div class="card bg-warning border-warning">
+                <div class="stat-card gradient-purple">
                     <div class="card-body">
-                        <div class="mb-4">
-                            <span class="text-white float-right"><i class="fas fa-blog"></i>  </span>
-                            <h5 class="card-title mb-0 text-white">Blog Sayısı</h5>
-                        </div>
-                        <div class="row d-flex align-items-center mb-4">
-                            <div class="col-8">
-                                <h2 class="d-flex align-items-center text-white mb-0">
-                                    @ViewBag.blogCount
-                                </h2>
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-title text-white">HAFTALIK ORTALAMA</div>
+                                <div class="stat-value text-white">@ViewBag.avgRentPriceForWeekly ₺</div>
+                                <div class="d-flex align-items-center mt-2">
+                                    <span class="trend-indicator text-white">
+                                        @ViewBag.deger10%
+                                        @if (ViewBag.deger10 > 50)
+                                        {
+                                            <i class="fas fa-arrow-up"></i>
+                                        }
+                                        @if (ViewBag.deger10 < 50)
+                                        {
+                                            <i class="fas fa-arrow-down"></i>
+                                        }
+                                    </span>
+                                </div>
                             </div>
-                            <div class="col-4 text-right">
-                                @if (ViewBag.deger14 > 50)
-                                {
-                                    <span class="text-white">@ViewBag.deger14 % <i class="mdi mdi-arrow-up"></i></span>
-                                }
-                                @if (ViewBag.deger14 < 50)
-                                {
-                                    <span class="text-white">@ViewBag.deger14 % <i class="mdi mdi-arrow-down"></i></span>
-                                }
-
+                            <div class="stat-icon">
+                                <i class="fas fa-calendar-week"></i>
                             </div>
                         </div>
-
-                        <div class="progress badge-soft-light shadow-sm" style="height: 7px;">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width:  @ViewBag.deger14%;"></div>
+                        <div class="progress-container">
+                            <div class="progress-bar bg-white" style="width: @ViewBag.deger10%"></div>
                         </div>
-
+                        <div class="card-bg-pattern text-white">
+                            <i class="fas fa-calendar"></i>
+                        </div>
                     </div>
                 </div>
-            </div> <!--14 turuncu Blog Sayısı-->
+            </div>
 
             <div class="col-md-6 col-xl-3">
-                <div class="card bg-info border-info">
+                <div class="stat-card gradient-success">
                     <div class="card-body">
-                        <div class="mb-4">
-                            <span class="text-white float-right"><i class="fas fa-pen-fancy"></i>  </span>
-                            <h5 class="card-title mb-0 text-white">Yazar Sayısı</h5>
-                        </div>
-                        <div class="row d-flex align-items-center mb-4">
-                            <div class="col-8">
-                                <h2 class="d-flex align-items-center text-white mb-0">
-                                    @ViewBag.authorCount
-                                </h2>
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-title text-white">AYLIK ORTALAMA</div>
+                                <div class="stat-value text-white">@ViewBag.avgRentPriceForMonthly ₺</div>
+                                <div class="d-flex align-items-center mt-2">
+                                    <span class="trend-indicator text-white">
+                                        @ViewBag.deger11%
+                                        @if (ViewBag.deger11 > 50)
+                                        {
+                                            <i class="fas fa-arrow-up"></i>
+                                        }
+                                        @if (ViewBag.deger11 < 50)
+                                        {
+                                            <i class="fas fa-arrow-down"></i>
+                                        }
+                                    </span>
+                                </div>
                             </div>
-                            <div class="col-4 text-right">
-                                @if (ViewBag.deger4 > 50)
-                                {
-                                    <span class="text-white">@ViewBag.deger4 % <i class="mdi mdi-arrow-up"></i></span>
-                                }
-                                @if (ViewBag.deger4 < 50)
-                                {
-                                    <span class="text-white">@ViewBag.deger4 % <i class="mdi mdi-arrow-down"></i></span>
-                                }
-
+                            <div class="stat-icon">
+                                <i class="fas fa-calendar-alt"></i>
                             </div>
                         </div>
-
-                        <div class="progress badge-soft-light shadow-sm" style="height: 7px;">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" style="width:  @ViewBag.deger4%;"></div>
+                        <div class="progress-container">
+                            <div class="progress-bar bg-white" style="width: @ViewBag.deger11%"></div>
                         </div>
-
+                        <div class="card-bg-pattern text-white">
+                            <i class="fas fa-moon"></i>
+                        </div>
                     </div>
                 </div>
-            </div> <!--15 mavi Yazar Sayısı-->
+            </div>
 
             <div class="col-md-6 col-xl-3">
-                <div class="card bg-primary border-primary">
+                <div class="stat-card gradient-warning">
                     <div class="card-body">
-                        <div class="mb-2">
-                            <span class="text-white float-right"> En Fazla Sayıda Yorum Blog Adı </span>
-                            <h5 class="card-title mb-0 text-white"> &nbsp </h5>
-                        </div>
-                        <div class="row d-flex align-items-center mb-3">
-                            <div class="col-12">
-                                <h3 class="d-flex align-items-center text-white mb-0">
-                                    @ViewBag.blogTitleByMaxBlogComment
-                                </h3>
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-title text-white">EN POPÜLER MARKA</div>
+                                <div class="stat-value text-white" style="font-size: 1.8rem;">@ViewBag.brandNameByMaxCar</div>
+                                <div class="metric-label text-white">En Fazla Araç Sayısı</div>
                             </div>
-
+                            <div class="stat-icon">
+                                <i class="fas fa-crown"></i>
+                            </div>
                         </div>
-
-                        <div class="progress badge-soft-light shadow-sm" style="height: 7px;">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-info" role="progressbar" style="width:  @ViewBag.deger16%;"></div>
+                        <div class="progress-container">
+                            <div class="progress-bar bg-white" style="width: @ViewBag.deger12%"></div>
                         </div>
-
+                        <div class="card-bg-pattern text-white">
+                            <i class="fas fa-star"></i>
+                        </div>
                     </div>
                 </div>
-            </div> <!--16 mor En Çok Yorum Alan Blog ****-->
-
+            </div>
         </div>
-        <!-- 4. satır istatistik son -->
+        <!-- 3. Satır Sonu -->
+        <!-- 4. Satır - Diğer İstatistikler -->
+        <hr />
+        <div class="row gap-3">
+            <div class="col-md-6 col-xl-3">
+                <div class="stat-card gradient-info">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-title text-white">LOKASYON</div>
+                                <div class="stat-value text-white">@ViewBag.locationCount</div>
+                                <div class="d-flex align-items-center mt-2">
+                                    <span class="trend-indicator text-white">
+                                        @ViewBag.deger13%
+                                        @if (ViewBag.deger13 > 50)
+                                        {
+                                            <i class="fas fa-arrow-up"></i>
+                                        }
+                                        @if (ViewBag.deger13 < 50)
+                                        {
+                                            <i class="fas fa-arrow-down"></i>
+                                        }
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="stat-icon">
+                                <i class="fas fa-location-arrow"></i>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar bg-white" style="width: @ViewBag.deger13%"></div>
+                        </div>
+                        <div class="card-bg-pattern text-white">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    </div> 
+            <div class="col-md-6 col-xl-3">
+                <div class="stat-card gradient-orange">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-title text-white">BLOG</div>
+                                <div class="stat-value text-white">@ViewBag.blogCount</div>
+                                <div class="d-flex align-items-center mt-2">
+                                    <span class="trend-indicator text-white">
+                                        @ViewBag.deger14%
+                                        @if (ViewBag.deger14 > 50)
+                                        {
+                                            <i class="fas fa-arrow-up"></i>
+                                        }
+                                        @if (ViewBag.deger14 < 50)
+                                        {
+                                            <i class="fas fa-arrow-down"></i>
+                                        }
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="stat-icon">
+                                <i class="fas fa-blog"></i>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar bg-white" style="width: @ViewBag.deger14%"></div>
+                        </div>
+                        <div class="card-bg-pattern text-white">
+                            <i class="fas fa-newspaper"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-3">
+                <div class="stat-card gradient-blue">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-title text-white">YAZAR</div>
+                                <div class="stat-value text-white">@ViewBag.authorCount</div>
+                                <div class="d-flex align-items-center mt-2">
+                                    <span class="trend-indicator text-white">
+                                        @ViewBag.deger15%
+                                        @if (ViewBag.deger15 > 50)
+                                        {
+                                            <i class="fas fa-arrow-up"></i>
+                                        }
+                                        @if (ViewBag.deger15 < 50)
+                                        {
+                                            <i class="fas fa-arrow-down"></i>
+                                        }
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="stat-icon">
+                                <i class="fas fa-pen-fancy"></i>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar bg-white" style="width: @ViewBag.deger15%"></div>
+                        </div>
+                        <div class="card-bg-pattern text-white">
+                            <i class="fas fa-feather-alt"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-xl-3">
+                <div class="stat-card gradient-pink">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <div class="stat-title text-white">EN ÇOK YORUM ALAN</div>
+                                <div class="stat-value text-white" style="font-size: 1.5rem; line-height: 1.3;">@ViewBag.blogTitleByMaxBlogComment</div>
+                                <div class="metric-label text-white">Blog</div>
+                            </div>
+                            <div class="stat-icon">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar bg-white" style="width: @ViewBag.deger16%"></div>
+                        </div>
+                        <div class="card-bg-pattern text-white">
+                            <i class="fas fa-comment-dots"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 4. Satır Sonu -->
+    </div>
 </div>
+
+<script>
+    // Improved hover effects with animation
+    document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.stat-card');
+
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Animate progress bars on load
+        const progressBars = document.querySelectorAll('.progress-bar');
+        progressBars.forEach(bar => {
+            const width = bar.style.width;
+            bar.style.width = '0';
+            setTimeout(() => {
+                bar.style.width = width;
+            }, 300);
+        });
+    });
+
+    // Add scroll animation for cards
+    window.addEventListener('scroll', function() {
+        const cards = document.querySelectorAll('.stat-card');
+        const windowHeight = window.innerHeight;
+
+        cards.forEach(card => {
+            const cardTop = card.getBoundingClientRect().top;
+            if (cardTop < windowHeight - 100) {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }
+        });
+    });
+</script>
