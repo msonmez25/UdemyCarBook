@@ -1,57 +1,118 @@
-﻿﻿<script src="~/chart.js"></script>
+﻿<div class="col-lg-4 mb-4 mb-lg-0">
+    <div class="card border-0 shadow-sm h-100 rounded-4 bg-white chart-fixed-height">
+        <!-- Başlık + İkon -->
+        <div class="card-header bg-transparent border-0 py-4 px-4">
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-pie-chart text-indigo fs-4 me-3"></i>
+                    <h5 class="mb-0 fw-bold text-dark">Araç Marka Dağılımı</h5>
+                </div>
+                <span class="badge bg-indigo-subtle text-indigo rounded-pill px-3 py-2">2025</span>
+            </div>
+        </div>
 
-<div class="col-lg-4">
-    <div class="card">
-        <div class="card-body">
-
-            <h4 class="card-title d-inline-block">Araç Marka Sayılar</h4>
-
-            <div style="height:260px;text-align:center">
-                <canvas id="my2Chart" height="220px" style="display:inline !important"></canvas>
-                <script>
-                    var values = document.getElementById('my2Chart').getContext('2d');
-                    var myChart = new Chart(values, {
-                        type: 'pie',
-                        data: {
-                            labels: ['Volkwagen', 'Renault', 'Bmw', 'Fiat', 'Skoda', 'Mercedes'],
-                            datasets: [{
-                                label: 'Marka Grafik Listesi',
-                                data: [14, 11, 4, 10, 6, 3],
-                                backgroundColor: [
-                                    'rgba(255,99,132,0.7)',
-                                    'rgba(54,162,235,0.7)',
-                                    'rgba(255,206,86,0.7)',
-                                    'rgba(75,192,192,0.7)',
-                                    'rgba(153,102,255,0.7)',
-                                    'rgba(255,159,64,0.7)',
-                                ],
-                                borderColor: [
-                                    'rgba(255,99,132,1)',
-                                    'rgba(54,162,235,1)',
-                                    'rgba(255,206,86,1)',
-                                    'rgba(75,192,192,1)',
-                                    'rgba(153,102,255,1)',
-                                    'rgba(255,159,64,1)',
-                                ],
-                                borderWidth: 1
-                            }]
-                        }
-                    });
-                </script>
-
-
+        <!-- Grafik Alanı -->
+        <div class="card-body pt-3 pb-4 px-4 d-flex flex-column">
+            <div class="flex-grow-1 position-relative" style="height: 280px;">
+                <canvas id="my2Chart"></canvas>
             </div>
 
-            <div class="row text-center mt-4">
+            <!-- Alt Bilgi: Araç ve Marka Sayısı -->
+            <div class="row text-center mt-4 pt-3 border-top">
                 <div class="col-6">
-                    <h4>48</h4>
-                    <p class="text-muted mb-0">Araç Sayısı</p>
+                    <div class="p-3 bg-light rounded-3 hover-lift">
+                        <h3 class="mb-1 fw-bold text-primary">48</h3>
+                        <small class="text-muted fw-medium">Toplam Araç</small>
+                    </div>
                 </div>
                 <div class="col-6">
-                    <h4>6</h4>
-                    <p class="text-muted mb-0">Marka Sayısı</p>
+                    <div class="p-3 bg-light rounded-3 hover-lift">
+                        <h3 class="mb-1 fw-bold text-success">6</h3>
+                        <small class="text-muted fw-medium">Farklı Marka</small>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Chart.js (Bir kez yüklendiği için ana sayfada varsa buraya gerek yok) -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const ctx = document.getElementById('my2Chart').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'doughnut', // pie yerine doughnut → ortası boş, daha modern duruyor
+            data: {
+                labels: ['Volkswagen', 'Renault', 'BMW', 'Fiat', 'Skoda', 'Mercedes'],
+                datasets: [{
+                    data: [14, 11, 4, 10, 6, 3],
+                    backgroundColor: [
+                        '#4361ee',   // Mavi
+                        '#7209b7',   // Mor
+                        '#f72585',   // Pembe
+                        '#4cc9f0',   // Açık mavi
+                        '#f8961e',   // Turuncu
+                        '#2d6a4f'    // Koyu yeşil
+                    ],
+                    borderColor: '#ffffff',
+                    borderWidth: 4,
+                    hoverOffset: 12,
+                    cutout: '68%' // doughnut kalınlığı (daha ince = daha şık)
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            usePointStyle: true,
+                            pointStyle: 'circle',
+                            font: { size: 13, weight: '500' }
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0,0,0,0.85)',
+                        cornerRadius: 10,
+                        padding: 12,
+                        titleFont: { size: 14, weight: 'bold' },
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) label += ': ';
+                                label += context.parsed + ' araç';
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+<style>
+    .text-indigo {
+        color: #5a189a !important;
+    }
+
+    .bg-indigo-subtle {
+        background-color: rgba(90, 24, 154, 0.15) !important;
+    }
+
+    .hover-lift:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1) !important;
+        transition: all 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.12) !important;
+    }
+</style>

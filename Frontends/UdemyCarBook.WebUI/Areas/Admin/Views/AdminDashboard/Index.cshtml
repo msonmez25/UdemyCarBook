@@ -3,6 +3,22 @@
     Layout = "~/Views/AdminLayout/Index.cshtml";
 }
 
+<style>
+    /* 3 grafik kartının yüksekliği %100 aynı olsun */
+    .chart-fixed-height {
+        height: 520px !important; /* Bu değeri istediğin gibi ayarla */
+    }
+
+    /* Mobilde alta düşsünler, yükseklik otomatik olsun */
+    @@media (max-width: 992px) {
+        .chart-fixed-height
+
+    {
+        height: auto !important;
+    }
+
+    }
+</style>
 
 <div class="page-content">
     <div class="container-fluid">
@@ -50,3 +66,4 @@
 
 @* <!-- App js -->
 <script src="~/Admin/vertical/assets/js/theme.js"></script> *@
+

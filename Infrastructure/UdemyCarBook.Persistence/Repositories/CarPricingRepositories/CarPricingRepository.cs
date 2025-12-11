@@ -48,6 +48,7 @@ namespace UdemyCarBook.Persistence.Repositories.CarPricingRepositories
                 command.CommandText = "select * from(select Brands.Name+'  '+ Model as Marka,CoverImageUrl,Cars.CarScore,Cars.CarID,PricingID,Amount from CarPricings Inner Join Cars On Cars.CarID=CarPricings.CarID Inner Join Brands on Cars.BrandID=Brands.BrandID)As SourceTable Pivot(Sum(Amount) For PricingID In ([1],[3],[4],[5])) as PivotTable;";
                 command.CommandType = System.Data.CommandType.Text;
                 _context.Database.OpenConnection();
+
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
@@ -59,19 +60,21 @@ namespace UdemyCarBook.Persistence.Repositories.CarPricingRepositories
                             CoverImageUrl = reader["CoverImageUrl"].ToString(),
                             CarID = reader["CarID"].ToString(),
                             Amounts = new List<decimal>
-                            {
-                                Convert.ToDecimal(reader["1"]),
-                                Convert.ToDecimal(reader["3"]),
-                                Convert.ToDecimal(reader["4"]),
-                                Convert.ToDecimal(reader["5"])
-                            }
+                    {
+                        reader["1"] == DBNull.Value ? 0 : Convert.ToDecimal(reader["1"]),
+                        reader["3"] == DBNull.Value ? 0 : Convert.ToDecimal(reader["3"]),
+                        reader["4"] == DBNull.Value ? 0 : Convert.ToDecimal(reader["4"]),
+                        reader["5"] == DBNull.Value ? 0 : Convert.ToDecimal(reader["5"])
+                    }
                         };
                         values.Add(carPricingViewModel);
                     }
                 }
+
                 _context.Database.CloseConnection();
                 return values;
             }
         }
+
     }
 }

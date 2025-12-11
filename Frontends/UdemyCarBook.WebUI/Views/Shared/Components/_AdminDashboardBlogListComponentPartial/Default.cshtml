@@ -1,56 +1,112 @@
 ﻿@model List<ResultAllBlogsWithAuthorsDto>
 
+<div class="col-xl-6 mb-4">
+    <div class="card border-0 shadow-sm h-100 rounded-4 bg-white overflow-hidden">
+        <!-- Başlık + İkon -->
+        <div class="card-header bg-transparent border-0 py-4 px-4">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-newspaper text-info fs-4 me-3"></i>
+                <div>
+                    <h5 class="mb-0 fw-bold text-dark">Son Blog Yazıları</h5>
+                    <small class="text-muted">Yazarlarımızın en güncel 5 paylaşımı</small>
+                </div>
+            </div>
+        </div>
 
-<div class="col-xl-6">
-    <div class="card">
-        <div class="card-body">
-
-            <h4 class="card-title">Son Bloglar</h4>
-            <p class="card-subtitle mb-4 font-size-13">
-               Yazarlarımızın Son 5 Blog Listesi
-            </p>
-
+        <!-- Tablo Alanı -->
+        <div class="card-body pt-0 px-4 pb-4">
             <div class="table-responsive">
-                <table class="table table-centered table-hover table-xl mb-0">
-
-                    <thead>
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light-subtle">
                         <tr>
-                            <th class="border-top-0">Blog</th>
-                            <th class="border-top-0">Yazar</th>
-                            <th class="border-top-0">Bloğu Aç</th>
+                            <th class="fw-semibold text-dark ps-4">Blog Başlığı</th>
+                            <th class="fw-semibold text-dark">Yazar</th>
+                            <th class="fw-semibold text-dark text-center pe-4">İşlem</th>
                         </tr>
                     </thead>
                     <tbody>
-
                         @foreach (var item in Model)
                         {
-                           
-                            <tr>
-                               
-                                <td>
-                                    <h5 class="font-size-15 mb-1 font-weight-normal">@item.Title</h5>
-                                   
+                            <tr class="border-start border-start-4 border-start-info hover-lift">
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="me-3">
+                                            <div class="avatar-sm bg-soft-info text-info rounded">
+                                                <i class="fas fa-file-alt fs-5"></i>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="fw-semibold text-dark">@item.Title</div>
+                                            <small class="text-muted">@item.CreatedDate.ToString("dd MMM yyyy")</small>
+                                        </div>
+                                    </div>
                                 </td>
                                 <td>
-                                    <h5 class="font-size-15 mb-1 font-weight-normal"> @item.AuthorName</h5>
-                                    
+                                    <div class="d-flex align-items-center">
+                                        <div class="me-2">
+                                            <div class="avatar-xs bg-soft-primary text-primary rounded-circle">
+                                                <i class="fas fa-user fs-6"></i>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="fw-medium">@item.AuthorName</div>
+                                        </div>
+                                    </div>
                                 </td>
-                                <td>
-                                    <h5 class="font-size-15 mb-1 font-weight-normal">
-                                        <a class="btn btn-primary" href="/Blog/BlogDetail/@item.BlogID">Bloğu Aç</a>
-                                    </h5>
-                                    
+                                <td class="text-center pe-4">
+                                    <a href="/Blog/BlogDetail/@item.BlogID" class="btn btn-info btn-sm rounded-pill px-3 shadow-sm">
+                                        <i class="fas fa-external-link-alt me-1"></i> Aç
+                                    </a>
                                 </td>
                             </tr>
                         }
-                        
-
-                 
-
                     </tbody>
                 </table>
             </div>
 
-        </div> <!-- end card-body-->
-    </div> <!-- end card-->
+            <!-- Boş durum mesajı -->
+            @if (!Model.Any())
+            {
+                <div class="text-center py-5">
+                    <i class="fas fa-inbox fs-1 text-muted opacity-25"></i>
+                    <p class="text-muted mt-3">Henüz blog yazısı eklenmemiş.</p>
+                </div>
+            }
+        </div>
+    </div>
 </div>
+
+<style>
+    /* Satır hover efekti (diğer partial'larda varsa gerek yok) */
+    .hover-lift {
+        transition: all 0.25s ease;
+    }
+
+        .hover-lift:hover {
+            background-color: rgba(13, 110, 253, 0.04) !important;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+    /* Avatar kutuları */
+    .avatar-sm {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .avatar-xs {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+    }
+    /* Buton hover */
+    .btn-info:hover {
+        background-color: #0d6efd;
+        transform: translateY(-1px);
+    }
+</style>

@@ -1,5 +1,101 @@
 ﻿@model List<ResultTestimonialDto>
 
+<style>
+
+    /* ============================================================
+       TESTIMONIAL CARD MODERN TASARIM (ARAÇ KARTLARIYLA UYUMLU)
+       ============================================================ */
+
+    /* Genel kart yapısı */
+    .testimony-wrap {
+        background: #ffffff;
+        border-radius: 16px !important;
+        padding: 30px 25px !important;
+        box-shadow: 0 6px 25px rgba(0,0,0,0.10);
+        border: 2px solid transparent;
+        transition: .3s ease;
+    }
+
+        /* Hover */
+        .testimony-wrap:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 35px rgba(255,140,0,0.35);
+            border-color: #ff9800;
+        }
+
+        /* Profil fotoğrafı */
+        .testimony-wrap .user-img {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            border: 4px solid #ff9800;
+            margin: 0 auto;
+            background-size: cover !important;
+            background-position: center !important;
+            transition: .3s;
+        }
+
+        /* Hover – profil fotoğrafı parlaması */
+        .testimony-wrap:hover .user-img {
+            filter: brightness(1.12) contrast(1.05);
+            transform: scale(1.05);
+        }
+
+        /* Yorum metni */
+        .testimony-wrap .mb-4 {
+            font-size: 17px;
+            color: #444;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        /* Müşteri adı */
+        .testimony-wrap .name {
+            font-weight: 800;
+            font-size: 20px;
+            margin-top: 15px;
+            color: #333;
+            letter-spacing: .5px;
+        }
+
+        /* Ünvan / Pozisyon */
+        .testimony-wrap .position {
+            font-size: 14px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #00e5ff, #0091ea);
+            padding: 5px 12px;
+            border-radius: 8px;
+            color: #00344b;
+        }
+
+    /* ============================================================
+       CAROUSEL UYUMLULUK AYARLARI (BOZULMAYI ENGELLER)
+       ============================================================ */
+
+    .carousel-testimony .owl-stage-outer {
+        overflow: visible !important;
+    }
+
+    .carousel-testimony .item {
+        padding: 12px;
+        box-sizing: border-box;
+    }
+
+    .carousel-testimony .owl-item {
+        display: flex;
+        justify-content: center;
+    }
+
+    .carousel-testimony .owl-nav,
+    .carousel-testimony .owl-dots {
+        position: relative;
+        margin-top: 10px;
+    }
+
+</style>
+
+
+
 <section class="ftco-section testimony-section bg-light">
     <div class="container">
         <div class="row justify-content-center mb-5">
@@ -12,12 +108,13 @@
         <div class="row ftco-animate">
             <div class="col-md-12">
                 <div class="carousel-testimony owl-carousel ftco-owl">
+
                     @foreach (var item in Model)
                     {
                         <div class="item">
                             <div class="testimony-wrap rounded text-center py-4 pb-5">
-                                <div class="user-img mb-2" style="background-image: url(@item.ImageUrl)">
-                                </div>
+                                <div class="user-img mb-2" style="background-image: url(@item.ImageUrl)"></div>
+
                                 <div class="text pt-4">
                                     <p class="mb-4">@item.Comment</p>
                                     <p class="name">@item.Name</p>
@@ -26,6 +123,7 @@
                             </div>
                         </div>
                     }
+
                 </div>
             </div>
         </div>
