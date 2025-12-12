@@ -68,6 +68,20 @@
                                 </div>
 
                                 <div class="mb-3 col-md-6">
+                                    <label class="form-label fw-bold">Başlangıç Tarihi</label>
+                                    <input type="datetime-local" class="form-control" asp-for="StartDate" 
+                                    min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")"
+                                           required>
+                                </div>
+
+                                <div class="mb-3 col-md-6">
+                                    <label class="form-label fw-bold">Bitiş Tarihi</label>
+                                    <input type="datetime-local" class="form-control" asp-for="EndDate"
+                                           min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")"
+                                           required>
+                                </div>
+
+                                <div class="mb-3 col-md-6">
                                     <label>Araç Marka Model</label>
                                     @Html.DropDownListFor(x => x.CarID, (List<SelectListItem>)ViewBag.BrandValues, new { @class = "form-control" })
                                 </div>

@@ -33,6 +33,8 @@ namespace UdemyCarBook.Application.Features.Mediator.Handlers.ReservationHandler
             values.DropOffLocationID = request.DropOffLocationID;
             values.CarID = request.CarID;
             values.Description = request.Description;
+            values.StartDate = request.EndDate;
+            values.Description = request.Description;
             await _repository.UpdateAsync(values);
         }
     }

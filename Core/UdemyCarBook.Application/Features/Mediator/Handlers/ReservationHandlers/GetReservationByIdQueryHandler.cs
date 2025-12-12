@@ -37,7 +37,9 @@ namespace UdemyCarBook.Application.Features.Mediator.Handlers.AuthorHandlers
                 Email = values.Email,
                 Phone = values.Phone,
                 Description = values.Description,
-                 Status= values.Status
+                 Status= values.Status,
+                 StartDate = values.StartDate,
+                 EndDate = values.EndDate
             };
         }
     }

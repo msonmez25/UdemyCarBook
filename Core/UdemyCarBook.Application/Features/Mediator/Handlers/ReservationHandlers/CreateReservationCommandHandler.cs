@@ -33,7 +33,9 @@ namespace UdemyCarBook.Application.Features.Mediator.Handlers.RentACarHandlers
                 DropOffLocationID = request.DropOffLocationID,
                 CarID = request.CarID,
                 Description = request.Description, 
-                Status = "Rezervasyon Alındı"
+                Status = "Rezervasyon Alındı",
+                StartDate = request.StartDate,
+                EndDate = request.EndDate,
             });
         }
     }

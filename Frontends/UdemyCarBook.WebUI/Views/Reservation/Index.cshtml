@@ -157,6 +157,28 @@
                         <option disabled selected> İade Edilecek Lokasyon </option>
                     </select>
                 </div>
+               
+                <div class="mb-3 col-md-6">
+                    <label class="form-label fw-bold">
+                        <i class="fas fa-calendar-alt me-2"></i>Başlangıç Tarihi
+                    </label>
+                    <input type="datetime-local"
+                           class="form-control"
+                           asp-for="StartDate"
+                           min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")"
+                           required>
+                </div>
+
+                <div class="mb-3 col-md-6">
+                    <label class="form-label fw-bold">
+                        <i class="fas fa-flag-checkered me-2"></i>Bitiş Tarihi
+                    </label>
+                    <input type="datetime-local"
+                           class="form-control"
+                           asp-for="EndDate"
+                           min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")"
+                           required>
+                </div>
 
                 <div class="mb-3 col-md-12">
                     <textarea cols="30" rows="3" class="form-control" placeholder="Eklemek İstedikleriniz" asp-for="Description"></textarea>

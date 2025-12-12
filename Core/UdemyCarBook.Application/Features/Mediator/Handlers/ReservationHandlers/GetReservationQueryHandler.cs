@@ -37,7 +37,9 @@ namespace UdemyCarBook.Application.Features.Mediator.Handlers.ReservationHandler
                 Email = x.Email,
                 Phone = x.Phone,
                 Description = x.Description,
-                Status = x.Status
+                Status = x.Status,
+                EndDate = x.EndDate,
+                StartDate = x.StartDate,
             }).ToList();
         }
     }
