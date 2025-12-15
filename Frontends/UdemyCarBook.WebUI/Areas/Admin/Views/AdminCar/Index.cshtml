@@ -1,83 +1,556 @@
 ﻿@model List<ResultCarWitBrandsDto>
-
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Araba Listesi";
     Layout = "~/Views/AdminLayout/Index.cshtml";
-    int sayac = 0;
 }
+
+<style>
+    /* Minimal ve Profesyonel Stil */
+    .page-header-card {
+        background: white;
+        border-radius: 15px;
+        padding: 20px 25px;
+        margin-bottom: 25px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        border-left: 5px solid #667eea;
+    }
+
+    /* BÜYÜK BADGE STİLLERİ */
+    .stats-badge {
+        display: inline-block;
+        padding: 12px 20px;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        text-align: center;
+        min-width: 140px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        margin: 0 8px;
+    }
+
+        .stats-badge:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+    .stats-badge-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+    .stats-badge-success {
+        background: linear-gradient(135deg, #42e695 0%, #3bb2b8 100%);
+        color: white;
+    }
+
+    .stats-badge-warning {
+        background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+        color: #7d4e00;
+    }
+
+    .badge-icon {
+        font-size: 1.2rem;
+        margin-right: 8px;
+        vertical-align: middle;
+    }
+
+    .badge-text {
+        display: block;
+        font-size: 0.85rem;
+        opacity: 0.9;
+        margin-bottom: 4px;
+    }
+
+    .badge-number {
+        display: block;
+        font-size: 1.6rem;
+        font-weight: 700;
+    }
+
+    .table-container {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 30px rgba(0,0,0,0.08);
+    }
+
+    /* DataTable Stilleri */
+    #carsTable_wrapper {
+        padding: 0 !important;
+    }
+
+    #carsTable {
+        width: 100% !important;
+        border-collapse: separate !important;
+        border-spacing: 0 !important;
+        margin: 0 !important;
+    }
+
+        #carsTable thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        }
+
+            #carsTable thead th {
+                color: white !important;
+                font-weight: 600 !important;
+                padding: 16px 12px !important;
+                border: none !important;
+                font-size: 0.9rem !important;
+                text-transform: uppercase !important;
+                letter-spacing: 0.5px !important;
+                position: relative !important;
+            }
+
+        #carsTable tbody tr {
+            transition: all 0.3s ease !important;
+            border-bottom: 1px solid #f1f3fa !important;
+        }
+
+            #carsTable tbody tr:hover {
+                background-color: #f8f9fe !important;
+                transform: translateX(5px) !important;
+            }
+
+        #carsTable tbody td {
+            padding: 16px 12px !important;
+            vertical-align: middle !important;
+            border: none !important;
+            color: #495057 !important;
+            font-weight: 500 !important;
+            font-size: 0.9rem !important;
+        }
+
+    /* ARAÇ BİLGİLERİ */
+    .car-info {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        min-width: 180px;
+    }
+
+    .car-brand-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .brand-icon-small {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+        flex-shrink: 0;
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        color: white;
+    }
+
+    .car-content {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .car-brand {
+        font-weight: 700;
+        color: #374151;
+        font-size: 1rem;
+        line-height: 1.2;
+        margin-bottom: 2px;
+    }
+
+    .car-model {
+        font-size: 0.85rem;
+        color: #6c757d;
+        font-weight: 500;
+    }
+
+    /* TEKNİK ÖZELLİKLER */
+    .tech-specs {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        min-width: 120px;
+    }
+
+    .spec-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .spec-icon-small {
+        width: 24px;
+        height: 24px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.7rem;
+        flex-shrink: 0;
+        color: white;
+    }
+
+    .vites-icon {
+        background: linear-gradient(135deg, #42e695 0%, #3bb2b8 100%);
+    }
+
+    .km-icon {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .spec-value {
+        font-weight: 600;
+        color: #374151;
+        font-size: 0.85rem;
+    }
+
+    /* İşlem Butonları */
+    .action-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        justify-content: center;
+    }
+
+    .btn-action {
+        min-width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        border: none;
+        color: white;
+        cursor: pointer;
+        font-size: 0.8rem;
+        padding: 0 12px;
+        white-space: nowrap;
+    }
+
+    .btn-danger-action {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ffa8a8 100%);
+    }
+
+        .btn-danger-action:hover {
+            background: linear-gradient(135deg, #ff5252 0%, #ff8e8e 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+        }
+
+    .btn-success-action {
+        background: linear-gradient(135deg, #42e695 0%, #3bb2b8 100%);
+    }
+
+        .btn-success-action:hover {
+            background: linear-gradient(135deg, #38d689 0%, #35a4aa 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(66, 230, 149, 0.3);
+        }
+
+    .btn-secondary-action {
+        background: linear-gradient(135deg, #a8c0ff 0%, #3f2b96 100%);
+    }
+
+        .btn-secondary-action:hover {
+            background: linear-gradient(135deg, #96b2ff 0%, #372587 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(168, 192, 255, 0.3);
+        }
+
+    .btn-warning-action {
+        background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+        color: #7d4e00;
+    }
+
+        .btn-warning-action:hover {
+            background: linear-gradient(135deg, #f4c852 0%, #fc9270 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(246, 211, 101, 0.3);
+        }
+
+    .btn-dark-action {
+        background: linear-gradient(135deg, #434343 0%, #000000 100%);
+        color: white;
+    }
+
+        .btn-dark-action:hover {
+            background: linear-gradient(135deg, #383838 0%, #111111 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+    /* Sıra Numarası */
+    .row-number {
+        display: inline-block;
+        width: 28px;
+        height: 28px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 28px;
+        font-weight: 600;
+        font-size: 0.85rem;
+    }
+
+    /* Yeni Araç Ekle Butonu */
+    .btn-new-car {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+
+        .btn-new-car:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            text-decoration: none;
+        }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .stats-badge {
+            padding: 10px 15px;
+            min-width: 120px;
+            margin: 5px;
+            display: block;
+            width: calc(100% - 20px);
+        }
+
+        .badge-number {
+            font-size: 1.4rem;
+        }
+
+        .car-brand-row, .spec-row {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 6px;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .btn-action {
+            justify-content: center;
+            width: 100%;
+        }
+    }
+
+    /* DataTable Custom Stilleri */
+    .dataTables_wrapper .dataTables_length,
+    .dataTables_wrapper .dataTables_filter,
+    .dataTables_wrapper .dataTables_info,
+    .dataTables_wrapper .dataTables_processing,
+    .dataTables_wrapper .dataTables_paginate {
+        padding: 16px !important;
+        color: #495057 !important;
+        font-size: 0.85rem !important;
+    }
+
+        .dataTables_wrapper .dataTables_filter input {
+            border-radius: 8px !important;
+            border: 1px solid #e3e6f0 !important;
+            padding: 8px 16px !important;
+            width: 220px !important;
+            transition: all 0.3s ease !important;
+        }
+
+            .dataTables_wrapper .dataTables_filter input:focus {
+                border-color: #667eea !important;
+                box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25) !important;
+                outline: none !important;
+            }
+
+        .dataTables_wrapper .dataTables_length select {
+            border-radius: 8px !important;
+            border: 1px solid #e3e6f0 !important;
+            padding: 6px 10px !important;
+            background: white !important;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            border-radius: 8px !important;
+            margin: 0 4px !important;
+            border: 1px solid #e3e6f0 !important;
+            padding: 6px 10px !important;
+            transition: all 0.3s ease !important;
+            background: white !important;
+            color: #495057 !important;
+            font-size: 0.85rem !important;
+        }
+
+            .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+                color: white !important;
+                border-color: #667eea !important;
+            }
+
+            .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+                color: white !important;
+                border-color: #667eea !important;
+            }
+
+            .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+                opacity: 0.5 !important;
+                cursor: not-allowed !important;
+            }
+
+    /* Buton container'ı */
+    .button-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 20px;
+    }
+</style>
 
 <div class="page-content">
     <div class="container-fluid">
 
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title font-size-18">Araba Listesi</h4>
-                        <p class="card-subtitle mb-4">
-                            Arabalar ile ilgili ekleme, silme, güncelleme, arama ve listeleme gibi işlemleri bu sayfa üzerinden gerçekleştirebilirsiniz.
-                        </p>
-                        <br />
-                        <table id="tbl1" class="table  nowrap">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Marka</th>
-                                    <th>Model</th>
-                                    <th>Vites</th>
-                                    <th>KM</th>
-                                    <th>Sil</th>
-                                    <th>Güncelle</th>
-                                    <th>Detaylar</th>
-                                    <th>Sitede Gör</th>
-                                    <th>Fiyat Bilgileri</th>
-                                </tr>
-                            </thead>
-
-
-                            <tbody>
-                                @foreach (var item in Model)
-                                {
-                                    sayac++;
-                                    <tr>
-                                        <td>@sayac</td>
-                                        <td>@item.BrandName</td>
-                                        <td>@item.Model</td>
-                                        <td>@item.VitesName</td>
-                                        <td>@item.Km</td>
-                                        <td>
-                                            <a href="/Admin/AdminCar/RemoveCar/@item.CarID" class="btn btn-danger waves-effect waves-light"> Sil </a>
-                                        </td>
-                                        <td>
-                                            <a href="/Admin/AdminCar/UpdateCar/@item.CarID" class="btn btn-success waves-effect waves-light"> Güncelle </a>
-                                        </td>
-                                        <td>
-                                            <a href="/Admin/AdminCarFeatureDetail/Index/@item.CarID" class="btn btn-secondary waves-effect waves-light"> Detay </a>
-                                        </td>
-                                        
-                                        <td>
-                                            <a href="/Car/DetailCar/@item.CarID" class="btn btn-warning waves-effect waves-light" target="_blank"> Sitede Gör </a>
-                                        </td>
-                                        <td>
-                                            <a href="/Admin/AdminCarPricing/GetCarPricingByCarIdToPricingName/@item.CarID" class="btn btn-dark waves-effect waves-light"> Fiyat Bilgileri </a>
-                                        </td>
-                                    </tr>
-                                }
-
-                            </tbody>
-                        </table>
-                        <br />
-                        <a href="/Admin/AdminCar/CreateCar/" class="btn btn-primary waves-effect waves-light"> Yeni Araç Girişi </a>
-
-                    </div> <!-- end card body-->
-                </div> <!-- end card -->
-            </div><!-- end col-->
+        <!-- Başlık Kartı -->
+        <div class="page-header-card">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h4 class="mb-1" style="color: #374151; font-weight: 700; font-size: 1.4rem;">
+                        <i class="fas fa-car mr-2" style="color: #667eea;"></i>
+                        Araba Listesi
+                    </h4>
+                    <p class="text-muted mb-0" style="font-size: 0.9rem;">Sistemdeki tüm araçların listesi</p>
+                </div>
+                <div class="col-md-6">
+                    <div class="text-md-right">
+                        <!-- KOMPAKT STATS BADGELER -->
+                        <div class="d-flex justify-content-end flex-wrap">
+                            <div class="stats-badge stats-badge-primary">
+                                <span class="badge-text">
+                                    <i class="fas fa-car badge-icon"></i>Toplam Araç
+                                </span>
+                                <span class="badge-number">@Model.Count</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-    </div> <!-- container-fluid -->
+        <!-- Tablo Container -->
+        <div class="table-container">
+            <div class="p-3">
+                <div class="table-responsive">
+                    <!-- DataTable başlatıcı ID -->
+                    <table id="carsTable" class="display" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th width="50">#</th>
+                                <th width="200">Araç Bilgileri</th>
+                                <th width="150">Teknik Özellikler</th>
+                                <th width="300" class="text-center">İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <span class="row-number">0</span> <!-- DataTable otomatik dolduracak -->
+                                    </td>
+                                    <td>
+                                        <div class="car-info">
+                                            <div class="car-brand-row">
+                                                <div class="brand-icon-small">
+                                                    <i class="fas fa-car"></i>
+                                                </div>
+                                                <div class="car-content">
+                                                    <div class="car-brand">@item.BrandName</div>
+                                                    <div class="car-model">@item.Model</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="tech-specs">
+                                            <div class="spec-row">
+                                                <div class="spec-icon-small vites-icon">
+                                                    <i class="fas fa-cogs"></i>
+                                                </div>
+                                                <div class="spec-value">@item.VitesName</div>
+                                            </div>
+                                            <div class="spec-row">
+                                                <div class="spec-icon-small km-icon">
+                                                    <i class="fas fa-tachometer-alt"></i>
+                                                </div>
+                                                <div class="spec-value">@item.Km KM</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="action-buttons">
+                                            <a href="/Admin/AdminCar/RemoveCar/@item.CarID"
+                                               class="btn-action btn-danger-action"
+                                               title="Sil"
+                                               onclick="return confirm('@item.BrandName @item.Model aracını silmek istediğinize emin misiniz?')">
+                                                <i class="fas fa-trash-alt mr-1"></i> Sil
+                                            </a>
+                                            <a href="/Admin/AdminCar/UpdateCar/@item.CarID"
+                                               class="btn-action btn-success-action"
+                                               title="Güncelle">
+                                                <i class="fas fa-edit mr-1"></i> Güncelle
+                                            </a>
+                                            <a href="/Admin/AdminCarFeatureDetail/Index/@item.CarID" target="_blank"
+                                               class="btn-action btn-secondary-action"
+                                               title="Detaylar">
+                                                <i class="fas fa-info-circle mr-1"></i> Detay
+                                            </a>
+                                            <a href="/Car/CarDetail/@item.CarID" target="_blank"
+                                               class="btn-action btn-warning-action"
+                                               title="Sitede Gör">
+                                                <i class="fas fa-eye mr-1"></i> Sitede Gör
+                                            </a>
+                                            <a href="/Admin/AdminCarPricing/GetCarPricingByCarIdToPricingName/@item.CarID"
+                                               class="btn-action btn-dark-action"
+                                               title="Fiyat Bilgileri">
+                                                <i class="fas fa-tag mr-1"></i> Fiyat
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Yeni Araç Ekle Butonu -->
+                <div class="button-container">
+                    <a href="/Admin/AdminCar/CreateCar/" class="btn-new-car">
+                        <i class="fas fa-plus-circle"></i> Yeni Araç Girişi
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
 
+<!-- Font Awesome ikonları -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
+<!-- DataTables Scripts -->
 <script src="~/Admin/vertical/assets/js/jquery.min.js"></script>
 <script src="~/Admin/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="~/Admin/plugins/datatables/dataTables.bootstrap4.js"></script>
@@ -92,18 +565,143 @@
 <script src="~/Admin/plugins/datatables/dataTables.select.min.js"></script>
 <script src="~/Admin/plugins/datatables/pdfmake.min.js"></script>
 <script src="~/Admin/plugins/datatables/vfs_fonts.js"></script>
-<!-- third party js ends -->
-<!-- Datatables init -->
-<script src="~/Admin/vertical/assets/pages/datatables-demo.js"></script>
-
 
 <script>
-    $('#tbl1').DataTable(
-        {
+    $(document).ready(function() {
+        // DataTable Initialization
+        var table = $('#carsTable').DataTable({
             "language": {
-                "url": "https://cdn.datatables.net/plug-ins/1.10.20/i18n/Turkish.json"
+                "url": "https://cdn.datatables.net/plug-ins/1.10.20/i18n/Turkish.json",
+                "decimal": ",",
+                "thousands": ".",
+                "sEmptyTable": "Tabloda herhangi bir veri mevcut değil",
+                "sInfo": "_TOTAL_ kayıttan _START_ - _END_ arasındaki kayıtlar gösteriliyor",
+                "sInfoEmpty": "Kayıt yok",
+                "sInfoFiltered": "(_MAX_ kayıt içerisinden bulunan)",
+                "sInfoPostFix": "",
+                "sInfoThousands": ".",
+                "sLengthMenu": "Sayfada _MENU_ kayıt göster",
+                "sLoadingRecords": "Yükleniyor...",
+                "sProcessing": "İşleniyor...",
+                "sSearch": "<i class='fas fa-search mr-2'></i>Ara:",
+                "sZeroRecords": "Eşleşen kayıt bulunamadı",
+                "oPaginate": {
+                    "sFirst": "İlk",
+                    "sLast": "Son",
+                    "sNext": "Sonraki",
+                    "sPrevious": "Önceki"
+                },
+                "oAria": {
+                    "sSortAscending": ": artan sırada sırala",
+                    "sSortDescending": ": azalan sırada sırala"
+                }
+            },
+            "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                   "<'row'<'col-sm-12'tr>>" +
+                   "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+            "pageLength": 10,
+            "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+            "order": [[1, 'asc']], // Marka adına göre sırala
+            "responsive": true,
+            "autoWidth": false,
+            "columnDefs": [
+                {
+                    "orderable": false,
+                    "targets": [3] // İşlemler sütunu sıralanmasın
+                },
+                {
+                    "searchable": false,
+                    "targets": [0, 3] // Sıra no ve işlemler sütunu aranmasın
+                },
+                {
+                    "className": "text-center",
+                    "targets": [0, 2, 3] // Sıra no, teknik özellikler ve işlemleri ortala
+                },
+                {
+                    "width": "50px",
+                    "targets": [0]
+                },
+                {
+                    "width": "200px",
+                    "targets": [1]
+                },
+                {
+                    "width": "150px",
+                    "targets": [2]
+                },
+                {
+                    "width": "300px",
+                    "targets": [3]
+                }
+            ],
+            "initComplete": function(settings, json) {
+                // Tablo hazır olduğunda row number'ları güncelle
+                updateRowNumbers(this);
+            },
+            "drawCallback": function(settings) {
+                // Her sayfa değiştiğinde row number'ları güncelle
+                updateRowNumbers(this.api());
             }
-        }
-    );
-</script>
+        });
 
+        // Row number güncelleme fonksiyonu
+        function updateRowNumbers(dataTable) {
+            var api = dataTable;
+            var pageInfo = api.page.info();
+
+            api.rows({ page: 'current' }).every(function(rowIdx, tableLoop, rowLoop) {
+                var cell = this.cell(rowIdx, 0).node();
+                var rowNumber = (pageInfo.page * pageInfo.length) + (rowLoop + 1);
+                $(cell).html('<span class="row-number">' + rowNumber + '</span>');
+            });
+        }
+
+        // Silme onayı
+        $(document).on('click', '.btn-danger-action', function(e) {
+            var carInfo = $(this).closest('tr').find('.car-brand').text() + ' ' +
+                          $(this).closest('tr').find('.car-model').text().trim();
+            if (!confirm(carInfo + ' aracını silmek istediğinize emin misiniz?\n\nBu işlem geri alınamaz!')) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // Stats badge'e tıklanınca filtreleme
+        $('.stats-badge').click(function() {
+            table.search('').draw();
+
+            // Tıklanan badge'i vurgula
+            $('.stats-badge').css({
+                'transform': 'translateY(0)',
+                'box-shadow': '0 4px 15px rgba(0,0,0,0.1)'
+            });
+            $(this).css({
+                'transform': 'translateY(-3px)',
+                'box-shadow': '0 8px 25px rgba(0,0,0,0.2)'
+            });
+        });
+
+        // Marka adına tıklayınca filtrele
+        $(document).on('click', '.car-brand', function() {
+            var brandName = $(this).text().trim();
+            table.search(brandName).draw();
+        });
+
+        // Araç modeline tıklayınca detay göster
+        $(document).on('click', '.car-model', function() {
+            var carModel = $(this).text().trim();
+            var carBrand = $(this).closest('.car-content').find('.car-brand').text().trim();
+            alert('Araç Detayı: ' + carBrand + ' ' + carModel);
+        });
+
+        // Sayfa yüklendiğinde DataTable'ı yeniden boyutlandır
+        $(window).on('resize', function() {
+            table.columns.adjust().responsive.recalc();
+        });
+
+        // Tablo hazır olduğunda bir kereliğine row number'ları güncelle
+        setTimeout(function() {
+            updateRowNumbers(table);
+        }, 100);
+    });
+</script>
