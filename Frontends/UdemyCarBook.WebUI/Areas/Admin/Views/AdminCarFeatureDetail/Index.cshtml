@@ -1,50 +1,669 @@
 ﻿@model List<ResultCarFeatureByCarIdDto>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Araç Özellikleri Listesi";
     Layout = "~/Views/AdminLayout/Index.cshtml";
 }
 
+<style>
+    /* Modern ve Profesyonel Tasarım */
+    .page-header {
+        background: white;
+        border-radius: 15px;
+        padding: 25px 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        border-left: 5px solid #667eea;
+        position: relative;
+    }
+
+    .page-title {
+        color: #374151;
+        font-weight: 700;
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+        .page-title i {
+            color: #667eea;
+        }
+
+    .page-subtitle {
+        color: #6c757d;
+        font-size: 0.95rem;
+        margin-bottom: 0;
+    }
+
+    /* SEÇİM SAYACI - ÜST SAĞDA DİKDÖRTGEN */
+    .selection-counter-top {
+        position: absolute;
+        top: 25px;
+        right: 30px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        z-index: 100;
+        min-width: 180px;
+        justify-content: center;
+        border: none;
+        animation: fadeInRight 0.5s ease;
+    }
+
+    @@keyframes fadeInRight {
+        from {
+            opacity: 0;
+            transform: translateX(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .counter-number {
+        background: white;
+        color: #667eea;
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1.1rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .counter-text {
+        font-size: 0.9rem;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .features-container {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 5px 30px rgba(0,0,0,0.08);
+        margin-bottom: 30px;
+    }
+
+    /* Özellik Grid Sistemi */
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    /* Checkbox Kartları - GÜNCELLENDİ */
+    .feature-check-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        border: 2px solid #e9ecef;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 90px;
+    }
+
+        .feature-check-card:hover {
+            border-color: #667eea;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .feature-check-card.checked {
+            border-color: #42e695;
+            background: linear-gradient(135deg, rgba(66, 230, 149, 0.05) 0%, rgba(59, 178, 184, 0.05) 100%);
+        }
+
+    /* ÖZELLİK İÇERİK KONTEYNERİ - YENİ EKLENDİ */
+    .feature-content-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        gap: 15px;
+    }
+
+    /* Checkbox ve Label için konteyner */
+    .feature-check-container {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex: 1;
+        min-width: 0; /* Önemli: Uzun metin sorununu çözer */
+    }
+
+    /* Custom Checkbox - GÜNCELLENDİ */
+    .form-check {
+        margin: 0;
+        padding: 0;
+        min-height: 0;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        flex: 1;
+        min-width: 0; /* Önemli: Uzun metin sorununu çözer */
+    }
+
+    .form-check-input {
+        width: 22px;
+        height: 22px;
+        margin: 0;
+        cursor: pointer;
+        border: 2px solid #dee2e6;
+        position: relative;
+        appearance: none;
+        -webkit-appearance: none;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        flex-shrink: 0; /* Genişliği sabit tutar */
+    }
+
+        .form-check-input:checked {
+            background-color: #42e695;
+            border-color: #42e695;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");
+            background-size: 14px;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .form-check-input:focus {
+            border-color: #42e695;
+            box-shadow: 0 0 0 0.25rem rgba(66, 230, 149, 0.25);
+        }
+
+    .form-check-label {
+        cursor: pointer;
+        font-weight: 600;
+        color: #374151;
+        font-size: 1rem;
+        flex: 1;
+        margin: 0;
+        padding: 5px 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        min-width: 0; /* Önemli: Uzun metin sorununu çözer */
+    }
+
+    /* Status Badge - GÜNCELLENDİ */
+    .status-badge {
+        font-size: 0.75rem;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        white-space: nowrap;
+        flex-shrink: 0; /* Genişliği sabit tutar */
+        margin-left: 15px;
+        width: 80px;
+        text-align: center;
+    }
+
+    .status-active {
+        background: rgba(66, 230, 149, 0.15);
+        color: #0e6251;
+        border: 1px solid rgba(66, 230, 149, 0.3);
+    }
+
+    .status-inactive {
+        background: rgba(255, 107, 107, 0.15);
+        color: #78281f;
+        border: 1px solid rgba(255, 107, 107, 0.3);
+    }
+
+    /* Butonlar */
+    .button-container {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+        padding-top: 25px;
+        border-top: 1px solid #e9ecef;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn-save {
+        background: linear-gradient(135deg, #42e695 0%, #3bb2b8 100%);
+        color: white;
+        border: none;
+        padding: 14px 32px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 1rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+        .btn-save:hover {
+            background: linear-gradient(135deg, #38d689 0%, #35a4aa 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(66, 230, 149, 0.3);
+        }
+
+    .btn-add {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 14px 32px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 1rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+
+        .btn-add:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            text-decoration: none;
+        }
+
+    /* Boş Durum */
+    .empty-state {
+        text-align: center;
+        padding: 60px 30px;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-radius: 15px;
+        border: 2px dashed #dee2e6;
+        margin: 30px 0;
+    }
+
+    .empty-icon {
+        font-size: 4rem;
+        color: #adb5bd;
+        margin-bottom: 20px;
+        opacity: 0.7;
+    }
+
+    .empty-title {
+        color: #6c757d;
+        font-weight: 600;
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+    }
+
+    .empty-subtitle {
+        color: #868e96;
+        font-size: 0.95rem;
+        max-width: 500px;
+        margin: 0 auto 30px;
+        line-height: 1.5;
+    }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .page-header {
+            padding: 20px;
+            padding-bottom: 80px;
+        }
+
+        .selection-counter-top {
+            top: auto;
+            bottom: 20px;
+            right: 20px;
+            left: 20px;
+            justify-content: center;
+            min-width: auto;
+        }
+
+        .features-grid {
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .feature-check-card {
+            flex-direction: column;
+            align-items: stretch;
+            min-height: auto;
+        }
+
+        .feature-content-wrapper {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+        }
+
+        .status-badge {
+            margin-left: 0;
+            margin-top: 10px;
+            align-self: flex-start;
+        }
+
+        .button-container {
+            flex-direction: column;
+        }
+
+        .btn-save, .btn-add {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .features-container {
+            padding: 20px;
+        }
+
+        .form-check-label {
+            white-space: normal;
+            overflow: visible;
+            text-overflow: clip;
+        }
+    }
+
+    /* Animasyon */
+    .feature-check-card {
+        animation: fadeInUp 0.4s ease;
+    }
+
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Checkbox Seçim Efekti */
+    .feature-check-card.checked::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(135deg, #42e695 0%, #3bb2b8 100%);
+    }
+
+    /* Uzun özellik adları için özel stil - YENİ EKLENDİ */
+    .long-feature-name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 200px;
+    }
+
+    @@media (min-width: 992px) {
+        .form-check-label {
+            max-width: 220px;
+        }
+    }
+</style>
 
 <div class="page-content">
     <div class="container-fluid">
-
         <div class="row">
             <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title font-size-18">Araca Ait Özellikler Listesi</h4>
-                        <p class="card-subtitle mb-4">
-                            Araca ait özellik eklenmesi yapailir, mevcut özellikleri kaldırabilir, ilgili güncellemesi yapabilirsiniz.
-                        </p>
-                   @if(Model.Count>0)
-                        {
-                            <form method="post">
+                <!-- Başlık ve Seçim Sayacı -->
+                <div class="page-header">
+                    <h4 class="page-title">
+                        <i class="fas fa-list-check"></i>
+                        Araca Ait Özellikler Listesi
+                    </h4>
+                    <p class="page-subtitle">
+                        Araca ait özellik eklenmesi yapabilir, mevcut özellikleri kaldırabilir, ilgili güncellemesi yapabilirsiniz.
+                    </p>
 
+                    <!-- SEÇİM SAYACI - ÜST SAĞDA DİKDÖRTGEN -->
+                    <div class="selection-counter-top" id="selectionCounter" style="display: none;">
+                        <div class="counter-number" id="selectedCount">0</div>
+                        <div class="counter-text">özellik seçildi</div>
+                    </div>
+                </div>
+
+                <!-- İçerik -->
+                <div class="features-container">
+                    @if (Model.Count > 0)
+                    {
+                        <form method="post" id="featuresForm">
+                            <div class="features-grid">
                                 @for (int i = 0; i < Model.Count; i++)
                                 {
-                                    <div class="form-check">
-                                        <input type="hidden" asp-for="@Model[i].CarFeatureID" />
-                                        <input type="hidden" asp-for="@Model[i].FeatureName" />
-                                        <input type="checkbox" asp-for="@Model[i].Available" class="form-check-input" />
-                                        <label class="form-check-label" asp-for="@Model[i].Available">@Model[i].FeatureName</label>
+                                    var feature = Model[i];
+                                    var isChecked = feature.Available;
+                                    var cardClass = isChecked ? "feature-check-card checked" : "feature-check-card";
+                                    var statusClass = isChecked ? "status-active" : "status-inactive";
+                                    var statusText = isChecked ? "AKTİF" : "PASİF";
+
+                                    <div class="@cardClass" data-index="@i">
+                                        <!-- feature-id DIV'İ KALDIRILDI -->
+
+                                        <div class="feature-content-wrapper">
+                                            <!-- Sol taraf: Checkbox ve Özellik Adı -->
+                                            <div class="feature-check-container">
+                                                <!-- Hidden Inputs -->
+                                                <input type="hidden" asp-for="@Model[i].CarFeatureID" />
+                                                <input type="hidden" asp-for="@Model[i].FeatureName" />
+
+                                                <!-- Checkbox -->
+                                                <input type="checkbox"
+                                                       asp-for="@Model[i].Available"
+                                                       class="form-check-input"
+                                                       id="feature_@i" />
+
+                                                <!-- Label -->
+                                                <label class="form-check-label" asp-for="@Model[i].Available"
+                                                       title="@feature.FeatureName">
+                                                    @feature.FeatureName
+                                                </label>
+                                            </div>
+
+                                            <!-- Sağ taraf: Status Badge -->
+                                            <div class="status-badge @statusClass">@statusText</div>
+                                        </div>
                                     </div>
                                 }
-                                <br />
-                                <button class="btn btn-success">Değişiklikleri Kaydet</button>
-                            </form>
-                        }
-                        else
-                        {
-                            <td>
-                                <a href="/Admin/AdminCarFeatureDetail/CreateCarFeatureByCarID" class="btn btn-dark waves-effect waves-light"> Özellik Tanımla </a>
-                            </td>
-                        }
+                            </div>
 
-
-                    </div> <!-- end card body-->
-                </div> <!-- end card -->
-            </div><!-- end col-->
+                            <!-- Butonlar -->
+                            <div class="button-container">
+                                <button type="submit" class="btn-save">
+                                    <i class="fas fa-save"></i>
+                                    Değişiklikleri Kaydet
+                                </button>
+                                <a href="/Admin/AdminCarFeatureDetail/CreateCarFeatureByCarID" class="btn-add">
+                                    <i class="fas fa-plus-circle"></i>
+                                    Yeni Özellik Ekle
+                                </a>
+                            </div>
+                        </form>
+                    }
+                    else
+                    {
+                        <!-- Boş Durum -->
+                        <div class="empty-state">
+                            <div class="empty-icon">
+                                <i class="fas fa-cogs"></i>
+                            </div>
+                            <h3 class="empty-title">Henüz Özellik Tanımlanmamış</h3>
+                            <p class="empty-subtitle">
+                                Bu araca henüz hiç özellik eklenmemiş.<br>
+                                Aşağıdaki butona tıklayarak yeni özellikler ekleyebilirsiniz.
+                            </p>
+                            <a href="/Admin/AdminCarFeatureDetail/CreateCarFeatureByCarID" class="btn-add">
+                                <i class="fas fa-plus-circle me-2"></i>
+                                Özellik Tanımla
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
-
-    </div> <!-- container-fluid -->
+    </div>
 </div>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        // Seçili özellik sayısını takip et
+        let selectedCount = 0;
+
+        // İlk yüklemede seçili özellikleri say
+        function countInitialSelections() {
+            selectedCount = $('.form-check-input:checked').length;
+            updateSelectionCounter();
+        }
+
+        // Checkbox değiştiğinde
+        $('.form-check-input').change(function() {
+            const card = $(this).closest('.feature-check-card');
+            const isChecked = $(this).is(':checked');
+            const statusBadge = card.find('.status-badge');
+
+            // Kart görünümünü güncelle
+            if (isChecked) {
+                card.addClass('checked');
+                statusBadge
+                    .removeClass('status-inactive')
+                    .addClass('status-active')
+                    .text('Aktif');
+                selectedCount++;
+            } else {
+                card.removeClass('checked');
+                statusBadge
+                    .removeClass('status-active')
+                    .addClass('status-inactive')
+                    .text('Pasif');
+                selectedCount--;
+            }
+
+            // Seçim sayacını güncelle
+            updateSelectionCounter();
+
+            // Sayaca animasyon efekti
+            animateCounter();
+
+            // Kart animasyonu
+            card.css({
+                'transform': 'scale(1.02)',
+                'transition': 'all 0.2s ease'
+            });
+
+            setTimeout(() => {
+                card.css('transform', 'scale(1)');
+            }, 200);
+        });
+
+        // Seçim sayacını güncelle
+        function updateSelectionCounter() {
+            $('#selectedCount').text(selectedCount);
+
+            if (selectedCount > 0) {
+                $('#selectionCounter').show();
+            } else {
+                $('#selectionCounter').hide();
+            }
+        }
+
+        // Sayaca animasyon efekti
+        function animateCounter() {
+            const $counterNumber = $('#selectedCount');
+
+            $counterNumber.css({
+                'transform': 'scale(1.3)',
+                'transition': 'transform 0.2s ease'
+            });
+
+            setTimeout(() => {
+                $counterNumber.css('transform', 'scale(1)');
+            }, 200);
+        }
+
+        // Kartlara tıklanınca checkbox'ı toggle et
+        $('.feature-check-card').click(function(e) {
+            // Eğer checkbox'a veya label'a tıklanmadıysa
+            if (!$(e.target).is('.form-check-input') &&
+                !$(e.target).is('.form-check-label') &&
+                !$(e.target).closest('.form-check-label').length &&
+                !$(e.target).is('.status-badge')) {
+                const checkbox = $(this).find('.form-check-input');
+                checkbox.prop('checked', !checkbox.prop('checked')).trigger('change');
+            }
+        });
+
+        // Form submit olayı
+        $('#featuresForm').on('submit', function(e) {
+            // Yükleniyor göstergesi
+            $('.btn-save').html('<i class="fas fa-spinner fa-spin"></i> Kaydediliyor...');
+            $('.btn-save').prop('disabled', true);
+
+            // 2 saniye sonra butonu eski haline getir (simülasyon)
+            setTimeout(() => {
+                $('.btn-save').html('<i class="fas fa-save"></i> Değişiklikleri Kaydet');
+                $('.btn-save').prop('disabled', false);
+            }, 2000);
+
+            return true;
+        });
+
+        // İlk yüklemede seçimleri say
+        countInitialSelections();
+
+        // Enter tuşuyla submit'i engelle
+        $(document).on('keypress', function(e) {
+            if (e.which === 13 && !$(e.target).is('textarea')) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // Sayacın hover efekti
+        $('#selectionCounter').hover(
+            function() {
+                $(this).css({
+                    'transform': 'translateY(-2px)',
+                    'box-shadow': '0 6px 20px rgba(102, 126, 234, 0.4)',
+                    'transition': 'all 0.3s ease'
+                });
+            },
+            function() {
+                $(this).css({
+                    'transform': 'translateY(0)',
+                    'box-shadow': '0 4px 15px rgba(102, 126, 234, 0.3)'
+                });
+            }
+        );
+
+        // Uzun özellik adları için tooltip
+        $('.form-check-label').each(function() {
+            if (this.scrollWidth > this.clientWidth) {
+                $(this).attr('title', $(this).text());
+            }
+        });
+    });
+</script>

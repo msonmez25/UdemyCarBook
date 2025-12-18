@@ -1,120 +1,119 @@
 ﻿@model List<ResultTestimonialDto>
 
-<style>
 
-    /* ============================================================
-       TESTIMONIAL CARD MODERN TASARIM (ARAÇ KARTLARIYLA UYUMLU)
-       ============================================================ */
+    <style>
+    /* ================================
+       TESTIMONIAL – CAR CARD STYLE
+    ================================ */
 
-    /* Genel kart yapısı */
+    /* Ana kart */
     .testimony-wrap {
         background: #ffffff;
         border-radius: 16px !important;
-        padding: 30px 25px !important;
         box-shadow: 0 6px 25px rgba(0,0,0,0.10);
+        transition: .35s ease;
         border: 2px solid transparent;
-        transition: .3s ease;
+        position: relative;
+        overflow: hidden;
     }
 
-        /* Hover */
+        /* Hover efekti */
         .testimony-wrap:hover {
             transform: translateY(-6px);
             box-shadow: 0 12px 35px rgba(255,140,0,0.35);
             border-color: #ff9800;
         }
 
-        /* Profil fotoğrafı */
+        /* Üst avatar alanı */
         .testimony-wrap .user-img {
             width: 110px;
             height: 110px;
-            border-radius: 50%;
-            border: 4px solid #ff9800;
             margin: 0 auto;
+            border-radius: 50%;
             background-size: cover !important;
             background-position: center !important;
+            border: 4px solid #ff9800;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
             transition: .3s;
         }
 
-        /* Hover – profil fotoğrafı parlaması */
+        /* Hover – avatar parlaklık */
         .testimony-wrap:hover .user-img {
-            filter: brightness(1.12) contrast(1.05);
             transform: scale(1.05);
+            filter: brightness(1.1) contrast(1.05);
         }
 
-        /* Yorum metni */
-        .testimony-wrap .mb-4 {
-            font-size: 17px;
-            color: #444;
-            line-height: 1.6;
-            font-style: italic;
+        /* Metin alanı */
+        .testimony-wrap .text {
+            padding: 20px 25px;
         }
 
-        /* Müşteri adı */
+            /* Yorum */
+            .testimony-wrap .text p.mb-4 {
+                font-size: 15px;
+                line-height: 1.7;
+                color: #444;
+                font-style: italic;
+            }
+
+        /* İsim */
         .testimony-wrap .name {
+            font-size: 18px;
             font-weight: 800;
-            font-size: 20px;
-            margin-top: 15px;
             color: #333;
-            letter-spacing: .5px;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: .4px;
         }
 
-        /* Ünvan / Pozisyon */
+        /* Ünvan */
         .testimony-wrap .position {
-            font-size: 14px;
-            font-weight: 600;
-            background: linear-gradient(135deg, #00e5ff, #0091ea);
-            padding: 5px 12px;
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 4px 12px;
             border-radius: 8px;
+            background: linear-gradient(135deg, #00e5ff, #0091ea);
             color: #00344b;
         }
 
-    /* ============================================================
-       CAROUSEL UYUMLULUK AYARLARI (BOZULMAYI ENGELLER)
-       ============================================================ */
-
+    /* Owl carousel taşma fix */
     .carousel-testimony .owl-stage-outer {
-        overflow: visible !important;
+        overflow: visible;
+    }
+
+    /* Item spacing */
+    .carousel-testimony .item {
+        padding: 15px;
     }
 
     .carousel-testimony .item {
-        padding: 12px;
-        box-sizing: border-box;
+        padding: 15px;
     }
 
-    .carousel-testimony .owl-item {
-        display: flex;
-        justify-content: center;
+    .carousel-testimony .owl-stage-outer {
+        overflow: visible;
     }
 
-    .carousel-testimony .owl-nav,
-    .carousel-testimony .owl-dots {
-        position: relative;
-        margin-top: 10px;
-    }
-
-</style>
-
-
+    </style>
 
 <section class="ftco-section testimony-section bg-light">
     <div class="container">
         <div class="row justify-content-center mb-5">
             <div class="col-md-7 text-center heading-section ftco-animate">
-                <span class="subheading">MÜŞTERİLERİMİZ BİZİM İÇİN NELER SÖYLEDİLER</span>
+                <span class="subheading">Bizim İçin Ne Dediler</span>
                 <h2 class="mb-3">Mutlu Müşteriler</h2>
             </div>
         </div>
-
         <div class="row ftco-animate">
             <div class="col-md-12">
                 <div class="carousel-testimony owl-carousel ftco-owl">
-
                     @foreach (var item in Model)
                     {
                         <div class="item">
                             <div class="testimony-wrap rounded text-center py-4 pb-5">
-                                <div class="user-img mb-2" style="background-image: url(@item.ImageUrl)"></div>
-
+                                <div class="user-img mb-2" style="background-image: url(@item.ImageUrl)">
+                                </div>
                                 <div class="text pt-4">
                                     <p class="mb-4">@item.Comment</p>
                                     <p class="name">@item.Name</p>
@@ -123,9 +122,33 @@
                             </div>
                         </div>
                     }
-
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<script>
+    $('.carousel-testimony').owlCarousel({
+        loop: true,
+        margin: 30,
+        nav: false,
+        dots: true,
+        autoplay: true,
+        autoplayTimeout: 4500,
+        autoplayHoverPause: true,
+        smartSpeed: 800,
+
+        responsive: {
+            0: {
+                items: 1
+            },
+            768: {
+                items: 2
+            },
+            992: {
+                items: 3
+            }
+        }
+    });
+</script>

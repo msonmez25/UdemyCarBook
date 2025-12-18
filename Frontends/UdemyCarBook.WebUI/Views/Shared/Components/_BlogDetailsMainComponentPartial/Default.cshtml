@@ -1,4 +1,132 @@
 ﻿@model ResultGetBlogByIdDto
+
+<style>
+    /* ================================
+       BLOG DETAIL – ANA İÇERİK
+    ================================ */
+
+    .col-md-8.ftco-animate {
+        background: #ffffff;
+        border-radius: 18px;
+        padding: 35px 40px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    }
+
+    /* Ana başlık */
+    .col-md-8 h2 {
+        font-size: 30px;
+        font-weight: 900;
+        color: #222;
+        line-height: 1.4;
+        position: relative;
+        margin-bottom: 22px;
+    }
+
+        /* Başlık altı vurgu */
+        .col-md-8 h2::after {
+            content: "";
+            display: block;
+            width: 70px;
+            height: 4px;
+            background: linear-gradient(135deg, #ff9800, #ff006a);
+            margin-top: 10px;
+            border-radius: 4px;
+        }
+
+    /* Paragraflar */
+    .col-md-8 p {
+        font-size: 16px;
+        line-height: 1.85;
+        color: #444;
+        margin-bottom: 22px;
+    }
+
+    /* Görseller */
+    .col-md-8 img {
+        border-radius: 16px;
+        margin: 25px 0;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+        transition: .35s ease;
+    }
+
+        /* Hover – görsel efekt */
+        .col-md-8 img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 14px 38px rgba(255,140,0,0.35);
+        }
+
+    /* İkinci başlık aralığı */
+    .col-md-8 h2.mt-5 {
+        margin-top: 60px !important;
+    }
+
+    /* Tag cloud alanı */
+    .col-md-8 .tagcloud a {
+        display: inline-block;
+        padding: 6px 14px;
+        margin: 6px 6px 0 0;
+        font-size: 13px;
+        font-weight: 700;
+        border-radius: 20px;
+        background: linear-gradient(135deg, #00e5ff, #0091ea);
+        color: #00344b !important;
+        transition: .3s;
+    }
+
+        .col-md-8 .tagcloud a:hover {
+            background: linear-gradient(135deg, #ff9800, #ff006a);
+            color: #fff !important;
+        }
+
+    /* Yazar hakkında alanı */
+    .col-md-8 .about-author {
+        background: #fff;
+        border-radius: 16px;
+        padding: 25px;
+        margin-top: 60px;
+        box-shadow: 0 6px 22px rgba(0,0,0,0.10);
+        border-left: 5px solid #ff9800;
+    }
+
+    /* Yorum alanı */
+    .col-md-8 .pt-5 {
+        margin-top: 70px !important;
+    }
+
+    /* Yorum kartları */
+    .col-md-8 .comment-list li {
+        background: #ffffff;
+        border-radius: 14px;
+        padding: 18px 20px;
+        margin-bottom: 18px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+        border-left: 4px solid #ff9800;
+    }
+
+    /* Yorum formu */
+    .col-md-8 form {
+        background: #ffffff;
+        padding: 25px;
+        border-radius: 16px;
+        box-shadow: 0 6px 22px rgba(0,0,0,0.08);
+        margin-top: 30px;
+    }
+
+    /* Mobil düzen */
+    @@media (max-width: 991px) {
+        .col-md-8.ftco-animate
+
+    {
+        padding: 25px 22px;
+    }
+
+    .col-md-8 h2 {
+        font-size: 24px;
+    }
+
+    }
+</style>
+
 <div class="col-md-8 ftco-animate">
     <h2 class="mb-3">@Model.Title</h2>
     <p>@Model.Description1</p>

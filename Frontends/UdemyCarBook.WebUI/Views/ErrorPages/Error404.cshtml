@@ -1,76 +1,256 @@
 ﻿@{
     Layout = null;
 }
-
 <!DOCTYPE html>
-<html lang="zxx">
+<html lang="tr">
 <head>
     <!-- Google Tag Manager -->
     <script>
         (function (w, d, s, l, i) {
             w[l] = w[l] || []; w[l].push({
-                'gtm.start':
-                    new Date().getTime(), event: 'gtm.js'
+                'gtm.start': new Date().getTime(), event: 'gtm.js'
             }); var f = d.getElementsByTagName(s)[0],
                 j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-TAGCODE');</script>
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-TAGCODE');
+    </script>
     <!-- End Google Tag Manager -->
-    <title>Traversal 401 Sayfa Bulunamadı</title>
+    <title>CarBook - 404 Sayfa Bulunamadı</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
-    <!-- External CSS libraries -->
-    <link type="text/css" rel="stylesheet" href="~/errorpages/HTML/main/assets/css/bootstrap.min.css">
-    <link type="text/css" rel="stylesheet" href="~/errorpages/HTML/main/assets/fonts/font-awesome/css/font-awesome.min.css">
-    <link type="text/css" rel="stylesheet" href="~/errorpages/HTML/main/assets/fonts/flaticon/font/flaticon.css">
+    <link type="text/css" rel="stylesheet" href="~/loginRegister/assets/css/bootstrap.min.css">
+    <link rel="shortcut icon" href="~/Admin/vertical/assets/images/storyfire.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --green: #00d4aa;
+            --orange: #ff6b35;
+            --orange-light: #ff8c42;
+            --dark: #1a1a1a;
+            --light: #ffffff;
+            --gray: #94a3b8;
+        }
 
-    <!-- Favicon icon -->
-    <link rel="shortcut icon" href="~/miri-ui/docs/assets/images/icons8_airplane_take_off_3.ico" type="image/x-icon">
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)), url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1920') center/cover no-repeat fixed;
+        }
 
-    <!-- Google fonts -->
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800%7CPoppins:400,500,700,800,900%7CRoboto:100,300,400,400i,500,700">
+        a {
+            text-decoration: none !important;
+        }
 
-    <!-- Custom Stylesheet -->
-    <link type="text/css" rel="stylesheet" href="~/errorpages/HTML/main/assets/css/style.css">
+        .error-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
 
+        .error-card {
+            max-width: 520px;
+            width: 100%;
+            background: var(--light);
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+            position: relative;
+            transition: all 0.45s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 3px solid transparent;
+        }
+
+            .error-card:hover {
+                transform: translateY(-6px);
+                box-shadow: 0 12px 35px rgba(255,140,0,0.35);
+                border-color: #ff9800;
+            }
+
+                .error-card:hover::after {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    border-radius: 28px;
+                    background: linear-gradient(135deg, rgba(0, 212, 170, 0.08) 0%, rgba(255, 107, 53, 0.08) 100%);
+                    pointer-events: none;
+                    opacity: 0;
+                    animation: shine 0.8s ease-out forwards;
+                }
+        @@keyframes shine {
+            0%
+
+        {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+
+        60% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0;
+            transform: scale(1.05);
+        }
+
+        }
+
+        .brand-header {
+            background: linear-gradient(135deg, #000000 0%, #111111 100%);
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+        }
+
+            .brand-header h1 {
+                font-size: 2.8rem;
+                font-weight: 800;
+                margin: 0;
+                background: linear-gradient(90deg, #00d4aa, #00e6b8);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            .brand-header p {
+                margin: 12px 0 0;
+                opacity: 0.9;
+                font-size: 1.05rem;
+            }
+
+        .error-area {
+            padding: 50px 45px 60px;
+            text-align: center;
+        }
+
+        .error-code {
+            font-size: 6.5rem;
+            font-weight: 800;
+            color: var(--green);
+            margin: 0 0 20px;
+            line-height: 1;
+        }
+
+        .error-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 20px;
+        }
+
+        .error-message {
+            font-size: 1.15rem;
+            color: #666;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+        /* Buton düzenlemesi – tam ortalanmış ve login sayfasındaki gibi */
+        .btn-home {
+            display: inline-block;
+            min-width: 260px; /* Yeterli genişlik */
+            height: 60px;
+            border-radius: 16px;
+            background: var(--green);
+            color: white;
+            font-size: 1.15rem;
+            font-weight: 600;
+            border: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 212, 170, 0.3);
+            text-align: center;
+            line-height: 60px; /* Dikey ortalama */
+            padding: 0 30px;
+        }
+
+            .btn-home:hover {
+                background: #00b894;
+                transform: translateY(-3px);
+                box-shadow: 0 15px 35px rgba(0, 212, 170, 0.4);
+            }
+
+        .car-icon {
+            font-size: 4.5rem;
+            color: var(--green);
+            margin-bottom: 25px;
+            animation: drive 4s infinite linear;
+        }
+        @@keyframes drive {
+            0%
+
+        {
+            transform: translateX(-20px);
+        }
+
+        50% {
+            transform: translateX(20px);
+        }
+
+        100% {
+            transform: translateX(-20px);
+        }
+
+        }
+        @@media (max-width: 576px) {
+            .error-card
+
+        {
+            max-width: 380px;
+            border-radius: 24px;
+        }
+
+        .error-area {
+            padding: 40px 30px;
+        }
+
+        .brand-header h1 {
+            font-size: 2.4rem;
+        }
+
+        .error-code {
+            font-size: 5rem;
+        }
+
+        .btn-home {
+            min-width: auto;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        }
+    </style>
 </head>
-<body id="top">
+<body>
     <!-- Google Tag Manager (noscript) -->
     <noscript>
         <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TAGCODE"
                 height="0" width="0" style="display:none;visibility:hidden"></iframe>
     </noscript>
-    <!-- End Google Tag Manager (noscript) -->
-    <!-- page five 404 start -->
-    <div class="page-five-404">
-        <div id="overview"></div>
-        <div class="informesion">
-            <div class="logos" style="left: 223px">
-                <img src="~/miri-ui/docs/assets/images/clipart2903647 (1).png" alt="logo" style="height: 90px;">
+    <div class="error-container">
+        <div class="error-card">
+            <div class="brand-header">
+                <a href="/Default/Index/"><h1>CARBOOK</h1></a>
+                <p>Hayalindeki Aracı Kirala</p>
             </div>
-            <div class="info" style="text-align: center">
-                <h1>404</h1>
-                <h2>ÜZGÜNÜZ :( </h2>
-                <p>Aradığınız sayfayı bulamadık !</p>
-
-                <div>
-                    <a href="/Default/Index/" class="btn">Ana Sayfa</a>
-                    <a href="#" class="btn" onclick="history.back()" style="background:#28a745">Geri Dön</a>
-                </div>
-
+            <div class="error-area">
+                <i class="bi bi-car-front-fill car-icon"></i>
+                <h1 class="error-code">404</h1>
+                <h3 class="error-title">Yolun Sonu Görünüyor!</h3>
+                <p class="error-message">
+                    Aradığınız sayfa maalesef bulunamadı. Belki yanlış bir yola saptınız ya da sayfa taşındı.<br>
+                    Yolunuza devam etmek için ana sayfaya dönebilirsiniz.
+                </p>
+                <a href="/Default/Index/" class="btn-home">Ana Sayfaya Dön</a>
             </div>
-
         </div>
     </div>
-    <!-- page five 404 end -->
-    <!-- External JS libraries -->
-    <script src="~/errorpages/HTML/main/assets/js/jquery-2.2.0.min.js"></script>
-    <script src="~/errorpages/HTML/main/assets/js/popper.min.js"></script>
-    <script src="~/errorpages/HTML/main/assets/js/bootstrap.min.js"></script>
-    <script src="~/errorpages/HTML/main/assets/js/particles.min.js"></script>
-    <script src="~/errorpages/HTML/main/assets/js/typed.min.js"></script>
-    <script src="~/errorpages/HTML/main/assets/js/jquery.mb.YTPlayer.js"></script>
-    <!-- Custom JS Script -->
-    <script src="~/errorpages/HTML/main/assets/js/app.js"></script>
+    <script src="~/loginRegister/assets/js/jquery-2.2.0.min.js"></script>
+    <script src="~/loginRegister/assets/js/popper.min.js"></script>
+    <script src="~/loginRegister/assets/js/bootstrap.min.js"></script>
 </body>
 </html>

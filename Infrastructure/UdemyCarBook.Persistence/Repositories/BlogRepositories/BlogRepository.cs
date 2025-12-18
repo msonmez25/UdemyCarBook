@@ -33,7 +33,7 @@ namespace UdemyCarBook.Persistence.Repositories.BlogRepositories
 
         public List<Blog> GetLast3BlogsWithAuthors()
         {
-            var values = _context.Blogs.Include(X => X.Author).OrderByDescending(x => x.BlogID).Take(3).ToList();
+            var values = _context.Blogs.Include(X => X.Author).OrderByDescending(x => x.BlogID).Take(5).ToList();
             return values;
         }
     }

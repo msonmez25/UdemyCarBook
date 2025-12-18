@@ -3,6 +3,136 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/UILayout/Index.cshtml";
 }
+<style>
+    /* ================================
+       BLOG INDEX – LIST VIEW
+    ================================ */
+
+    /* Blog kartı */
+    .blog-entry {
+        background: #ffffff;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 8px 28px rgba(0,0,0,0.08);
+        transition: .35s ease;
+        border: 2px solid transparent;
+        width: 100%;
+    }
+
+        /* Hover */
+        .blog-entry:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 14px 40px rgba(255,140,0,0.35);
+            border-color: #ff9800;
+        }
+
+        /* Kapak görseli */
+        .blog-entry .block-20 {
+            height: 360px;
+            background-size: cover !important;
+            background-position: center !important;
+            border-bottom: 4px solid #ff9800;
+            box-shadow: inset 0 -40px 50px rgba(0,0,0,0.35);
+            transition: .3s;
+        }
+
+        /* Hover – görsel */
+        .blog-entry:hover .block-20 {
+            filter: brightness(1.08) contrast(1.05);
+        }
+
+        /* İç metin */
+        .blog-entry .text {
+            padding: 35px 40px;
+        }
+
+        /* Meta alan */
+        .blog-entry .meta a {
+            font-size: 13px;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #00e5ff, #0091ea);
+            color: #00344b !important;
+            margin-right: 8px;
+            display: inline-block;
+        }
+
+        /* Başlık */
+        .blog-entry h3.heading a {
+            font-size: 26px;
+            font-weight: 900;
+            color: #222;
+            line-height: 1.35;
+            transition: .3s;
+        }
+
+            .blog-entry h3.heading a:hover {
+                color: #ff9800;
+            }
+
+        /* Açıklama */
+        .blog-entry p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #555;
+            margin: 18px 0 25px;
+        }
+
+        /* Buton */
+        .blog-entry .btn-primary {
+            background: linear-gradient(135deg, #ff9800, #ff006a) !important;
+            border: none;
+            padding: 12px 22px;
+            font-weight: 700;
+            box-shadow: 0 5px 14px rgba(255,0,102,0.35);
+            transition: .3s;
+        }
+
+            .blog-entry .btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(255,0,102,0.45);
+            }
+
+    /* Pagination */
+    .block-27 ul li a,
+    .block-27 ul li span {
+        border-radius: 10px;
+        padding: 10px 16px;
+        font-weight: 700;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+        transition: .3s;
+    }
+
+    .block-27 ul li.active span {
+        background: linear-gradient(135deg, #ff9800, #ff006a);
+        color: #fff;
+        border: none;
+    }
+
+    .block-27 ul li a:hover {
+        background: #ff9800;
+        color: #fff;
+    }
+
+    /* Mobil */
+    @@media (max-width: 991px) {
+        .blog-entry .block-20
+
+    {
+        height: 240px;
+    }
+
+    .blog-entry .text {
+        padding: 25px;
+    }
+
+    .blog-entry h3.heading a {
+        font-size: 22px;
+    }
+
+    }
+</style>
 
 <section class="ftco-section">
     <div class="container">

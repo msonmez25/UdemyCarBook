@@ -1,5 +1,111 @@
 ﻿@model List<ResultLast3BlogsWithAuthorsDto>
 
+
+    <style>
+    /* ================================
+       SIDEBAR – SON BLOGLAR
+    ================================ */
+
+    .sidebar-box {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 22px 20px;
+        box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+        border: 2px solid transparent;
+        transition: .3s ease;
+    }
+
+        /* Başlık */
+        .sidebar-box h3 {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #ff9800;
+            display: inline-block;
+        }
+
+        /* Blog item */
+        .sidebar-box .block-21 {
+            background: #fff;
+            border-radius: 14px;
+            padding: 10px;
+            align-items: center;
+            transition: .35s ease;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+            border: 2px solid transparent;
+        }
+
+            /* Hover */
+            .sidebar-box .block-21:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 8px 22px rgba(255,140,0,0.35);
+                border-color: #ff9800;
+            }
+
+        /* Sol görsel */
+        .sidebar-box .blog-img {
+            width: 90px;
+            height: 80px;
+            border-radius: 12px;
+            background-size: cover !important;
+            background-position: center !important;
+            flex-shrink: 0;
+            box-shadow: inset 0 -25px 30px rgba(0,0,0,0.35);
+            transition: .3s;
+        }
+
+        /* Hover – görsel efekt */
+        .sidebar-box .block-21:hover .blog-img {
+            filter: brightness(1.1) contrast(1.05);
+        }
+
+        /* Metin alanı */
+        .sidebar-box .text {
+            padding-right: 5px;
+        }
+
+        /* Başlık */
+        .sidebar-box .heading a {
+            font-size: 15px;
+            font-weight: 800;
+            color: #333;
+            line-height: 1.45;
+            display: block;
+            transition: .3s;
+        }
+
+            .sidebar-box .heading a:hover {
+                color: #ff9800;
+            }
+
+        /* Meta alanı */
+        .sidebar-box .meta a {
+            font-size: 12px;
+            font-weight: 700;
+            margin-right: 10px;
+            color: #666 !important;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        /* Meta ikonlar */
+        .sidebar-box .meta span {
+            color: #ff9800;
+            margin-right: 4px;
+        }
+
+    /* Mobil uyum */
+    @@media (max-width: 991px) {
+        .sidebar-box .blog-img
+
+    {
+        width: 75px;
+        height: 70px;
+    }
+
+    }
+</style>
 <div class="sidebar-box ftco-animate">
     <h3>Son Bloglar</h3>
     @foreach(var item in Model)

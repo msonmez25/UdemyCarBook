@@ -1,42 +1,558 @@
 ﻿@model List<ResultFeatureDto>
 @{
-    ViewData["Title"] = "CreateCarFeatureByCarID";
+    ViewData["Title"] = "Araç Özellik Ekleme";
     Layout = "~/Views/AdminLayout/Index.cshtml";
 }
 
+<style>
+    /* Minimal ve Profesyonel Stil */
+    .page-header-card {
+        background: white;
+        border-radius: 15px;
+        padding: 20px 25px;
+        margin-bottom: 25px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        border-left: 5px solid #667eea;
+    }
+
+    /* Özellik Kartları Grid Sistemi */
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+        margin: 30px 0;
+    }
+
+    .feature-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        border: 2px solid #e9ecef;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border-color: #667eea;
+        }
+
+        .feature-card.selected {
+            border-color: #42e695;
+            background: linear-gradient(135deg, rgba(66, 230, 149, 0.05) 0%, rgba(59, 178, 184, 0.05) 100%);
+        }
+
+            .feature-card.selected::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 3px;
+                background: linear-gradient(135deg, #42e695 0%, #3bb2b8 100%);
+            }
+
+    /* Checkbox Stili */
+    .feature-checkbox {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+    .checkmark {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        height: 24px;
+        width: 24px;
+        background-color: white;
+        border: 2px solid #dee2e6;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+    }
+
+    .feature-card:hover .checkmark {
+        border-color: #667eea;
+    }
+
+    .feature-card.selected .checkmark {
+        background: linear-gradient(135deg, #42e695 0%, #3bb2b8 100%);
+        border-color: #42e695;
+    }
+
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    .feature-card.selected .checkmark:after {
+        display: block;
+        left: 7px;
+        top: 3px;
+        width: 6px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+    }
+
+    /* Özellik İçeriği */
+    .feature-content {
+        padding-right: 40px;
+    }
+
+    .feature-icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 15px;
+        color: white;
+        font-size: 1.2rem;
+    }
+
+    .feature-name {
+        font-weight: 600;
+        color: #374151;
+        font-size: 1rem;
+        margin-bottom: 5px;
+        line-height: 1.4;
+    }
+
+    .feature-id {
+        font-size: 0.8rem;
+        color: #6c757d;
+        font-weight: 500;
+    }
+
+    /* Buton Stilleri */
+    .button-container {
+        display: flex;
+        justify-content: center;
+        margin-top: 40px;
+        padding-top: 30px;
+        border-top: 1px solid #e9ecef;
+    }
+
+    .btn-submit {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 14px 32px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 1rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+        .btn-submit:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+    /* Seçili Özellikler Sayacı */
+    .selection-counter {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: linear-gradient(135deg, #42e695 0%, #3bb2b8 100%);
+        color: white;
+        padding: 12px 20px;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        box-shadow: 0 6px 20px rgba(66, 230, 149, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        z-index: 1000;
+        animation: slideInUp 0.3s ease;
+    }
+
+    @@keyframes slideInUp {
+        from {
+            transform: translateY(100px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .counter-number {
+        background: white;
+        color: #42e695;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+    }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .features-grid {
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .selection-counter {
+            bottom: 20px;
+            right: 20px;
+            left: 20px;
+            justify-content: center;
+        }
+
+        .button-container {
+            margin-bottom: 80px;
+        }
+    }
+
+    /* Seçim animasyonu */
+    .feature-card {
+        animation: fadeIn 0.3s ease;
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Özellik kategorileri */
+    .feature-category {
+        display: inline-block;
+        padding: 4px 10px;
+        background: #f8f9fa;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        color: #6c757d;
+        margin-top: 5px;
+        border: 1px solid #e9ecef;
+    }
+
+    /* Boş durum */
+    .empty-features {
+        text-align: center;
+        padding: 60px 20px;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        margin: 30px 0;
+    }
+
+    .empty-icon {
+        font-size: 4rem;
+        color: #e9ecef;
+        margin-bottom: 20px;
+    }
+
+    .empty-title {
+        color: #6c757d;
+        font-weight: 600;
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+    }
+</style>
 
 <div class="page-content">
     <div class="container-fluid">
-
         <div class="row">
             <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title font-size-18">Araca Ait Özellik Ekleme Listesi</h4>
-                        <p class="card-subtitle mb-4">
-                            Araca ait özellik tanımlama yapılacak sayfadır.
-                        </p>
+                <!-- Başlık Kartı -->
+                <div class="page-header-card">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h4 class="card-title font-size-18 mb-1">
+                                <i class="fas fa-car mr-2" style="color: #667eea;"></i>
+                                Araca Ait Özellik Ekleme
+                            </h4>
+                            <p class="card-subtitle mb-0 text-muted" style="font-size: 0.9rem;">
+                                Araca ait özellik tanımlama yapılacak sayfadır.
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-md-right">
+                                <div class="badge bg-primary p-2">
+                                    <i class="fas fa-list-alt me-2"></i>
+                                    Toplam @Model.Count Özellik
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                        <form method="post">
-
+                @if (Model.Count > 0)
+                {
+                    <form method="post" id="featureForm">
+                        <!-- Özellik Kartları Grid -->
+                        <div class="features-grid" id="featuresContainer">
                             @for (int i = 0; i < Model.Count; i++)
                             {
-                                <div class="form-check">
-                                    <input type="hidden" asp-for="@Model[i].FeatureID" />
-                                    <input type="hidden" asp-for="@Model[i].Name" />
-                                    <input type="checkbox"  class="form-check-input" />
-                                    <label class="form-check-label">@Model[i].Name</label>
+                                <div class="feature-card" data-index="@i">
+                                    <input type="hidden" asp-for="@Model[i].FeatureID" id="FeatureID_@i" />
+                                    <input type="hidden" asp-for="@Model[i].Name" id="Name_@i" />
+
+                                    <!-- Gizli Checkbox -->
+                                    <input type="checkbox"
+                                           class="feature-checkbox"
+                                           id="checkbox_@i"
+                                           name="SelectedFeatures"
+                                           value="@Model[i].FeatureID" />
+
+                                    <!-- Custom Checkbox -->
+                                    <span class="checkmark"></span>
+
+                                    <!-- Özellik İçeriği -->
+                                    <div class="feature-content">
+                                        <div class="feature-icon">
+                                            @GetFeatureIcon(Model[i].Name)
+                                        </div>
+                                        <h5 class="feature-name">@Model[i].Name</h5>
+                                        <div class="feature-id">
+                                            Özellik ID: @Model[i].FeatureID
+                                        </div>
+                                        <div class="feature-category">
+                                            @GetFeatureCategory(Model[i].Name)
+                                        </div>
+                                    </div>
                                 </div>
                             }
-                            <br />
-                            <button class="btn btn-primary">Araca Özellikleri Tanımla</button>
-                        </form>
+                        </div>
 
-                    </div> <!-- end card body-->
-                </div> <!-- end card -->
-            </div><!-- end col-->
+                        <!-- Seçili Özellikler Sayacı -->
+                        <div class="selection-counter" id="selectionCounter" style="display: none;">
+                            <div class="counter-number" id="selectedCount">0</div>
+                            <span>özellik seçildi</span>
+                        </div>
+
+                        <!-- Submit Butonu -->
+                        <div class="button-container">
+                            <button type="submit" class="btn-submit" id="submitBtn">
+                                <i class="fas fa-check-circle"></i>
+                                Araca Özellikleri Tanımla
+                            </button>
+                        </div>
+                    </form>
+                }
+                else
+                {
+                    <!-- Boş Özellik Durumu -->
+                    <div class="empty-features">
+                        <div class="empty-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <h3 class="empty-title">Özellik Bulunamadı</h3>
+                        <p class="text-muted">
+                            Sistemde tanımlı özellik bulunmamaktadır. <br>
+                            Öncelikle özellik eklemek için "Özellikler" sayfasına gidiniz.
+                        </p>
+                        <a href="/Admin/AdminFeature" class="btn btn-primary mt-3">
+                            <i class="fas fa-plus-circle me-2"></i>Özellik Ekle
+                        </a>
+                    </div>
+                }
+            </div>
         </div>
-
-    </div> <!-- container-fluid -->
+    </div>
 </div>
 
+<!-- Font Awesome ikonları -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<script>
+    $(document).ready(function() {
+        // Seçili özellik sayısı
+        let selectedCount = 0;
+
+        // Özellik kartına tıklanınca
+        $('.feature-card').click(function(e) {
+            const index = $(this).data('index');
+            const checkbox = $(this).find('.feature-checkbox');
+
+            // Checkbox durumunu değiştir
+            checkbox.prop('checked', !checkbox.prop('checked'));
+
+            // Kartın seçili durumunu güncelle
+            if (checkbox.prop('checked')) {
+                $(this).addClass('selected');
+                selectedCount++;
+            } else {
+                $(this).removeClass('selected');
+                selectedCount--;
+            }
+
+            // Seçim sayacını güncelle
+            updateSelectionCounter();
+
+            // Buton durumunu güncelle
+            updateSubmitButton();
+        });
+
+        // Seçim sayacını güncelleme fonksiyonu
+        function updateSelectionCounter() {
+            $('#selectedCount').text(selectedCount);
+
+            if (selectedCount > 0) {
+                $('#selectionCounter').show();
+
+                // Counter animasyonu
+                $('#selectedCount').css({
+                    'transform': 'scale(1.2)',
+                    'transition': 'transform 0.2s ease'
+                });
+
+                setTimeout(() => {
+                    $('#selectedCount').css('transform', 'scale(1)');
+                }, 200);
+            } else {
+                $('#selectionCounter').hide();
+            }
+        }
+
+        // Submit butonunu güncelleme fonksiyonu
+        function updateSubmitButton() {
+            const submitBtn = $('#submitBtn');
+
+            if (selectedCount > 0) {
+                submitBtn.prop('disabled', false);
+                submitBtn.html('<i class="fas fa-check-circle"></i> Seçilen ' + selectedCount + ' Özelliği Tanımla');
+            } else {
+                submitBtn.prop('disabled', true);
+                submitBtn.html('<i class="fas fa-check-circle"></i> Araca Özellikleri Tanımla');
+            }
+        }
+
+        // Form submit olayı
+        $('#featureForm').on('submit', function(e) {
+            if (selectedCount === 0) {
+                e.preventDefault();
+                alert('Lütfen en az bir özellik seçiniz!');
+                return false;
+            }
+
+            // Yükleniyor göstergesi
+            $('#submitBtn').html('<i class="fas fa-spinner fa-spin"></i> İşleniyor...');
+            $('#submitBtn').prop('disabled', true);
+
+            return true;
+        });
+
+        // İlk yüklemede buton durumunu güncelle
+        updateSubmitButton();
+
+        // Özellik arama fonksiyonu (isteğe bağlı)
+        function setupSearch() {
+            const searchInput = document.createElement('input');
+            searchInput.type = 'text';
+            searchInput.className = 'form-control mb-4';
+            searchInput.placeholder = 'Özellik ara...';
+            searchInput.style.cssText = 'max-width: 400px; margin: 0 auto; display: block;';
+
+            $('#featuresContainer').before(searchInput);
+
+            $(searchInput).on('input', function() {
+                const searchTerm = $(this).val().toLowerCase();
+
+                $('.feature-card').each(function() {
+                    const featureName = $(this).find('.feature-name').text().toLowerCase();
+
+                    if (featureName.includes(searchTerm)) {
+                        $(this).show();
+                        $(this).css('animation', 'fadeIn 0.3s ease');
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            });
+        }
+
+        // Arama özelliğini etkinleştir (isteğe bağlı)
+        if ($('#featuresContainer').length) {
+            setupSearch();
+        }
+    });
+</script>
+
+@functions {
+    // Özellik adına göre ikon belirleme
+    public string GetFeatureIcon(string featureName)
+    {
+        featureName = featureName.ToLower();
+
+        if (featureName.Contains("klima") || featureName.Contains("havalandırma"))
+            return "<i class='fas fa-snowflake'></i>";
+        else if (featureName.Contains("gps") || featureName.Contains("navigasyon"))
+            return "<i class='fas fa-map-marker-alt'></i>";
+        else if (featureName.Contains("bluetooth") || featureName.Contains("bağlantı"))
+            return "<i class='fas fa-bluetooth'></i>";
+        else if (featureName.Contains("kamera") || featureName.Contains("görüntü"))
+            return "<i class='fas fa-camera'></i>";
+        else if (featureName.Contains("çocuk") || featureName.Contains("güvenlik"))
+            return "<i class='fas fa-child'></i>";
+        else if (featureName.Contains("ısıtma") || featureName.Contains("ısıtıcı"))
+            return "<i class='fas fa-thermometer-half'></i>";
+        else if (featureName.Contains("ses") || featureName.Contains("müzik"))
+            return "<i class='fas fa-music'></i>";
+        else if (featureName.Contains("deri") || featureName.Contains("koltuk"))
+            return "<i class='fas fa-chair'></i>";
+        else if (featureName.Contains("park") || featureName.Contains("sensör"))
+            return "<i class='fas fa-car-side'></i>";
+        else if (featureName.Contains("hız") || featureName.Contains("sabit"))
+            return "<i class='fas fa-tachometer-alt'></i>";
+        else
+            return "<i class='fas fa-star'></i>";
+    }
+
+    // Özellik adına göre kategori belirleme
+    public string GetFeatureCategory(string featureName)
+    {
+        featureName = featureName.ToLower();
+
+        if (featureName.Contains("klima") || featureName.Contains("havalandırma") || featureName.Contains("ısıtma"))
+            return "KONFOR";
+        else if (featureName.Contains("gps") || featureName.Contains("navigasyon") || featureName.Contains("ses") || featureName.Contains("müzik"))
+            return "EĞLENCE";
+        else if (featureName.Contains("bluetooth") || featureName.Contains("bağlantı") || featureName.Contains("kamera"))
+            return "TEKNOLOJİ";
+        else if (featureName.Contains("çocuk") || featureName.Contains("güvenlik") || featureName.Contains("park"))
+            return "GÜVENLİK";
+        else if (featureName.Contains("hız") || featureName.Contains("sabit") || featureName.Contains("şanzıman"))
+            return "SÜRÜŞ";
+        else if (featureName.Contains("deri") || featureName.Contains("koltuk") || featureName.Contains("direksiyon"))
+            return "İÇ DONANIM";
+        else
+            return "DİĞER";
+    }
+}

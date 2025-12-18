@@ -1,49 +1,241 @@
 ﻿@model UpdateAuthorDto
 @{
-    ViewData["Title"] = "UpdateAuthor";
+    ViewData["Title"] = "Yazar Güncelleme";
     Layout = "~/Views/AdminLayout/Index.cshtml";
 }
 
+<style>
+    /* ===== ARAÇ GÜNCELLEME SAYFASI İLE AYNI CSS ===== */
+
+    .page-header-card {
+        background: white;
+        border-radius: 15px;
+        padding: 20px 25px;
+        margin-bottom: 25px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        border-left: 5px solid #667eea;
+    }
+
+    .info-card {
+        background: linear-gradient(135deg, #e8f4fc 0%, #d1ecf1 100%);
+        border-left: 4px solid #3498db;
+        padding: 15px 20px;
+        margin: 20px 0;
+        border-radius: 0 5px 5px 0;
+        font-size: 15px;
+        color: #2c3e50;
+    }
+
+    .form-container {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 5px 30px rgba(0,0,0,0.08);
+        margin-bottom: 30px;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #2c3e50;
+        font-size: 0.95rem;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 15px;
+        transition: all 0.3s ease;
+    }
+
+        .form-control:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+            outline: none;
+        }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .button-container {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+        padding-top: 25px;
+        border-top: 1px solid #e9ecef;
+    }
+
+    .btn {
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: none;
+        transition: all .3s ease;
+    }
+
+    .btn-success {
+        background: linear-gradient(135deg, #42e695 0%, #3bb2b8 100%);
+        color: white;
+    }
+
+    .btn-danger {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ffa8a8 100%);
+        color: white;
+    }
+
+    .image-preview-box {
+        border: 2px dashed #dee2e6;
+        border-radius: 10px;
+        padding: 20px;
+        background: #f8f9fa;
+        display: flex; /* 👈 */
+        justify-content: center; /* 👈 yatay merkez */
+        align-items: center; /* 👈 dikey merkez */
+        min-height: 220px; /* 👈 dengeli alan */
+    }
+
+
+    .preview-image {
+        max-width: 100%;
+        max-height: 200px;
+        object-fit: contain; /* 👈 kırpma yok */
+        border-radius: 8px;
+        display: none;
+    }
+
+
+    .no-image {
+        text-align: center;
+        color: #adb5bd;
+        font-size: 0.9rem;
+    }
+
+
+    .id-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-left: 10px;
+    }
+</style>
 
 <div class="page-content">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
 
-                        <h4 class="card-title font-size-18">Yazar Güncelleme Sayfası</h4>
-                        <p class="card-subtitle mb-4">Yazarlar bölümünden seçilen yazarın bilgilerinin güncelleme işlemleri bu sayfa üzerinden gerçekleştirebilirsiniz.  İlgili alanları eksiksiz  doldurmanız önemlidir. Veri girişlerinden sonra kaydet butonuna tıklayarak işlemi tamamlayabilirsiniz.</p>
-                        <br />
-                        <form method="post">
-                            <input type="hidden" asp-for="AuthorID"/>
+                <!-- BAŞLIK -->
+                <div class="page-header-card">
+                    <h4 class="card-title mb-1">
+                        <i class="fas fa-user-edit text-primary me-2"></i>
+                        Yazar Bilgisi Güncelleme
+                    </h4>
+                    <p class="text-muted mb-0">
+                        Yazar ID: <span class="id-badge">@Model.AuthorID</span>
+                    </p>
+                </div>
+
+                <!-- BİLGİLENDİRME -->
+                <div class="info-card">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Yazar bilgilerini güncellerken ad, açıklama ve görsel alanlarını eksiksiz doldurmanız önerilir.
+                </div>
+
+                <form method="post">
+                    <input type="hidden" asp-for="AuthorID" />
+
+                    <div class="form-container">
+
+                        <div class="form-grid">
+
                             <div class="form-group">
-                                <label>Ad Soyad</label>
-                                <input type="text" class="form-control" asp-for="@Model.Name">
+                                <label class="form-label">Ad Soyad</label>
+                                <input type="text" class="form-control" asp-for="Name" placeholder="Yazar adı soyadı">
                             </div>
 
                             <div class="form-group">
-                                <label>Açıklama</label>
-                                <textarea rows="5" class="form-control" asp-for="@Model.Description"></textarea>
+                                <label class="form-label">Görsel URL</label>
+                                <input type="text" class="form-control" asp-for="ImageUrl"
+                                       id="authorImageUrl"
+                                       placeholder="https://example.com/yazar.jpg">
                             </div>
 
-                            <div class="form-group">
-                                <label>Görsel Link</label>
-                                <input type="text" class="form-control" asp-for="@Model.ImageUrl">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Açıklama</label>
+                            <textarea rows="5" class="form-control" asp-for="Description"
+                                      placeholder="Yazar hakkında kısa açıklama"></textarea>
+                        </div>
+
+                        <!-- GÖRSEL ÖNİZLEME -->
+                        <div class="form-group">
+                            <label class="form-label">Yazar Görseli Önizleme</label>
+                            <div class="image-preview-box">
+                                <img id="authorPreview"
+                                     class="preview-image"
+                                     src="@Model.ImageUrl"
+                                     onload="this.style.display='block'; document.getElementById('authorNoImage').style.display='none';"
+                                     onerror="this.style.display='none'; document.getElementById('authorNoImage').style.display='block';">
+
+                                <div class="no-image" id="authorNoImage">
+                                    <i class="fas fa-image fa-2x mb-2"></i><br />
+                                    Görsel yüklenmedi
+                                </div>
                             </div>
+                        </div>
 
-
-                            <button type="submit" class="btn btn-success waves-effect waves-light">Yazarı Güncelle</button>
-                            <a href="/Admin/AdminAuthor" class="btn btn-danger waves-effect waves-light"> Yazarlar Listesine Dön </a>
-                        </form>
+                        <!-- BUTONLAR -->
+                        <div class="button-container">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save"></i> Yazarı Güncelle
+                            </button>
+                            <a href="/Admin/AdminAuthor" class="btn btn-danger">
+                                <i class="fas fa-arrow-left"></i> Listeye Dön
+                            </a>
+                        </div>
 
                     </div>
-                </div>
+                </form>
+
             </div>
         </div>
     </div>
 </div>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
+<script>
+    $('#authorImageUrl').on('input', function () {
+        const url = $(this).val();
+        if (url) {
+           $('#authorPreview').attr('src', url);
+            $('#authorNoImage').hide();
+        } else {
+            $('#authorPreview').hide();
+            $('#authorNoImage').show();
+        }
+    });
 
-
+    if ($('#authorImageUrl').val()) {
+        $('#authorImageUrl').trigger('input');
+    }
+</script>

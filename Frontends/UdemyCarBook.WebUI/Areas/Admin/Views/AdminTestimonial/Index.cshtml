@@ -5,6 +5,139 @@
     int sayac = 0;
 }
 
+<style>
+    /* ================================
+       ADMIN – TESTIMONIAL PAGE
+    ================================ */
+
+    /* Sayfa kartı */
+    .card {
+        border-radius: 16px !important;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        border: none;
+    }
+
+    /* Başlık */
+    .card-title {
+        font-weight: 800;
+        color: #222;
+    }
+
+    /* Açıklama */
+    .card-subtitle {
+        font-size: 14px;
+        color: #666;
+    }
+
+    /* Tablo */
+    #tbl1 {
+        border-collapse: separate !important;
+        border-spacing: 0 12px;
+    }
+
+        /* Thead */
+        #tbl1 thead th {
+            background: #f8f9fa;
+            font-weight: 800;
+            color: #333;
+            border: none !important;
+            padding: 14px;
+        }
+
+        /* Satır */
+        #tbl1 tbody tr {
+            background: #ffffff;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+            transition: .3s ease;
+        }
+
+            /* Hover */
+            #tbl1 tbody tr:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 10px 28px rgba(255,140,0,0.25);
+            }
+
+        /* Hücreler */
+        #tbl1 tbody td {
+            border: none !important;
+            vertical-align: middle;
+            padding: 14px;
+            font-weight: 600;
+            color: #444;
+        }
+
+        /* Görsel */
+        #tbl1 img {
+            width: 55px;
+            height: 55px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+        }
+
+    /* Butonlar */
+    .btn {
+        border-radius: 10px;
+        font-weight: 700;
+        padding: 8px 14px;
+        transition: .3s;
+    }
+
+    /* Sil */
+    .btn-danger {
+        background: linear-gradient(135deg, #ff4b4b, #ff1744);
+        border: none;
+    }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(255,23,68,0.45);
+        }
+
+    /* Güncelle */
+    .btn-success {
+        background: linear-gradient(135deg, #00c853, #009624);
+        border: none;
+    }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,200,83,0.45);
+        }
+
+    /* Yeni kayıt butonu */
+    a.btn-primary {
+        background: linear-gradient(135deg, #ff9800, #ff006a);
+        border: none;
+        font-weight: 800;
+        padding: 12px 22px;
+        box-shadow: 0 6px 18px rgba(255,0,102,0.35);
+    }
+
+        a.btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(255,0,102,0.45);
+        }
+
+    /* DataTable arama & pagination */
+    .dataTables_filter input {
+        border-radius: 10px;
+        padding: 6px 12px;
+        border: 1px solid #ddd;
+    }
+
+    .dataTables_paginate .paginate_button {
+        border-radius: 8px !important;
+        margin: 0 3px;
+        font-weight: 700;
+    }
+
+        .dataTables_paginate .paginate_button.current {
+            background: linear-gradient(135deg, #ff9800, #ff006a) !important;
+            color: #fff !important;
+        }
+
+</style>
 
 <div class="page-content">
     <div class="container-fluid">

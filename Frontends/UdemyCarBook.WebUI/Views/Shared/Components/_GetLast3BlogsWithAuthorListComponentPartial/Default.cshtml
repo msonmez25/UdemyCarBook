@@ -1,5 +1,90 @@
 ﻿@model List<ResultLast3BlogsWithAuthorsDto>
 
+    <style>
+    /* ================================
+       BLOG CARD – PREMIUM STYLE
+    ================================ */
+
+    /* Ana blog kartı */
+    .blog-entry {
+        background: #ffffff;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 6px 25px rgba(0,0,0,0.10);
+        transition: .35s ease;
+        border: 2px solid transparent;
+        display: flex;
+        flex-direction: column;
+    }
+
+        /* Hover efekti */
+        .blog-entry:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 35px rgba(255,140,0,0.35);
+            border-color: #ff9800;
+        }
+
+        /* Blog kapak görseli */
+        .blog-entry .block-20 {
+            height: 230px;
+            background-size: cover !important;
+            background-position: center !important;
+            border-bottom: 3px solid #ff9800;
+            box-shadow: inset 0 -35px 45px rgba(0,0,0,0.35);
+            transition: .3s;
+        }
+
+        /* Hover – görsel efekt */
+        .blog-entry:hover .block-20 {
+            filter: brightness(1.1) contrast(1.05);
+        }
+
+        /* İç metin alanı */
+        .blog-entry .text {
+            padding: 22px 24px;
+        }
+
+        /* Meta alanı (tarih & yazar) */
+        .blog-entry .meta a {
+            font-size: 13px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #00e5ff, #0091ea);
+            color: #00344b !important;
+            margin-right: 6px;
+            display: inline-block;
+        }
+
+        /* Başlık */
+        .blog-entry h3.heading a {
+            font-size: 20px;
+            font-weight: 800;
+            color: #333;
+            line-height: 1.4;
+            transition: .3s;
+        }
+
+            .blog-entry h3.heading a:hover {
+                color: #ff9800;
+            }
+
+        /* Devamını oku butonu */
+        .blog-entry .btn-primary {
+            background: linear-gradient(135deg, #ff9800, #ff006a) !important;
+            border: none;
+            box-shadow: 0 4px 10px rgba(255,0,102,0.3);
+            transition: .3s;
+            font-weight: 600;
+        }
+
+            .blog-entry .btn-primary:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 14px rgba(255,0,102,0.45);
+            }
+
+    </style>
+
 <section class="ftco-section">
     <div class="container">
         <div class="row justify-content-center mb-5">
@@ -21,7 +106,7 @@
                                 <div><a href="#">@(((DateTime)item.CreatedDate).ToString("dd.MMMMMMM.yyyy"))</a></div>                                
                                 <div><a href="#">@item.AuthorName</a></div>
                             </div>
-                            <h3 class="heading mt-2"><a href="#">@item.Title</a></h3>
+                            <h3 class="heading mt-2"><a href="/Blog/BlogDetail/@item.BlogID">@item.Title</a></h3>
                             <p><a href="/Blog/BlogDetail/@item.BlogID" class="btn btn-primary">Devamını oku</a></p>
                         </div>
                     </div>

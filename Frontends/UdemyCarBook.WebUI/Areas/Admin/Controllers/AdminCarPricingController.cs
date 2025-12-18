@@ -93,17 +93,29 @@ namespace UdemyCarBook.WebUI.Areas.Admin.Controllers
         [Route("CreateCarPricing")]
         public async Task<IActionResult> CreateCarPricing(CreateCarPricingDto createCarPricingDto)
         {
-            
             var client = _httpClientFactory.CreateClient();
             var jsonData = JsonConvert.SerializeObject(createCarPricingDto);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PostAsync("https://localhost:7042/api/CarPricings/", stringContent);           
+
+            var responseMessage = await client.PostAsync(
+                "https://localhost:7042/api/CarPricings/",
+                stringContent
+            );
+
             if (responseMessage.IsSuccessStatusCode)
             {
-                return RedirectToAction("AdminCar", "Admin");
+                // 👇 FİYAT EKLENEN ARACIN ID'Sİ İLE YÖNLENDİR
+                return RedirectToAction(
+                    "GetCarPricingByCarIdToPricingName",
+                    "AdminCarPricing",
+                    new { id = createCarPricingDto.CarID }
+                );
             }
-            return View();
+
+            // Hata durumunda dropdown tekrar dolsun diye GET mantığını çağırabilirsin
+            return View(createCarPricingDto);
         }
+
 
 
         [HttpGet]
@@ -159,18 +171,22 @@ namespace UdemyCarBook.WebUI.Areas.Admin.Controllers
 
 
         [Route("RemoveCarPricing/{id}")]
-        public async Task<IActionResult> RemoveCarPricing(int id)
+        public async Task<IActionResult> RemoveCarPricing(int id, int carId)
         {
             var client = _httpClientFactory.CreateClient();
-            var responsMessage = await client.DeleteAsync("https://localhost:7042/api/CarPricings?id=" + id);
-            if (responsMessage.IsSuccessStatusCode)
-            {
-                return RedirectToAction("AdminCar", "Admin");
-            }
-            return View();
+            var responseMessage = await client.DeleteAsync(
+                "https://localhost:7042/api/CarPricings?id=" + id
+            );
+
+            // BAŞARILI / BAŞARISIZ fark etmez, aynı listeye dön
+            return RedirectToAction(
+                "GetCarPricingByCarIdToPricingName",
+                "AdminCarPricing",
+                new { id = carId }
+            );
         }
 
 
-       
+
     }
 }

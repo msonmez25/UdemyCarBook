@@ -2,63 +2,640 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/AdminLayout/Index.cshtml";
-    int sayac = 0;
 }
 
+<style>
+    /* Minimal ve Profesyonel Stil */
+    .page-header-card {
+        background: white;
+        border-radius: 15px;
+        padding: 20px 25px;
+        margin-bottom: 25px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        border-left: 5px solid #10b981;
+    }
+
+    /* BÜYÜK BADGE STİLLERİ */
+    .stats-badge {
+        display: inline-block;
+        padding: 12px 20px;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        text-align: center;
+        min-width: 140px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        margin: 0 8px;
+    }
+
+        .stats-badge:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+    .stats-badge-primary {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+    }
+
+    .stats-badge-warning {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        color: white;
+    }
+
+    .stats-badge-info {
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        color: white;
+    }
+
+    .stats-badge-danger {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        color: white;
+    }
+
+    .badge-icon {
+        font-size: 1.2rem;
+        margin-right: 8px;
+        vertical-align: middle;
+    }
+
+    .badge-text {
+        display: block;
+        font-size: 0.85rem;
+        opacity: 0.9;
+        margin-bottom: 4px;
+    }
+
+    .badge-number {
+        display: block;
+        font-size: 1.6rem;
+        font-weight: 700;
+    }
+
+    /* Tablo Container */
+    .table-container {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 30px rgba(0,0,0,0.08);
+    }
+
+    /* DataTable Stilleri */
+    #tbl1_wrapper {
+        padding: 0 !important;
+    }
+
+    #tbl1 {
+        width: 100% !important;
+        border-collapse: separate !important;
+        border-spacing: 0 !important;
+        margin: 0 !important;
+    }
+
+        #tbl1 thead {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+        }
+
+            #tbl1 thead th {
+                color: white !important;
+                font-weight: 600 !important;
+                padding: 16px 12px !important;
+                border: none !important;
+                font-size: 0.9rem !important;
+                text-transform: uppercase !important;
+                letter-spacing: 0.5px !important;
+                position: relative !important;
+            }
+
+                #tbl1 thead th:first-child {
+                    border-top-left-radius: 15px !important;
+                }
+
+                #tbl1 thead th:last-child {
+                    border-top-right-radius: 15px !important;
+                }
+
+        #tbl1 tbody tr {
+            transition: all 0.3s ease !important;
+            border-bottom: 1px solid #f1f3fa !important;
+        }
+
+            #tbl1 tbody tr:hover {
+                background-color: #f0fdfa !important;
+                transform: translateX(5px) !important;
+            }
+
+        #tbl1 tbody td {
+            padding: 16px 12px !important;
+            vertical-align: middle !important;
+            border: none !important;
+            color: #495057 !important;
+            font-weight: 500 !important;
+            font-size: 0.9rem !important;
+        }
+
+    /* Kullanıcı Bilgileri */
+    .user-info {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        min-width: 180px;
+    }
+
+    .user-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.85rem;
+    }
+
+    .user-icon-small {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+        flex-shrink: 0;
+    }
+
+    .user-icon {
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        color: white;
+    }
+
+    .subject-icon {
+        background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+        color: white;
+    }
+
+    .date-icon {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        color: white;
+    }
+
+    .user-content-compact {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .user-label-small {
+        font-weight: 600;
+        font-size: 0.75rem;
+        color: #6c757d;
+        margin-bottom: 1px;
+    }
+
+    .user-value-small {
+        font-weight: 600;
+        color: #374151;
+        font-size: 0.85rem;
+    }
+
+    /* Tarih Görünümü */
+    .date-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        color: #92400e;
+        min-width: 140px;
+        justify-content: center;
+    }
+
+    /* Mesaj Durumları */
+    .message-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .status-read {
+        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+        color: #065f46;
+    }
+
+    .status-unread {
+        background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+        color: #991b1b;
+    }
+
+    /* Detay Butonu */
+    .btn-detail {
+        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+    }
+
+        .btn-detail:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+            text-decoration: none;
+        }
+
+        .btn-detail i {
+            font-size: 0.9rem;
+        }
+
+    /* Sıra Numarası */
+    .row-number {
+        display: inline-block;
+        width: 28px;
+        height: 28px;
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 28px;
+        font-weight: 600;
+        font-size: 0.85rem;
+    }
+
+    /* Kart Başlığı */
+    .card-title {
+        color: #374151 !important;
+        font-weight: 700 !important;
+        font-size: 1.4rem !important;
+        margin-bottom: 10px !important;
+    }
+
+    .card-subtitle {
+        color: #6b7280 !important;
+        font-size: 0.95rem !important;
+        line-height: 1.6 !important;
+        margin-bottom: 20px !important;
+    }
+
+    /* DataTable Custom Stilleri */
+    .dataTables_wrapper .dataTables_length,
+    .dataTables_wrapper .dataTables_filter,
+    .dataTables_wrapper .dataTables_info,
+    .dataTables_wrapper .dataTables_processing,
+    .dataTables_wrapper .dataTables_paginate {
+        padding: 16px !important;
+        color: #495057 !important;
+        font-size: 0.85rem !important;
+    }
+
+        .dataTables_wrapper .dataTables_filter input {
+            border-radius: 8px !important;
+            border: 1px solid #e3e6f0 !important;
+            padding: 8px 16px !important;
+            width: 220px !important;
+            transition: all 0.3s ease !important;
+        }
+
+            .dataTables_wrapper .dataTables_filter input:focus {
+                border-color: #10b981 !important;
+                box-shadow: 0 0 0 0.2rem rgba(16, 185, 129, 0.25) !important;
+                outline: none !important;
+            }
+
+        .dataTables_wrapper .dataTables_length select {
+            border-radius: 8px !important;
+            border: 1px solid #e3e6f0 !important;
+            padding: 6px 10px !important;
+            background: white !important;
+        }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            border-radius: 8px !important;
+            margin: 0 4px !important;
+            border: 1px solid #e3e6f0 !important;
+            padding: 6px 10px !important;
+            transition: all 0.3s ease !important;
+            background: white !important;
+            color: #495057 !important;
+            font-size: 0.85rem !important;
+        }
+
+            .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+                background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+                color: white !important;
+                border-color: #10b981 !important;
+            }
+
+            .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+                background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+                color: white !important;
+                border-color: #10b981 !important;
+            }
+
+            .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+                opacity: 0.5 !important;
+                cursor: not-allowed !important;
+            }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .stats-badge {
+            padding: 10px 15px;
+            min-width: 120px;
+            margin: 5px;
+            display: block;
+            width: calc(100% - 20px);
+        }
+
+        .badge-number {
+            font-size: 1.4rem;
+        }
+
+        .user-row {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+        }
+
+        .user-icon-small {
+            width: 28px;
+            height: 28px;
+        }
+
+        .btn-detail {
+            padding: 6px 16px;
+            font-size: 0.8rem;
+        }
+    }
+
+    /* İkon Animasyonu */
+    .pulse-icon {
+        animation: pulse 2s infinite;
+    }
+
+    @@keyframes pulse {
+        0% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.1);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    /* Hızlı Filtreleme Butonları */
+    .filter-buttons {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+
+    .filter-btn {
+        padding: 8px 16px;
+        border-radius: 8px;
+        border: none;
+        font-weight: 600;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .filter-btn-all {
+        background: #f3f4f6;
+        color: #374151;
+    }
+
+    .filter-btn-today {
+        background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        color: #1e40af;
+    }
+
+    .filter-btn-unread {
+        background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+        color: #dc2626;
+    }
+
+    .filter-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+</style>
 
 <div class="page-content">
     <div class="container-fluid">
 
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title font-size-18">İletişim Alanı Gelen Mesajlar</h4>
-                        <p class="card-subtitle mb-4">
-                            Ana sayfada iletişim bölümünden kullanıcıların gönderdiği mesajların listelendiği sayfadır. Detaylardan mesajın içeriğini görebilirsiniz.
-                        </p>
-                        <br />
-                        <table id="tbl1" class="table  nowrap">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Ad Soyad</th>
-                                    <th>Konu</th>
-                                    <th>Tarih</th>
-                                    <th>Detaylar</th>
-                                </tr>
-                            </thead>
+        <!-- Başlık Kartı -->
+        <div class="page-header-card">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h4 class="mb-1" style="color: #374151; font-weight: 700; font-size: 1.4rem;">
+                        <i class="fas fa-envelope mr-2" style="color: #10b981;"></i>
+                        İletişim Mesajları
+                    </h4>
+                    <p class="text-muted mb-0" style="font-size: 0.9rem;">Kullanıcılardan gelen iletişim mesajları</p>
+                </div>
+                <div class="col-md-6">
+                    <div class="text-md-right">
+                        <!-- KOMPAKT STATS BADGELER -->
+                        <div class="d-flex justify-content-end flex-wrap">
+                            <div class="stats-badge stats-badge-primary">
+                                <span class="badge-text">
+                                    <i class="fas fa-envelope badge-icon"></i>Toplam Mesaj
+                                </span>
+                                <span class="badge-number" id="totalMessages">@Model.Count</span>
+                            </div>
 
+                            <div class="stats-badge stats-badge-info">
+                                <span class="badge-text">
+                                    <i class="fas fa-calendar-day badge-icon"></i>Bugün
+                                </span>
+                                <span class="badge-number" id="todayMessages">0</span>
+                            </div>
 
-                            <tbody>
-                                @foreach (var item in Model)
-                                {
-                                    sayac++;
-                                    <tr>
-                                        <td>@sayac</td>
-                                        <td>@item.Name</td>
-                                        <td>@item.Subject</td>
-                                        <td>@(((DateTime)item.SendDate).ToString("dd.MMMMMMM.yyyy HH:MM"))</td>
-
-                                        <td>
-                                            <a href="/Admin/AdminContact/DetailContact/@item.ContactID" class="btn btn-secondary waves-effect waves-light"> Mesajı Gör </a>
-                                        </td>
-
-                                    </tr>
-                                }
-
-                            </tbody>
-                        </table>
-
-                    </div> <!-- end card body-->
-                </div> <!-- end card -->
-            </div><!-- end col-->
+                            <div class="stats-badge stats-badge-danger">
+                                <span class="badge-text">
+                                    <i class="fas fa-envelope badge-icon"></i>Okunmadı
+                                </span>
+                                <span class="badge-number" id="unreadMessages">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-    </div> <!-- container-fluid -->
+        <!-- Hızlı Filtreleme Butonları -->
+        <div class="filter-buttons">
+            <button class="filter-btn filter-btn-all" onclick="filterTable('all')">
+                <i class="fas fa-list"></i> Tümü
+            </button>
+            <button class="filter-btn filter-btn-today" onclick="filterTable('today')">
+                <i class="fas fa-calendar-day"></i> Bugün
+            </button>
+            <button class="filter-btn filter-btn-unread" onclick="filterTable('unread')">
+                <i class="fas fa-envelope"></i> Okunmamış
+            </button>
+        </div>
+
+        <!-- Tablo Container -->
+        <div class="table-container">
+            <div class="p-3">
+                <div class="table-responsive">
+                    <table id="tbl1" class="display" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th width="50">#</th>
+                                <th width="200">Gönderen</th>
+                                <th width="250">Konu</th>
+                                <th width="150">Tarİh</th>
+                                <th width="100">Durum</th>
+                                <th width="100" class="text-center">Detay</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                int sayac = 0;
+                                DateTime today = DateTime.Today;
+                                int todayCount = 0;
+                                int unreadCount = 0;
+                            }
+                            @foreach (var item in Model)
+                            {
+                                sayac++;
+
+                                // Bugünkü mesajları say
+                                if (item.SendDate.Date == today)
+                                {
+                                    todayCount++;
+                                }
+
+                                // Okunmamış mesajları say (eğer IsRead property'si varsa)
+                                bool isRead = false;
+                                if (item.GetType().GetProperty("IsRead") != null)
+                                {
+                                    isRead = (bool)item.GetType().GetProperty("IsRead").GetValue(item, null);
+                                    if (!isRead) unreadCount++;
+                                }
+
+                                <tr>
+                                    <td>
+                                        <span class="row-number">@sayac</span>
+                                    </td>
+                                    <td>
+                                        <div class="user-info">
+                                            <div class="user-row">
+                                                <div class="user-icon-small user-icon">
+                                                    <i class="fas fa-user"></i>
+                                                </div>
+                                                <div class="user-content-compact">
+                                                    <div class="user-label-small">GÖNDEREN</div>
+                                                    <div class="user-value-small">@item.Name</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="user-info">
+                                            <div class="user-row">
+                                                <div class="user-icon-small subject-icon">
+                                                    <i class="fas fa-comment-alt"></i>
+                                                </div>
+                                                <div class="user-content-compact">
+                                                    <div class="user-label-small">KONU</div>
+                                                    <div class="user-value-small">@item.Subject</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td data-order="@item.SendDate.ToString("yyyyMMddHHmmss")">
+                                        <div class="user-info">
+                                            <div class="user-row">
+                                                <div class="user-icon-small date-icon">
+                                                    <i class="fas fa-clock"></i>
+                                                </div>
+                                                <div class="user-content-compact">
+                                                    <div class="user-label-small">TARİH</div>
+                                                    <div class="user-value-small">
+                                                        @item.SendDate.ToString("dd.MM.yyyy HH:mm")
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        @if (item.GetType().GetProperty("IsRead") != null)
+                                        {
+                                            bool itemIsRead = (bool)item.GetType().GetProperty("IsRead").GetValue(item, null);
+                                            if (!itemIsRead)
+                                            {
+                                                <span class="message-status status-unread">
+                                                    <i class="fas fa-envelope pulse-icon"></i> OKUNMADI
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="message-status status-read">
+                                                    <i class="fas fa-envelope-open"></i> OKUNDU
+                                                </span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <span class="message-status status-read">
+                                                <i class="fas fa-envelope-open"></i> OKUNDU
+                                            </span>
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="/Admin/AdminContact/DetailContact/@item.ContactID"
+                                           class="btn-detail">
+                                            <i class="fas fa-eye"></i> Görüntüle
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                            @{
+                                // JavaScript'e aktarmak için değerleri sakla
+                                <script>
+                                    var todayCount = @todayCount;
+                                    var unreadCount = @unreadCount;
+                                </script>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
 
+<!-- Font Awesome ikonları -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
+<!-- DataTables Scripts -->
 <script src="~/Admin/vertical/assets/js/jquery.min.js"></script>
 <script src="~/Admin/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="~/Admin/plugins/datatables/dataTables.bootstrap4.js"></script>
@@ -73,22 +650,138 @@
 <script src="~/Admin/plugins/datatables/dataTables.select.min.js"></script>
 <script src="~/Admin/plugins/datatables/pdfmake.min.js"></script>
 <script src="~/Admin/plugins/datatables/vfs_fonts.js"></script>
-<!-- third party js ends -->
-<!-- Datatables init -->
-<script src="~/Admin/vertical/assets/pages/datatables-demo.js"></script>
-
 
 <script>
-    $('#tbl1').DataTable(
-        {
+    $(document).ready(function() {
+        // Başlangıç değerlerini güncelle
+        $('#todayMessages').text(todayCount);
+        $('#unreadMessages').text(unreadCount);
+
+        // DataTable Initialization
+        var table = $('#tbl1').DataTable({
             "language": {
-                "url": "https://cdn.datatables.net/plug-ins/1.10.20/i18n/Turkish.json"
+                "url": "https://cdn.datatables.net/plug-ins/1.10.20/i18n/Turkish.json",
+                "decimal": ",",
+                "thousands": ".",
+                "sEmptyTable": "Tabloda herhangi bir veri mevcut değil",
+                "sInfo": "_TOTAL_ kayıttan _START_ - _END_ arasındaki kayıtlar gösteriliyor",
+                "sInfoEmpty": "Kayıt yok",
+                "sInfoFiltered": "(_MAX_ kayıt içerisinden bulunan)",
+                "sInfoPostFix": "",
+                "sInfoThousands": ".",
+                "sLengthMenu": "Sayfada _MENU_ kayıt göster",
+                "sLoadingRecords": "Yükleniyor...",
+                "sProcessing": "İşleniyor...",
+                "sSearch": "<i class='fas fa-search mr-2'></i>Ara:",
+                "sZeroRecords": "Eşleşen kayıt bulunamadı",
+                "oPaginate": {
+                    "sFirst": "İlk",
+                    "sLast": "Son",
+                    "sNext": "Sonraki",
+                    "sPrevious": "Önceki"
+                },
+                "oAria": {
+                    "sSortAscending": ": artan sırada sırala",
+                    "sSortDescending": ": azalan sırada sırala"
+                }
+            },
+            "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+                   "<'row'<'col-sm-12'tr>>" +
+                   "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+            "pageLength": 10,
+            "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+            "order": [[3, 'desc']], // Tarihe göre azalan sırala (en yeni üstte)
+            "responsive": true,
+            "autoWidth": false,
+            "columnDefs": [
+                {
+                    "orderable": false,
+                    "targets": [5] // Detay sütunu sıralanmasın
+                },
+                {
+                    "className": "text-center",
+                    "targets": [0, 4, 5] // Sıra no, durum ve detay sütunlarını ortala
+                }
+            ],
+            "drawCallback": function(settings) {
+                // Row number'ları güncelle
+                var api = this.api();
+                var rows = api.rows({ page: 'current' }).nodes();
+                var start = api.page.info().start;
+
+                $(rows).each(function(i) {
+                    var rowNumber = start + i + 1;
+                    $(this).find('.row-number').text(rowNumber);
+                });
             }
-        }
-    );
+        });
+
+        // Filtreleme fonksiyonları
+        window.filterTable = function(type) {
+            var todayStr = new Date().toLocaleDateString('tr-TR', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            });
+
+            switch(type) {
+                case 'today':
+                    // Bugünkü tarihi arat (dd.MM.yyyy formatında)
+                    table.search(todayStr).draw();
+                    break;
+                case 'unread':
+                    // OKUNMADI olanları arat
+                    table.columns(4).search('OKUNMADI').draw();
+                    break;
+                default:
+                    table.search('').columns().search('').draw();
+            }
+
+            // Filtre butonlarını güncelle
+            $('.filter-btn').css({
+                'transform': 'translateY(0)',
+                'box-shadow': 'none'
+            });
+            $('.filter-btn-' + type).css({
+                'transform': 'translateY(-2px)',
+                'box-shadow': '0 4px 12px rgba(0,0,0,0.1)'
+            });
+        };
+
+        // Stats badge'lere tıklanınca filtreleme
+        $('.stats-badge').click(function() {
+            var badgeType = '';
+            if ($(this).hasClass('stats-badge-info')) {
+                badgeType = 'today';
+            } else if ($(this).hasClass('stats-badge-danger')) {
+                badgeType = 'unread';
+            } else {
+                badgeType = 'all';
+            }
+
+            filterTable(badgeType);
+
+            // Tıklanan badge'i vurgula
+            $('.stats-badge').css({
+                'transform': 'translateY(0)',
+                'box-shadow': '0 4px 15px rgba(0,0,0,0.1)'
+            });
+            $(this).css({
+                'transform': 'translateY(-3px)',
+                'box-shadow': '0 8px 25px rgba(0,0,0,0.2)'
+            });
+        });
+
+        // Mesaj durumuna tıklayınca filtreleme
+        $(document).on('click', '.message-status', function(e) {
+            e.stopPropagation();
+            var status = $(this).hasClass('status-unread') ? 'unread' : 'all';
+            filterTable(status);
+        });
+
+        // DataTable hazır olduğunda
+        setTimeout(function() {
+            table.columns.adjust().responsive.recalc();
+        }, 100);
+    });
 </script>
-
-
-
-
-
