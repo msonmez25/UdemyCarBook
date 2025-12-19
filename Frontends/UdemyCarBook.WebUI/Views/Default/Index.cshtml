@@ -16,6 +16,148 @@
         color: white;
         font-size:15px
     }
+    /* ===============================
+       KİRALAMA BÖLÜMÜ – KART DİLİ
+    ================================ */
+
+    /* SOL FORM KART */
+    .request-form {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 30px 28px;
+        box-shadow: 0 6px 25px rgba(0,0,0,0.10);
+        border: 2px solid transparent;
+        transition: .3s ease;
+    }
+
+        .request-form:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 35px rgba(255,140,0,0.35);
+            border-color: #ff9800;
+        }
+
+        /* FORM BAŞLIK */
+        .request-form h2 {
+            font-size: 22px;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        /* LABEL */
+        .request-form .label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #555;
+            margin-bottom: 6px;
+        }
+
+        /* INPUT & SELECT */
+        .request-form .form-control {
+            height: 48px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            padding: 10px 14px;
+            font-size: 14px;
+            transition: .3s;
+        }
+
+            .request-form .form-control:focus {
+                border-color: #ff9800;
+                box-shadow: 0 0 0 3px rgba(255,152,0,0.25);
+                outline: none;
+            }
+
+    /* SELECT OPTION */
+    #drop option {
+        background: #2196f3;
+        color: #fff;
+    }
+
+    /* TARİH ALANLARI */
+    .request-form .d-flex .form-group {
+        width: 50%;
+    }
+
+    /* GÖNDER BUTONU */
+    .request-form .btn-secondary {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    /* ===============================
+       SAĞ TARAF – BİLGİ KARTI
+    ================================ */
+
+    .services-wrap {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 40px 35px;
+        box-shadow: 0 6px 25px rgba(0,0,0,0.10);
+        transition: .3s ease;
+    }
+
+        .services-wrap:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 35px rgba(255,140,0,0.25);
+        }
+
+        /* BAŞLIK */
+        .services-wrap .heading-section {
+            font-size: 26px;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 40px;
+            color: #333;
+        }
+
+    /* SERVİS KARTLARI */
+    .services {
+        background: #f9f9f9;
+        border-radius: 16px;
+        padding: 30px 20px;
+        transition: .3s ease;
+        border: 2px solid transparent;
+    }
+
+        .services:hover {
+            border-color: #ff9800;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255,140,0,0.25);
+        }
+
+        /* SERVİS ICON */
+        .services .icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00e5ff, #0091ea);
+            box-shadow: 0 4px 12px rgba(0,145,234,0.35);
+        }
+
+            .services .icon span {
+                font-size: 32px;
+                color: #fff;
+            }
+
+        /* SERVİS BAŞLIK */
+        .services h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+        }
+
+    /* ALT BUTON */
+    .services-wrap .btn-primary {
+        border-radius: 30px;
+        padding: 14px 36px;
+        font-size: 15px;
+    }
+
 
 </style>
 
@@ -35,7 +177,7 @@
                     <div class="row no-gutters">
                         <div class="col-md-4 d-flex align-items-center">
                             <form method="post" class="request-form ftco-animate bg-primary">
-                                <h2>Şimdi Aracınızı Kiralayın</h2>
+                                <h2>Şİmdİ Aracınızı Kİralayın</h2>
                                 <div class="form-group">
                                     <label for="" class="label">Alınacak Lokasyon</label>
                                     @Html.DropDownListFor(x => x.LocationID, (List<SelectListItem>)ViewBag.LocationValues, new { @class = "form-control", @id = "drop", name = "locationID" })
@@ -43,11 +185,11 @@
 
                                 <div class="d-flex">
                                     <div class="form-group mr-2">
-                                        <label for="" class="label">Alış Tarihi</label>
+                                        <label for="" class="label">Alış Tarİhİ</label>
                                         <input type="text" class="form-control" name="book_pick_date" id="book_pick_date" placeholder="Tarih Seçiniz">
                                     </div>
                                     <div class="form-group ml-2">
-                                        <label for="" class="label">İade Tarihi</label>
+                                        <label for="" class="label">İade Tarİhİ</label>
                                         <input type="text" class="form-control" name="book_off_date" id="book_off_date" placeholder="Tarih Seçiniz">
                                     </div>
                                 </div>
