@@ -59,20 +59,88 @@
         font-size: 14px;
     }
 
-    .top-actions {
+    /* SOL ALT SABİT BUTONLAR */
+    .fixed-action-buttons {
+        position: fixed;
+        left: 25px;
+        bottom: 25px;
         display: flex;
-        justify-content: space-between;
+        gap: 12px;
+        z-index: 9999;
+    }
+
+    .btn-gradient {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff !important;
+        border: none;
+        padding: 10px 24px;
+        border-radius: 30px;
+        font-weight: 600;
+        font-size: 14px;
+        display: inline-flex;
         align-items: center;
-        margin-bottom: 20px;
-        flex-wrap: wrap;
-        gap: 10px;
+        gap: 8px;
+        transition: all .3s ease;
+        text-decoration: none;
+    }
+
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102,126,234,.35);
+        }
+
+    .btn-back-list {
+        background: #f1f3f5;
+        color: #343a40 !important;
+        padding: 10px 24px;
+        border-radius: 30px;
+        font-weight: 600;
+        font-size: 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        transition: all .3s ease;
+    }
+
+        .btn-back-list:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+    @@media (max-width:768px) {
+        .fixed-action-buttons {
+            left: 15px;
+            right: 15px;
+            bottom: 15px;
+            flex-direction: column;
+        }
+
+            .fixed-action-buttons a {
+                justify-content: center;
+                width: 100%;
+            }
+    }
+
+    .table-footer-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 20px;
     }
 
     @@media (max-width:768px) {
-        .top-actions {
-            flex-direction: column;
-            align-items: stretch;
-        }
+        .table-footer-actions
+
+    {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .table-footer-actions a {
+        width: 100%;
+        justify-content: center;
+    }
+
     }
 </style>
 
@@ -97,20 +165,8 @@
             <b>@ViewBag.CarModelBrand</b>
         </div>
 
-        <!-- TABLO KART -->
+        <!-- TABLO -->
         <div class="table-card">
-
-            <div class="top-actions">
-                <span class="text-muted">
-                    Aynı kiralama türünden ikinci bir kayıt girilmemelidir.
-                </span>
-
-                <a href="/Admin/AdminCarPricing/CreateCarPricing/"
-                   class="btn btn-primary">
-                    <i class="fas fa-plus me-1"></i> Yeni Kiralama Girişi
-                </a>
-            </div>
-
             <table id="tbl1" class="table table-hover nowrap w-100">
                 <thead>
                     <tr>
@@ -121,7 +177,6 @@
                         <th class="text-center">Güncelle</th>
                     </tr>
                 </thead>
-
                 <tbody>
                     @foreach (var item in Model)
                     {
@@ -130,9 +185,7 @@
                             <td>@sayac</td>
                             <td>@item.PricingName</td>
                             <td>
-                                <span class="price-badge">
-                                    @item.Amount ₺
-                                </span>
+                                <span class="price-badge">@item.Amount ₺</span>
                             </td>
                             <td class="text-center">
                                 <a href="/Admin/AdminCarPricing/RemoveCarPricing/@item.CarPricingID?carId=@item.CarID"
@@ -141,7 +194,6 @@
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </td>
-
                             <td class="text-center">
                                 <a href="/Admin/AdminCarPricing/UpdateCarPricing/@item.CarPricingID"
                                    class="btn btn-success">
@@ -152,11 +204,24 @@
                     }
                 </tbody>
             </table>
+            <!-- TABLO SOL ALT BUTONLAR -->
+            <div class="table-footer-actions">
+                <a href="/Admin/AdminCarPricing/CreateCarPricing/" class="btn btn-primary">
+                    <i class="fas fa-plus-circle"></i>
+                    Yeni Kiralama Girişi
+                </a>
 
+                <a href="/Admin/AdminCar" class="btn btn-danger">
+                    <i class="fas fa-arrow-left"></i>
+                    Araç Listesine Dön
+                </a>
+            </div>
         </div>
 
     </div>
 </div>
+
+
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 

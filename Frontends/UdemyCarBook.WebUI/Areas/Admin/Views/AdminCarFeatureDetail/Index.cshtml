@@ -239,7 +239,7 @@
         margin-top: 30px;
         padding-top: 25px;
         border-top: 1px solid #e9ecef;
-        justify-content: center;
+        justify-content: flex-start;
         flex-wrap: wrap;
     }
 
@@ -418,6 +418,29 @@
             max-width: 220px;
         }
     }
+    /* Geri Dön Butonu */
+    .btn-back {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ffa8a8 100%);
+        color: white;
+        border: none;
+        padding: 14px 32px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 1rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+
+        .btn-back:hover {
+            background: linear-gradient(135deg, #ff5252 0%, #ff8e8e 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.35);
+            text-decoration: none;
+        }
+
 </style>
 
 <div class="page-content">
@@ -491,11 +514,18 @@
                                     <i class="fas fa-save"></i>
                                     Değişiklikleri Kaydet
                                 </button>
+
                                 <a href="/Admin/AdminCarFeatureDetail/CreateCarFeatureByCarID" class="btn-add">
                                     <i class="fas fa-plus-circle"></i>
                                     Yeni Özellik Ekle
                                 </a>
+
+                                <a href="/Admin/AdminCar" class="btn-back">
+                                    <i class="fas fa-arrow-left"></i>
+                                    Araç Listesine Dön
+                                </a>
                             </div>
+
                         </form>
                     }
                     else
@@ -513,6 +543,10 @@
                             <a href="/Admin/AdminCarFeatureDetail/CreateCarFeatureByCarID" class="btn-add">
                                 <i class="fas fa-plus-circle me-2"></i>
                                 Özellik Tanımla
+                            </a>
+                            <a href="/Admin/AdminCar" class="btn-back">
+                                <i class="fas fa-arrow-left"></i>
+                                Araç Listesine Dön
                             </a>
                         </div>
                     }

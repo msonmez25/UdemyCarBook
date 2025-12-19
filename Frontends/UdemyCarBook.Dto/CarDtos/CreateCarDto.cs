@@ -17,6 +17,7 @@ namespace UdemyCarBook.Dto.CarDtos
         public byte Seat { get; set; }
         public byte Luggage { get; set; }
         public string BigImageUrl { get; set; }
+        public string CarScore { get; set; }
 
         public int VitesID { get; set; }
 

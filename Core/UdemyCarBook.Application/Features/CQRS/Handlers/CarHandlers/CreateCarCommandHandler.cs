@@ -33,7 +33,7 @@ namespace UdemyCarBook.Application.Features.CQRS.Handlers.CarHandlers
                 Year = command.Year,
                 YakitTuruID = command.YakitTuruID,
                 VitesID = command.VitesID,
-                CarScore = command.CarScore,
+                CarScore ="1"
             });
         }
     }

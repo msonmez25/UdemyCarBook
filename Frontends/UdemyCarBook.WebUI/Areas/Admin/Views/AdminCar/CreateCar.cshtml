@@ -116,6 +116,68 @@
             flex: 1 1 100%;
         }
 
+    /* === BUTON STİLLERİ (UPDATE SAYFASI İLE AYNI) === */
+    .button-container {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+        padding-top: 25px;
+        border-top: 1px solid #e9ecef;
+        flex-wrap: wrap;
+    }
+
+        .button-container .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        /* Kaydet */
+        .button-container .btn-success {
+            background: linear-gradient(135deg, #42e695 0%, #3bb2b8 100%);
+            color: #fff;
+            border: none;
+        }
+
+            .button-container .btn-success:hover {
+                background: linear-gradient(135deg, #38d689 0%, #35a4aa 100%);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(66, 230, 149, 0.3);
+            }
+
+        /* Listeye Dön */
+        .button-container .btn-danger {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa8a8 100%);
+            color: #fff;
+            border: none;
+        }
+
+            .button-container .btn-danger:hover {
+                background: linear-gradient(135deg, #ff5252 0%, #ff8e8e 100%);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+            }
+
+    /* Mobil uyum */
+    @@media (max-width: 768px) {
+        .button-container
+
+    {
+        flex-direction: column;
+    }
+
+    .button-container .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    }
 </style>
 
 <div class="page-content">
