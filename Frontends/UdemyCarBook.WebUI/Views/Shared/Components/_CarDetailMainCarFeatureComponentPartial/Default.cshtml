@@ -1,14 +1,128 @@
 ﻿@model List<GetCarDetailByCarIdDto>
 
 
+    <style>
+    .car-image-wrapper {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
 
+        .car-image-wrapper .car-img {
+            flex: 1;
+            height: 350px;
+            background-size: contain !important; /* 🔥 EZİLMEZ */
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-color: #f5f6f8;
+            border-radius: 15px;
+        }
+
+    /* Mobil uyum */
+    @@media (max-width: 768px) {
+        .car-image-wrapper
+
+    {
+        flex-direction: column;
+    }
+
+    .car-image-wrapper .car-img {
+        height: 250px;
+    }
+
+    }
+    /* =========================
+       SADECE GÖRSELLER
+       PREMIUM TURUNCU STİL
+    ========================= */
+
+    /* Görsel alanın çerçevesi */
+    .car-image-wrapper {
+        padding: 11px;
+        border-radius: 26px;
+        background: linear-gradient( 135deg, #ff7a00, #ff9f43 );
+        box-shadow: 0 18px 45px rgba(255,122,0,.35);
+    }
+
+        /* Görsellerin kendisi */
+        .car-image-wrapper .car-img {
+            background-color: #ffffff;
+            border-radius: 20px;
+            border: 2px solid rgba(255,122,0,.35);
+            transition: all .35s ease;
+        }
+
+            /* Hover efekti */
+            .car-image-wrapper .car-img:hover {
+                transform: scale(0.97);
+                box-shadow: inset 0 0 0 2px #ff7a00;
+            }
+
+    /* =========================
+       ARAÇ BAŞLIK ALANI
+       PREMIUM TURUNCU
+    ========================= */
+
+    .car-title-box {
+        margin: 35px 0 25px;
+    }
+
+        /* Marka */
+        .car-title-box .car-brand {
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #ff7a00;
+            opacity: .9;
+        }
+
+        /* Model (ODAK NOKTASI) */
+        .car-title-box .car-model {
+            font-size: 42px;
+            font-weight: 800;
+            margin: 8px 0;
+            color: #1f2937;
+            line-height: 1.2;
+        }
+
+            /* Turuncu alt çizgi efekti */
+            .car-title-box .car-model::after {
+                content: "";
+                display: block;
+                width: 70px;
+                height: 4px;
+                background: linear-gradient(90deg, #ff7a00, #ffb067);
+                margin: 12px auto 0;
+                border-radius: 3px;
+            }
+
+        /* Yıl */
+        .car-title-box .car-year {
+            display: inline-block;
+            margin-top: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #6b7280;
+        }
+
+</style>
 
 @foreach (var item in Model)
 {
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="car-details">
-                <div class="img rounded" style="background-image: url(@item.CoverImageUrl);"></div>
+                <div class="car-image-wrapper">
+                    <div class="car-img"
+                         style="background-image: url('@item.CoverImageUrl');">
+                    </div>
+
+                    <div class="car-img"
+                         style="background-image: url('@item.BigImageUrl');">
+                    </div>
+                </div>
                 <div class="text text-center">
                     <span class="subheading">@item.BrandName</span>
                     <h2>@item.Model</h2>
