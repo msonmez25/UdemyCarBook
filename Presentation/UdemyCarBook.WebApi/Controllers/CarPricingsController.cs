@@ -51,6 +51,14 @@ namespace UdemyCarBook.WebApi.Controllers
             return Ok(values);
         }
 
+
+        [HttpGet("GetCarPricingWithDailyPeriodCars")]
+        public async Task<IActionResult> GetCarPricingWithDailyPeriodCars()
+        {
+            var values = await _mediator.Send(new GetCarPricingWithDailyPeriodQuery());
+            return Ok(values);
+        }
+
         [HttpGet]
         public async Task<IActionResult> CarPricingList()
         {

@@ -1,4 +1,5 @@
-﻿@model List<ResultLast5CarsWithBrandsDto>
+﻿@* @model List<ResultLast5CarsWithBrandsDto> *@
+@model List<GetCarPricingWithDailyPeriodDto>
 
 <style>
     /* KART GENEL TASARIMI */
@@ -114,10 +115,11 @@
                                 <div class="img rounded d-flex align-items-end" style="background-image: url(@item.CoverImageUrl);">
                                 </div>
                                 <div class="text">
-                                   
+                                    <h2 class="mb-0"><a href="#">@item.Model</a></h2>
                                     <div class="d-flex mb-3 justify-content-around">
-                                        <h2 class="mb-0"><a href="#">@item.Model</a></h2>
-                                        <span class="cat">@item.BrandName</span>                                       
+                                       
+                                        <span class="cat">@item.Brand</span>
+                                        <p class="price ml-auto">@item.Amount₺ <span>/Günlük</span></p>
                                     </div>
                                     <p class="d-flex mb-0 d-block"><a href="/Reservation/Index/@item.CarID" class="btn btn-primary py-2 mr-1">Aracı Kirala</a> <a href="/Car/CarDetail/@item.CarID" class="btn btn-secondary py-2 ml-1">Detaylar</a></p>
                                 </div>

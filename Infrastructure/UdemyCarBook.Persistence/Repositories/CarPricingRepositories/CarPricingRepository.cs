@@ -40,6 +40,14 @@ namespace UdemyCarBook.Persistence.Repositories.CarPricingRepositories
             return values;
         }
 
+        public List<CarPricing> GetCarPricingWithDailyPeriodCars()
+        {
+            int id = _context.Pricings.Where(x => x.Name == "Günlük").Select(y => y.PricingID).FirstOrDefault();
+            var values = _context.CarPricings.Include(x => x.Car).ThenInclude(y => y.Brand).Include(z => z.Pricing).Where(k => k.PricingID == id).ToList();
+            return values;
+        }
+
+
         public List<CarPricingViewModel> GetCarPricingWithTimePeriod()
         {
             List<CarPricingViewModel> values = new List<CarPricingViewModel>();
