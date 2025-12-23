@@ -14,5 +14,6 @@ namespace UdemyCarBook.Domain.Entities
         public string Subject { get; set; }
         public string Message { get; set; }
         public DateTime SendDate  { get; set; }
+        public bool Status { get; set; }
     }
 }

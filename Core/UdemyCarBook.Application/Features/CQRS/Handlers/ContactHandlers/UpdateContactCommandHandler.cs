@@ -26,6 +26,7 @@ namespace UdemyCarBook.Application.Features.CQRS.Handlers.ContactHandlers
             values.SendDate = command.SendDate;
             values.Subject = command.Subject;
             values.Message = command.Message;
+            values.Status = command.Status;
             await _repository.UpdateAsync(values);
         }
     }

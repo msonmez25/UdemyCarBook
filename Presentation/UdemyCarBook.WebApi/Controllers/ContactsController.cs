@@ -15,15 +15,28 @@ namespace UdemyCarBook.WebApi.Controllers
         private readonly GetContactQueryHandler _getContactQueryHandler;
         private readonly RemoveContactCommandHandler _removeContactCommandHandler;
         private readonly UpdateContactCommandHandler _updateContactCommandHandler;
+        private readonly ChangeContactStatusTrueCommandHandler _changeContactStatusTrueCommandHandler;
+        private readonly ChangeContactStatusFalseCommandHandler _changeContactStatusFalseCommandHandler;
 
-        public ContactsController(CreateContactCommandHandler createContactCommandHandler, GetContactByIdQueryHandler getContactByIdQueryHandler, GetContactQueryHandler getContactQueryHandler, RemoveContactCommandHandler removeContactCommandHandler, UpdateContactCommandHandler updateContactCommandHandler)
+
+        public ContactsController(
+     CreateContactCommandHandler createContactCommandHandler,
+     GetContactByIdQueryHandler getContactByIdQueryHandler,
+     GetContactQueryHandler getContactQueryHandler,
+     RemoveContactCommandHandler removeContactCommandHandler,
+     UpdateContactCommandHandler updateContactCommandHandler,
+     ChangeContactStatusTrueCommandHandler changeContactStatusTrueCommandHandler,
+     ChangeContactStatusFalseCommandHandler changeContactStatusFalseCommandHandler)
         {
             _createContactCommandHandler = createContactCommandHandler;
             _getContactByIdQueryHandler = getContactByIdQueryHandler;
             _getContactQueryHandler = getContactQueryHandler;
             _removeContactCommandHandler = removeContactCommandHandler;
             _updateContactCommandHandler = updateContactCommandHandler;
+            _changeContactStatusTrueCommandHandler = changeContactStatusTrueCommandHandler;
+            _changeContactStatusFalseCommandHandler = changeContactStatusFalseCommandHandler;
         }
+
 
 
 
@@ -66,5 +79,25 @@ namespace UdemyCarBook.WebApi.Controllers
             await _updateContactCommandHandler.Handle(command);
             return Ok("İletişim Bilgisi Güncellendi");
         }
+
+        [HttpPut("ChangeStatusTrue/{id}")]
+        public async Task<IActionResult> ChangeStatusTrue(int id)
+        {
+            await _changeContactStatusTrueCommandHandler
+                .Handle(new ChangeContactStatusTrueCommand(id));
+
+            return Ok("Mesaj okundu olarak işaretlendi");
+        }
+
+
+        [HttpPut("ChangeStatusFalse/{id}")]
+        public async Task<IActionResult> ChangeStatusFalse(int id)
+        {
+            await _changeContactStatusFalseCommandHandler
+                .Handle(new ChangeContactStatusFalseCommand(id));
+
+            return Ok("Mesaj okunmadı olarak işaretlendi");
+        }
+
     }
 }

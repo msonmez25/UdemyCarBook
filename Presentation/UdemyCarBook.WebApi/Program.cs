@@ -18,6 +18,7 @@ using UdemyCarBook.Application.Interfaces.CarFeatureDetailInterfaces;
 using UdemyCarBook.Application.Interfaces.CarInterfaces;
 using UdemyCarBook.Application.Interfaces.CarPricingInterface;
 using UdemyCarBook.Application.Interfaces.CommenttInterfaces;
+using UdemyCarBook.Application.Interfaces.ContactInterfaces;
 using UdemyCarBook.Application.Interfaces.RentACarInterfaces;
 using UdemyCarBook.Application.Interfaces.ReservationInterfaces;
 using UdemyCarBook.Application.Interfaces.ReviewInterfaces;
@@ -35,6 +36,7 @@ using UdemyCarBook.Persistence.Repositories.CarPricingRepositories;
 using UdemyCarBook.Persistence.Repositories.CarRepositories;
 using UdemyCarBook.Persistence.Repositories.CommentRepositories;
 using UdemyCarBook.Persistence.Repositories.CommenttRepositories;
+using UdemyCarBook.Persistence.Repositories.ContactRepositories;
 using UdemyCarBook.Persistence.Repositories.RentACarRepositories;
 using UdemyCarBook.Persistence.Repositories.ReservationRepositories;
 using UdemyCarBook.Persistence.Repositories.ReviewRepositories;
@@ -88,6 +90,7 @@ builder.Services.AddScoped(typeof(ICarDescriptionRepository), typeof(CarDescript
 builder.Services.AddScoped(typeof(IReviewRepository), typeof(ReviewRepository));
 builder.Services.AddScoped(typeof(IAppUserRepository), typeof(AppUserRepository));
 builder.Services.AddScoped(typeof(IReservationRepository), typeof(ReservationRepository));
+builder.Services.AddScoped(typeof(IContactRepository), typeof(ContactRepository));
 
 //constructor larak geçtiðimiz sýnýflarý buradan çaðýrmamýz gerekiyor.
 builder.Services.AddScoped<CreateAboutCommandHandler>();
@@ -127,6 +130,9 @@ builder.Services.AddScoped<GetContactByIdQueryHandler>();
 builder.Services.AddScoped<GetContactQueryHandler>();
 builder.Services.AddScoped<RemoveContactCommandHandler>();
 builder.Services.AddScoped<UpdateContactCommandHandler>();
+
+builder.Services.AddScoped<ChangeContactStatusTrueCommandHandler>();
+builder.Services.AddScoped<ChangeContactStatusFalseCommandHandler>();
 
 // uygulamanýn application tarafýna oluþturduðumuz Service klasöründeki ServiceResgiter buraya geçiyoruz.
 // Handler larý tek tek yazmak zorunda kalmamak için böyle yaptýk.

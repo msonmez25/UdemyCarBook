@@ -27,7 +27,8 @@ namespace UdemyCarBook.Application.Features.CQRS.Handlers.ContactHandlers
                 Email = command.Email,
                 Message = command.Message,
                 SendDate = command.SendDate,
-                Subject = command.Subject
+                Subject = command.Subject,
+                Status = false
             });
         }
     }

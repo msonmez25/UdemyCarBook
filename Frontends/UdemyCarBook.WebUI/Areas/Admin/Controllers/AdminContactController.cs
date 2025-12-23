@@ -39,15 +39,30 @@ namespace UdemyCarBook.WebUI.Areas.Admin.Controllers
         public async Task<IActionResult> DetailContact(int id)
         {
             var client = _httpClientFactory.CreateClient();
+
+            // 1️⃣ Detay verisini çek
             var responseMessage = await client.GetAsync($"https://localhost:7042/api/Contacts/{id}");
-            if (responseMessage.IsSuccessStatusCode)
+
+            if (!responseMessage.IsSuccessStatusCode)
+                return View();
+
+            var jsonData = await responseMessage.Content.ReadAsStringAsync();
+            var values = JsonConvert.DeserializeObject<DetailContactDto>(jsonData);
+
+            // 2️⃣ Okunmamışsa → OKUNDU yap
+            if (values != null && !values.Status)
             {
-                var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                var values = JsonConvert.DeserializeObject<DetailContactDto>(jsonData);
-                return View(values);
+                // Status true yap
+                await client.PutAsync(
+                    $"https://localhost:7042/api/Contacts/ChangeStatusTrue/{id}",
+                    null
+                );
             }
-            return View();
+
+            // 3️⃣ Detay ekranını göster
+            return View(values);
         }
+
 
     }
 }

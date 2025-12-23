@@ -530,13 +530,13 @@
                                     todayCount++;
                                 }
 
-                                // Okunmamış mesajları say (eğer IsRead property'si varsa)
-                                bool isRead = false;
-                                if (item.GetType().GetProperty("IsRead") != null)
+                               
+                                // Okunmamış mesajları say
+                                if (!item.Status)
                                 {
-                                    isRead = (bool)item.GetType().GetProperty("IsRead").GetValue(item, null);
-                                    if (!isRead) unreadCount++;
+                                    unreadCount++;
                                 }
+
 
                                 <tr>
                                     <td>
@@ -585,21 +585,11 @@
                                     </td>
 
                                     <td>
-                                        @if (item.GetType().GetProperty("IsRead") != null)
+                                        @if (!item.Status)
                                         {
-                                            bool itemIsRead = (bool)item.GetType().GetProperty("IsRead").GetValue(item, null);
-                                            if (!itemIsRead)
-                                            {
-                                                <span class="message-status status-unread">
-                                                    <i class="fas fa-envelope pulse-icon"></i> OKUNMADI
-                                                </span>
-                                            }
-                                            else
-                                            {
-                                                <span class="message-status status-read">
-                                                    <i class="fas fa-envelope-open"></i> OKUNDU
-                                                </span>
-                                            }
+                                            <span class="message-status status-unread">
+                                                <i class="fas fa-envelope pulse-icon"></i> OKUNMADI
+                                            </span>
                                         }
                                         else
                                         {
@@ -608,6 +598,8 @@
                                             </span>
                                         }
                                     </td>
+
+
                                     <td class="text-center">
                                         <a href="/Admin/AdminContact/DetailContact/@item.ContactID"
                                            class="btn-detail">

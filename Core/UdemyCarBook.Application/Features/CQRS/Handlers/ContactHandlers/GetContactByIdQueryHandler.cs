@@ -30,7 +30,8 @@ namespace UdemyCarBook.Application.Features.CQRS.Handlers.ContactHandlers
                 SendDate = values.SendDate,
                 Message = values.Message,
                 Email = values.Email,
-                Name = values.Name
+                Name = values.Name,
+                Status = values.Status,
             };
         }
     }
