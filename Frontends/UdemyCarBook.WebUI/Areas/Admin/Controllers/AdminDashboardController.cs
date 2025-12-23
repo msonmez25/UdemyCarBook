@@ -5,6 +5,7 @@ using System.Net.Http;
 
 namespace UdemyCarBook.WebUI.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Area("Admin")]
     [Route("Admin/AdminDashboard")]
     public class AdminDashboardController : Controller

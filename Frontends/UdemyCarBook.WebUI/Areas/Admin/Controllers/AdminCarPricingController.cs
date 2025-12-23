@@ -13,6 +13,7 @@ using UdemyCarBook.Dto.VitesDtos;
 
 namespace UdemyCarBook.WebUI.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Area("Admin")]
     [Route("Admin/AdminCarPricing")]
     public class AdminCarPricingController : Controller
